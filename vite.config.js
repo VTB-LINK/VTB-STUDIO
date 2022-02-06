@@ -1,7 +1,18 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()]
-})
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+      api: path.resolve(__dirname, "src/apis"),
+      components: path.resolve(__dirname, "src/components"),
+      globals: path.resolve(__dirname, "src/globals"),
+      styles: path.resolve(__dirname, "src/styles"),
+      utils: path.resolve(__dirname, "src/utils"),
+    },
+  },
+});
