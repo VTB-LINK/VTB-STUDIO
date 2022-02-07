@@ -1,7 +1,7 @@
-import { parse } from "csv-parse/dist/esm/sync.js";
+import { parse } from "csv-parse/browser/esm/sync";
 import dayjs from "dayjs";
-import song_list from "./song_list.js";
-import utils from "./utils.js";
+import song_list from "utils/song_list.js";
+import utils from "utils/utils.js";
 
 let AVAILABLE_DAYS_LIMIT = 5;
 
@@ -20,7 +20,10 @@ function fetch_csv(url) {
 
 function get_song_data() {
   // 获取数据 包括歌曲数据库、歌单数据库
-  let url_list = ["/static/song database.csv", "/static/playlist database.csv"];
+  let url_list = [
+    "/datasheets/song_database.csv",
+    "/datasheets/playlist_database.csv",
+  ];
   let fetch_list = url_list.map((l) => fetch_csv(l));
   return Promise.all(fetch_list).then((results) => {
     parse_song_csv(results[0]);
@@ -33,10 +36,10 @@ function parse_song_csv(t) {
   // 将csv解析为内存对象
   let csv = parse(t, { columns: true });
   // 转换为对象
-  window.meumy.song_list.splice(0, window.meumy.song_list.length);
-  for (let row of csv) window.meumy.song_list.push(convert_song(row));
+  window.AudioLists.song_list.splice(0, window.AudioLists.song_list.length);
+  for (let row of csv) window.AudioLists.song_list.push(convert_song(row));
   // 按时间降序
-  window.meumy.song_list.sort((s2, s1) => {
+  window.AudioLists.song_list.sort((s2, s1) => {
     let d1 = dayjs(s1.date, "YYYY-MM-DD");
     let d2 = dayjs(s2.date, "YYYY-MM-DD");
     // 按日期判断
@@ -58,24 +61,24 @@ function parse_song_csv(t) {
   });
   // 计算各种筛选条件
   // 状态
-  window.meumy.filter_options.status.push("--");
-  window.meumy.filter_options.status.push(
-    ...new Set(window.meumy.song_list.map((i) => i.status))
+  window.FilterOptions.status.push("--");
+  window.FilterOptions.status.push(
+    ...new Set(window.AudioLists.song_list.map((i) => i.status))
   );
   // 语言
-  window.meumy.filter_options.language.push("--");
-  window.meumy.filter_options.language.push(
-    ...new Set(window.meumy.song_list.map((i) => i.language))
+  window.FilterOptions.language.push("--");
+  window.FilterOptions.language.push(
+    ...new Set(window.AudioLists.song_list.map((i) => i.language))
   );
   // 演唱者
   let artist = new Set(["--"]);
-  for (let song of window.meumy.song_list)
+  for (let song of window.AudioLists.song_list)
     for (let a of song.artist.split(",")) artist.add(a);
-  window.meumy.filter_options.artist.push(...artist);
+  window.FilterOptions.artist.push(...artist);
   // 月份
-  window.meumy.filter_options.month.push("--");
-  window.meumy.filter_options.month.push(
-    ...new Set(window.meumy.song_list.map((i) => i.date.substring(0, 7)))
+  window.FilterOptions.month.push("--");
+  window.FilterOptions.month.push(
+    ...new Set(window.AudioLists.song_list.map((i) => i.date.substring(0, 7)))
   );
 }
 
@@ -191,10 +194,10 @@ function parse_playlist_csv(t) {
       .map((id) => id[idx])
       .slice(1)
       .filter((id) => id !== "");
-    window.meumy.song_collection.push({
+    window.AudioLists.song_collection.push({
       name: csv[0][idx],
       list: id_list.map((id) =>
-        window.meumy.song_list.find((s) => s.id === id)
+        window.AudioLists.song_list.find((s) => s.id === id)
       ),
     });
   }
@@ -202,5 +205,4 @@ function parse_playlist_csv(t) {
 
 export default {
   get_song_data,
-  cutter_list,
 };

@@ -1,3 +1,5 @@
+import Consts from "globals/consts.js";
+
 function save_love_list(l) {
   localStorage.setItem("love_list", JSON.stringify(l));
 }
@@ -45,7 +47,7 @@ function read_playlist() {
   let song_list = current_playlist.song_id_list.map((i) =>
     window.meumy.song_list.find((s) => s.id === i)
   );
-  if (song_list.length === 0) song_list.push(empty_song);
+  if (song_list.length === 0) song_list.push(Consts.empty_song);
   return {
     current_song: current_playlist.current_song,
     song_list,

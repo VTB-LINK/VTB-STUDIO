@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import App from "./App.vue";
+import App from "@/App.vue";
 import VTooltip from "floating-vue";
 import AudioLists from "globals/audio_lists.js";
 import FilterOptions from "globals/filter_options.js";
