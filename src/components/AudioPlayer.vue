@@ -9,7 +9,8 @@ export default defineComponent({
 import utils from "utils/utils";
 import { ref, reactive, computed, onMounted } from "vue";
 import Consts from "globals/consts.js";
-//todo  PopUpShare, PopUpDetails have not been migrated
+import PopUpShare from "popup/Share.vue";
+import PopUpDetails from "popup/Details.vue";
 
 let audio = {};
 let audioSource = {};
@@ -106,7 +107,7 @@ const applySong = () => {
   audioLoading.value = false;
   if (playlist[currentSongIndex.value].id === "empty_song") return false;
   // 加载当前歌曲 如果是精选状态且有精选版本就跳精选
-  const _src = playlist[currentSongIndex.value].src;
+  let _src = playlist[currentSongIndex.value].src;
   if (window.Variables.use_treated.value) {
     const _secondSrc = playlist[currentSongIndex.value].secondSrc;
     if (_secondSrc !== "") _src = _secondSrc;
@@ -187,7 +188,7 @@ const setPlayProgress = (progress) => {
 };
 
 const setVolume = (value) => {
-  value = Math.min(1, Math.max(0, volume));
+  value = Math.min(1, Math.max(0, value));
   audio.volume = value;
   volume.value = value;
 };
@@ -394,8 +395,8 @@ const isLoved = computed(() => {
 });
 
 onMounted(() => {
-  audio = document.getElementById("meumy_player");
-  audioSource = document.getElementById("meumy_player_source");
+  audio = document.getElementById("lite_player");
+  audioSource = document.getElementById("lite_player_source");
   audio.volume = 0.9;
   audio.addEventListener("loadedmetadata", () => {
     duration.value = audio.duration;
@@ -476,6 +477,14 @@ onMounted(() => {
   applySong();
   window.audio = audio;
 });
+
+//公开属性给到父组件
+defineExpose({
+  playMode,
+  playlistReplace,
+  playlistAddSong,
+  playlistAddMany,
+});
 </script>
 
 <template>
@@ -484,13 +493,13 @@ onMounted(() => {
       <div class="c-info">
         <div class="c-songInfo">
           <div class="c-songName">
-            <div class="songName">{{ playlist[currentSongIndex].name }}</div>
-            <div class="singer">{{ playlist[currentSongIndex].artist }}</div>
+            <div class="songName">{{ playlist[currentSongIndex]?.name }}</div>
+            <div class="singer">{{ playlist[currentSongIndex]?.artist }}</div>
           </div>
           <div class="c-songStatus">
-            <div class="date">{{ playlist[currentSongIndex].date }}</div>
+            <div class="date">{{ playlist[currentSongIndex]?.date }}</div>
             <div class="songStatus">
-              {{ playlist[currentSongIndex].status }}
+              {{ playlist[currentSongIndex]?.status }}
             </div>
           </div>
         </div>
@@ -670,24 +679,24 @@ onMounted(() => {
               <div class="playlist-clear-img"></div>
             </div>
           </div>
-          <div class="playlist-empty" v-show="playlist[0].id === 'empty_song'">
+          <div class="playlist-empty" v-show="playlist[0]?.id === 'empty_song'">
             播放列表为空
           </div>
         </div>
       </div>
     </transition>
-    <pop-up-share
-      v-if="show_share"
+    <PopUpShare
+      v-if="showShare"
       v-on:closepopup="showShare = false"
       :song="playlist[currentSongIndex]"
     />
-    <pop-up-details
-      v-if="show_details"
+    <PopUpDetails
+      v-if="showDetails"
       v-on:closepopup="showShare = false"
       :song="playlist[currentSongIndex]"
     />
-    <audio id="meumy_player">
-      <source id="meumy_player_source" src="" type="audio/mpeg" />
+    <audio id="lite_player">
+      <source id="lite_player_source" src="" type="audio/mpeg" />
     </audio>
   </div>
 </template>

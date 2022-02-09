@@ -11,6 +11,7 @@ export default defineConfig({
       api: path.resolve(__dirname, "src/apis"),
       assets: path.resolve(__dirname, "src/assets"),
       components: path.resolve(__dirname, "src/components"),
+      popup: path.resolve(__dirname, "src/components/popup"),
       globals: path.resolve(__dirname, "src/globals"),
       styles: path.resolve(__dirname, "src/styles"),
       utils: path.resolve(__dirname, "src/utils"),
