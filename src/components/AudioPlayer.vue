@@ -28,7 +28,7 @@ const loadProgress = ref(0);
 const duration = ref(0);
 const currentSongIndex = ref(0);
 const playlist = ref(window.AudioLists.playlist);
-const loveList = reactive(window.AudioLists.love_list);
+const loveList = ref(window.AudioLists.love_list);
 
 // 滑动检测
 let isMouseDown = false;
@@ -206,16 +206,16 @@ const toggleLoved = () => {
   if (playlist.value[0].id === "empty_song") return;
   const id = playlist.value[currentSongIndex.value].id;
   // 切换状态
-  if (isLoved) {
+  if (isLoved.value) {
     // 修改喜爱列表
-    const idx = loveList.findIndex((i) => id === i);
-    loveList.splice(idx, 1);
+    const idx = loveList.value.findIndex((i) => id === i);
+    loveList.value.splice(idx, 1);
   } else {
     // 修改喜爱列表
-    loveList.push(playlist.value[currentSongIndex.value].id);
+    loveList.value.push(playlist.value[currentSongIndex.value].id);
   }
   // 保存喜爱列表
-  utils.saveLoveList(loveList);
+  utils.saveLoveList(loveList.value);
 };
 
 const playlistClear = () => {
@@ -390,7 +390,7 @@ const isLoved = computed(() => {
   // 空列表就返回否
   if (playlist.value[0].id === "empty_song") return false;
   const id = playlist.value[currentSongIndex.value].id;
-  if (loveList.findIndex((i) => id === i) !== -1) return true;
+  if (loveList.value.findIndex((i) => id === i) !== -1) return true;
   return false;
 });
 
