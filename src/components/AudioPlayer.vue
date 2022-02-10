@@ -27,7 +27,7 @@ const playProgress = ref(0);
 const loadProgress = ref(0);
 const duration = ref(0);
 const currentSongIndex = ref(0);
-const playlist = reactive(window.AudioLists.playlist);
+const playlist = ref(window.AudioLists.playlist);
 const loveList = reactive(window.AudioLists.love_list);
 
 // 滑动检测
@@ -94,22 +94,22 @@ const progressBarButtonMouseEvent = (event) => {
 };
 
 const toggleShare = () => {
-  //if (playlist[currentSongIndex.value].id !== "empty_song")
-  showShare.value = !showShare.value;
+  if (playlist.value[currentSongIndex.value].id !== "empty_song")
+    showShare.value = !showShare.value;
 };
 
 const toggleDetails = () => {
-  if (playlist[currentSongIndex.value].id !== "empty_song")
+  if (playlist.value[currentSongIndex.value].id !== "empty_song")
     showDetails.value = !showDetails.value;
 };
 
 const applySong = () => {
   audioLoading.value = false;
-  if (playlist[currentSongIndex.value].id === "empty_song") return false;
+  if (playlist.value[currentSongIndex.value].id === "empty_song") return false;
   // 加载当前歌曲 如果是精选状态且有精选版本就跳精选
-  let _src = playlist[currentSongIndex.value].src;
+  let _src = playlist.value[currentSongIndex.value].src;
   if (window.Variables.use_treated.value) {
-    const _secondSrc = playlist[currentSongIndex.value].secondSrc;
+    const _secondSrc = playlist.value[currentSongIndex.value].secondSrc;
     if (_secondSrc !== "") _src = _secondSrc;
   }
   audioSource.src = _src;
@@ -119,20 +119,20 @@ const applySong = () => {
   // 更改media session信息
   if ("mediaSession" in navigator) {
     navigator.mediaSession.metadata = new window.MediaMetadata({
-      title: playlist[currentSongIndex.value].name,
-      artist: playlist[currentSongIndex.value].artist,
+      title: playlist.value[currentSongIndex.value].name,
+      artist: playlist.value[currentSongIndex.value].artist,
       album: "",
       artwork: [{ src: "../assets/logo.png" }],
     });
   }
-  audio.title = playlist[currentSongIndex.value].name;
+  audio.title = playlist.value[currentSongIndex.value].name;
   // 保存当前歌单
-  utils.savePlaylist(currentSongIndex.value, playlist);
+  utils.savePlaylist(currentSongIndex.value, playlist.value);
 };
 
 const audioTogglePlay = () => {
   // 播放列表不为空
-  if (playlist[0].id !== "empty_song") {
+  if (playlist.value[0].id !== "empty_song") {
     playStatus.value = !audio.paused;
     if (playStatus.value) audio.pause();
     else audio.play();
@@ -147,7 +147,7 @@ const audioPause = () => {
 
 const nextSong = (idx) => {
   // 如果列表是空的就return
-  if (playlist[0].id === "empty_song") return;
+  if (playlist.value[0].id === "empty_song") return;
   // 如果当前正在播放，就自动播放下一首
   autoPlay.value = playStatus.value;
   // 只有一首歌就回到开头
@@ -203,8 +203,8 @@ const randomSong = () => {
 };
 
 const toggleLoved = () => {
-  if (playlist[0].id === "empty_song") return;
-  const id = playlist[currentSongIndex.value].id;
+  if (playlist.value[0].id === "empty_song") return;
+  const id = playlist.value[currentSongIndex.value].id;
   // 切换状态
   if (isLoved) {
     // 修改喜爱列表
@@ -212,7 +212,7 @@ const toggleLoved = () => {
     loveList.splice(idx, 1);
   } else {
     // 修改喜爱列表
-    loveList.push(playlist[currentSongIndex.value].id);
+    loveList.push(playlist.value[currentSongIndex.value].id);
   }
   // 保存喜爱列表
   utils.saveLoveList(loveList);
@@ -245,7 +245,7 @@ const playlistRemoveSong = (idx) => {
     applySong();
   }
   // 先获取当前播放的id
-  const _currentSongID = playlist[currentSongIndex.value].id;
+  const _currentSongID = playlist.value[currentSongIndex.value].id;
   // 删除选中的歌
   playlist.splice(idx, 1);
   // 重新获取当前歌index
@@ -265,7 +265,7 @@ const playlistRemoveSongID = (id) => {
 
 const playlistAddSong = (song, isJump = false, isAutoplay = false) => {
   let _setSrc = false;
-  if (playlist[0].id === "empty_song") {
+  if (playlist.value[0].id === "empty_song") {
     // 如果播放列表是空的就清空列表
     playlist.splice(0, playlist.length);
     _setSrc = true;
@@ -295,7 +295,7 @@ const playlistAddMany = (songs) => {
   if (songs.length === 0) return false;
   // 如果播放列表是空的
   let _shouldSetSrc = false;
-  if (playlist[0].id === "empty_song") {
+  if (playlist.value[0].id === "empty_song") {
     // 清空列表
     playlist.splice(0, playlist.length);
     _shouldSetSrc = true;
@@ -324,8 +324,8 @@ const playlistAddMany = (songs) => {
 
 const playlistReplace = (newlist, currentSongidx = 0) => {
   // 更换歌单后暂停播放
-  playlist.splice(0, playlist.length);
-  for (const song of newlist) playlist.push(song);
+  playlist.value.splice(0, playlist.value.length);
+  for (const song of newlist) playlist.value.push(song);
   currentSongIndex.value = currentSongidx;
   autoPlay.value = false;
   playStatus.value = false;
@@ -346,7 +346,7 @@ const playlistScroll = () => {
 };
 
 const playlistWithoutEmpty = computed(() => {
-  return playlist.filter((s) => {
+  return playlist.value.filter((s) => {
     return s.id !== "empty_song";
   });
 });
@@ -382,14 +382,14 @@ const playModeText = computed(() => {
 });
 
 const playlistLength = computed(() => {
-  if (playlist[0].id === "empty_song") return 0;
+  if (playlist.value[0].id === "empty_song") return 0;
   else return playlist.length;
 });
 
 const isLoved = computed(() => {
   // 空列表就返回否
-  if (playlist[0].id === "empty_song") return false;
-  const id = playlist[currentSongIndex.value].id;
+  if (playlist.value[0].id === "empty_song") return false;
+  const id = playlist.value[currentSongIndex.value].id;
   if (loveList.findIndex((i) => id === i) !== -1) return true;
   return false;
 });
@@ -493,11 +493,17 @@ defineExpose({
       <div class="c-info">
         <div class="c-songInfo">
           <div class="c-songName">
-            <div class="songName">{{ playlist[currentSongIndex]?.name }}</div>
-            <div class="singer">{{ playlist[currentSongIndex]?.artist }}</div>
+            <div class="songName" v-if="playlist[currentSongIndex]">
+              {{ playlist[currentSongIndex].name }}
+            </div>
+            <div class="singer">
+              {{ playlist[currentSongIndex]?.artist }}
+            </div>
           </div>
           <div class="c-songStatus">
-            <div class="date">{{ playlist[currentSongIndex]?.date }}</div>
+            <div class="date">
+              {{ playlist[currentSongIndex]?.date }}
+            </div>
             <div class="songStatus">
               {{ playlist[currentSongIndex]?.status }}
             </div>
@@ -657,7 +663,7 @@ defineExpose({
             <span v-on:click="showPlaylist = false">收起</span>
           </div>
         </div>
-        <div class="c-playlist-songList" ref="playlist">
+        <div class="c-playlist-songList">
           <div
             v-for="(song, index) in playlistWithoutEmpty"
             v-bind:class="[
@@ -698,7 +704,7 @@ defineExpose({
     />
     <PopUpDetails
       v-if="showDetails"
-      v-on:closepopup="showShare = false"
+      v-on:closepopup="showDetails = false"
       :song="playlist[currentSongIndex]"
     />
     <audio id="lite_player">
