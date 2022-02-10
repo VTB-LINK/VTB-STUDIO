@@ -10,6 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
       api: path.resolve(__dirname, "src/apis"),
       assets: path.resolve(__dirname, "src/assets"),
+      ui: path.resolve(__dirname, "src/assets/ui"),
       components: path.resolve(__dirname, "src/components"),
       popup: path.resolve(__dirname, "src/components/popup"),
       globals: path.resolve(__dirname, "src/globals"),

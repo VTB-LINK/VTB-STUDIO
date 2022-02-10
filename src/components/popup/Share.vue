@@ -56,7 +56,7 @@ const copy = (text, popper) => {
             slot="reference"
             class="copy-button"
             v-on:click="
-              copy('https://song.meumy.club/?s=' + song.id, song_popper)
+              copy('https://song.meumy.club/?s=' + props.song?.id, song_popper)
             "
             v-tooltip="song_popper"
           >
@@ -64,8 +64,8 @@ const copy = (text, popper) => {
           </button>
         </div>
         <div>
-          <a v-bind:href="'https://song.meumy.club/?s=' + song.id"
-            >https://song.meumy.club/?s={{ song.id }}</a
+          <a v-bind:href="'https://song.meumy.club/?s=' + props.song?.id"
+            >https://song.meumy.club/?s={{ props.song?.id }}</a
           >
         </div>
       </div>
@@ -88,7 +88,7 @@ const copy = (text, popper) => {
       <div class="c-share-body">
         <div class="c-share-title">
           <div class="share-title">下载当前歌曲</div>
-          <a v-bind:href="song.src" download>点击下载</a>
+          <a v-bind:href="props.song?.src" download>点击下载</a>
         </div>
         <div class="c-share-title">
           <div class="share-title">下载全部歌曲数据库</div>

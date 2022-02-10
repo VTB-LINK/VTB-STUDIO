@@ -25,10 +25,5 @@
     "prettier": "2.5.1",
     "sass": "^1.49.7",
     "vite": "^2.7.2"
-  },
-  "eslintConfig": {
-    "env": {
-      "node": true
-    }
   }
 }

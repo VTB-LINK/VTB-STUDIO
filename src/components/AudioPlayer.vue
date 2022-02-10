@@ -94,8 +94,8 @@ const progressBarButtonMouseEvent = (event) => {
 };
 
 const toggleShare = () => {
-  if (playlist[currentSongIndex.value].id !== "empty_song")
-    showShare.value = !showShare.value;
+  //if (playlist[currentSongIndex.value].id !== "empty_song")
+  showShare.value = !showShare.value;
 };
 
 const toggleDetails = () => {
@@ -122,7 +122,7 @@ const applySong = () => {
       title: playlist[currentSongIndex.value].name,
       artist: playlist[currentSongIndex.value].artist,
       album: "",
-      artwork: [{ src: require("../assets/logo.png") }],
+      artwork: [{ src: "../assets/logo.png" }],
     });
   }
   audio.title = playlist[currentSongIndex.value].name;
@@ -505,10 +505,10 @@ defineExpose({
         </div>
         <div class="c-info-op">
           <div class="shareButton otherButtons" v-on:click="toggleShare">
-            <img src="~bootstrap-icons/icons/share.svg" />
+            <img src="node_modules/bootstrap-icons/icons/share.svg?url" />
           </div>
           <div class="detailsButton otherButtons" v-on:click="toggleDetails">
-            <img src="~bootstrap-icons/icons/three-dots.svg" />
+            <img src="node_modules/bootstrap-icons/icons/three-dots.svg?url" />
           </div>
         </div>
       </div>
@@ -522,7 +522,7 @@ defineExpose({
             >
               <img
                 v-show="playMode == 'loop'"
-                src="~bootstrap-icons/icons/arrow-repeat.svg"
+                src="node_modules/bootstrap-icons/icons/arrow-repeat.svg?url"
               />
               <img
                 v-show="playMode == 'loopOnce'"
@@ -530,7 +530,7 @@ defineExpose({
               />
               <img
                 v-show="playMode == 'shuffle'"
-                src="~bootstrap-icons/icons/shuffle.svg"
+                src="node_modules/bootstrap-icons/icons/shuffle.svg?url"
               />
             </div>
             <div>
@@ -539,7 +539,9 @@ defineExpose({
                 v-on:click="showVolumeBar = !showVolumeBar"
                 title="音量"
               >
-                <img src="~bootstrap-icons/icons/volume-up.svg" />
+                <img
+                  src="node_modules/bootstrap-icons/icons/volume-up.svg?url"
+                />
               </div>
               <transition name="fade">
                 <div class="c-volumeBar" v-show="showVolumeBar">
@@ -594,10 +596,13 @@ defineExpose({
               v-on:click="toggleLoved"
               title="设为星标歌曲"
             >
-              <img v-show="!isLoved" src="~bootstrap-icons/icons/star.svg" />
+              <img
+                v-show="!isLoved"
+                src="node_modules/bootstrap-icons/icons/star.svg?url"
+              />
               <img
                 v-show="isLoved"
-                src="~bootstrap-icons/icons/star-fill.svg"
+                src="node_modules/bootstrap-icons/icons/star-fill.svg?url"
               />
             </div>
             <div
@@ -658,7 +663,8 @@ defineExpose({
             v-bind:class="[
               'c-playlist-song',
               {
-                'c-playlist-playing': song.id === playlist[currentSongIndex].id,
+                'c-playlist-playing':
+                  song.id === playlist[currentSongIndex]?.id,
               },
             ]"
             v-bind:key="song.id"

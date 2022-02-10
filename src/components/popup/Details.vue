@@ -8,8 +8,6 @@ export default defineComponent({
 <script setup>
 import PopUpMain from "popup/Main.vue";
 
-import { defineProps, defineEmits } from "vue";
-
 const props = defineProps({
   song: Object,
 });

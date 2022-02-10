@@ -6,8 +6,6 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
-
 const props = defineProps({
   title: String,
 });
