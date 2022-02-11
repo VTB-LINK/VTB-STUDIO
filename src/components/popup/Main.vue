@@ -1,7 +1,7 @@
 <script>
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "PopUpMain",
+  name: "MainPopUp",
 });
 </script>
 

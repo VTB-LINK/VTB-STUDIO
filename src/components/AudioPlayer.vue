@@ -1,5 +1,5 @@
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref, reactive, computed, onMounted } from "vue";
 export default defineComponent({
   name: "AudioPlayer",
 });
@@ -7,10 +7,10 @@ export default defineComponent({
 
 <script setup>
 import utils from "utils/utils";
-import { ref, reactive, computed, onMounted } from "vue";
 import Consts from "globals/consts.js";
-import PopUpShare from "popup/Share.vue";
-import PopUpDetails from "popup/Details.vue";
+import bus from "vue3-eventbus";
+import SharePopUp from "popup/Share.vue";
+import DetailsPopUp from "popup/Details.vue";
 
 let audio = {};
 let audioSource = {};
@@ -36,7 +36,55 @@ window.addEventListener("mouseup", () => {
   if (isMouseDown === true) isMouseDown = false;
 });
 
-//
+const playlistWithoutEmpty = computed(() => {
+  return playlist.value.filter((s) => {
+    return s.id !== "empty_song";
+  });
+});
+
+const volumeHeight = computed(() => {
+  return {
+    height: String((1 - volume.value) * 100) + "%",
+  };
+});
+
+const progressBarFillWidth = computed(() => {
+  return {
+    width: String(playProgress.value * 100) + "%",
+  };
+});
+
+const progressBarLoadingWidth = computed(() => {
+  return {
+    width: String(loadProgress.value * 100) + "%",
+  };
+});
+
+const progressBarButtonLeft = computed(() => {
+  return {
+    left: `calc(${playProgress.value * 100}% - 0.75rem)`,
+  };
+});
+
+const playModeText = computed(() => {
+  if (playMode.value === "loop") return "列表循环";
+  if (playMode.value === "loopOnce") return "单曲循环";
+  return "随机";
+});
+
+const playlistLength = computed(() => {
+  if (playlist.value[0].id === "empty_song") return 0;
+  else return playlist.value.length;
+});
+
+const isLoved = computed(() => {
+  // 空列表就返回否
+  if (playlist.value[0].id === "empty_song") return false;
+  const id = playlist.value[currentSongIndex.value].id;
+  if (loveList.value.findIndex((i) => id === i) !== -1) return true;
+  return false;
+});
+
 const secondToText = (second) => {
   second = Math.floor(second);
   let _minute = String(Math.floor(second / 60));
@@ -297,18 +345,18 @@ const playlistAddMany = (songs) => {
   let _shouldSetSrc = false;
   if (playlist.value[0].id === "empty_song") {
     // 清空列表
-    playlist.splice(0, playlist.length);
+    playlist.value.splice(0, playlist.value.length);
     _shouldSetSrc = true;
   }
   // 遍历所有要添加的歌
   let added = false;
   for (const song of songs) {
     // 判断歌曲是否重复
-    const idx = playlist.findIndex((s) => {
+    const idx = playlist.value.findIndex((s) => {
       return s.id === song.id;
     });
     if (idx === -1) {
-      playlist.push(song);
+      playlist.value.push(song);
       added = true;
     }
   }
@@ -318,7 +366,7 @@ const playlistAddMany = (songs) => {
     autoPlay.value = false;
   }
   // 保存当前歌单
-  utils.savePlaylist(currentSongIndex.value, playlist);
+  utils.savePlaylist(currentSongIndex.value, playlist.value);
   return added;
 };
 
@@ -344,55 +392,6 @@ const playlistScroll = () => {
   //   block: "nearest",
   // });
 };
-
-const playlistWithoutEmpty = computed(() => {
-  return playlist.value.filter((s) => {
-    return s.id !== "empty_song";
-  });
-});
-
-const volumeHeight = computed(() => {
-  return {
-    height: String((1 - volume.value) * 100) + "%",
-  };
-});
-
-const progressBarFillWidth = computed(() => {
-  return {
-    width: String(playProgress.value * 100) + "%",
-  };
-});
-
-const progressBarLoadingWidth = computed(() => {
-  return {
-    width: String(loadProgress.value * 100) + "%",
-  };
-});
-
-const progressBarButtonLeft = computed(() => {
-  return {
-    left: `calc(${playProgress.value * 100}% - 0.75rem)`,
-  };
-});
-
-const playModeText = computed(() => {
-  if (playMode.value === "loop") return "列表循环";
-  if (playMode.value === "loopOnce") return "单曲循环";
-  return "随机";
-});
-
-const playlistLength = computed(() => {
-  if (playlist.value[0].id === "empty_song") return 0;
-  else return playlist.length;
-});
-
-const isLoved = computed(() => {
-  // 空列表就返回否
-  if (playlist.value[0].id === "empty_song") return false;
-  const id = playlist.value[currentSongIndex.value].id;
-  if (loveList.value.findIndex((i) => id === i) !== -1) return true;
-  return false;
-});
 
 onMounted(() => {
   audio = document.getElementById("lite_player");
@@ -476,6 +475,18 @@ onMounted(() => {
   // 自动加载第一首
   applySong();
   window.audio = audio;
+
+  bus.on("playlist-add-song-event", (para) => {
+    playlistAddSong([...para]);
+  });
+
+  bus.on("playlist-remove-song-id-event", (para) => {
+    playlistRemoveSongID(para);
+  });
+
+  bus.on("playlist-add-many-event", (para) => {
+    playlistAddMany(para);
+  });
 });
 
 //公开属性给到父组件
@@ -697,12 +708,12 @@ defineExpose({
         </div>
       </div>
     </transition>
-    <PopUpShare
+    <SharePopUp
       v-if="showShare"
       v-on:closepopup="showShare = false"
       :song="playlist[currentSongIndex]"
     />
-    <PopUpDetails
+    <DetailsPopUp
       v-if="showDetails"
       v-on:closepopup="showDetails = false"
       :song="playlist[currentSongIndex]"

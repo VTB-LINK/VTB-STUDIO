@@ -1,12 +1,12 @@
 <script>
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "PopUpDetails",
+  name: "DetailsPopUp",
 });
 </script>
 
 <script setup>
-import PopUpMain from "popup/Main.vue";
+import MainPopUp from "popup/Main.vue";
 
 const props = defineProps({
   song: Object,
@@ -16,7 +16,7 @@ const emit = defineEmits(["closepopup"]);
 </script>
 
 <template>
-  <PopUpMain v-on:closepopup="$emit('closepopup')" title="歌曲详情">
+  <MainPopUp v-on:closepopup="$emit('closepopup')" title="歌曲详情">
     <div class="content">
       <p><span>歌名：</span>{{ props.song?.name }}</p>
       <p><span>演唱者：</span>{{ props.song?.artist }}</p>
@@ -66,7 +66,7 @@ const emit = defineEmits(["closepopup"]);
         提供的音频！
       </p>
     </div>
-  </PopUpMain>
+  </MainPopUp>
 </template>
 
 <style scoped>

@@ -8,14 +8,18 @@ export default {
 import { ref, onMounted } from "vue";
 import song_data from "utils/data.js";
 import utils from "utils/utils.js";
+import MainSongList from "components/MainSongList.vue";
 import AudioPlayer from "components/AudioPlayer.vue";
+import Footer from "components/Footer.vue";
+import InfoPopUp from "popup/Info.vue";
 
 //debug用变量，由于没响应式需求所以不用ref创建
 const develop = false;
 const ifDebug = false;
-let showInfo = false;
+const showInfo = ref(false);
 const debugList = window.Variables.debug_list;
 const player = ref(null);
+const mainsonglist = ref(null);
 
 const init = () => {
   // 看看是不是开了后门
@@ -52,16 +56,15 @@ const init = () => {
         window.history.replaceState({}, "", window.location.pathname);
       }
       // 看看是不是首次打开
-      if (utils.if_first_browse()) {
+      if (utils.checkFirstBrowse()) {
         // 首次打开就播放推荐曲
-        showInfo = true;
+        showInfo.value = true;
         // 光 逆光 我的偶像宣言 Fansa
         let recommand_song_list = ["U00044", "U01506", "U00113", "U01500"];
         let song_list = recommand_song_list.map((i) =>
           window.AudioLists.song_list.find((s) => s.id === i)
         );
         console.log(song_list);
-        //TODO:rewrite wait to vue3
         player.value.playlistAddMany(song_list);
       }
     })
@@ -81,13 +84,13 @@ onMounted(() => {
       <div v-show="if_debug">
         <div v-for="(d, idx) in debug_list" v-bind:key="d + idx">{{ d }}</div>
       </div>
-      <!-- <main-song-list ref="main" /> -->
+      <MainSongList ref="mainsonglist" />
       <AudioPlayer ref="player" />
       <countdown />
       <copy-call-code />
       <import-song-list />
-      <v-footer />
-      <pop-up-info v-if="showInfo" v-on:closepopup="showInfo = false" />
+      <Footer />
+      <InfoPopUp v-if="showInfo" v-on:closepopup="showInfo = false" />
     </div>
   </div>
 </template>

@@ -1,14 +1,13 @@
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 export default defineComponent({
-  name: "PopUpShare",
+  name: "SharePopUp",
 });
 </script>
 
 <script setup>
-import PopUpMain from "popup/Main.vue";
+import MainPopUp from "popup/Main.vue";
 import utils from "utils/utils.js";
-import { computed } from "vue";
 
 const song_popper = {
   content: "已成功复制到剪切板",
@@ -47,7 +46,7 @@ const copy = (text, popper) => {
 </script>
 
 <template>
-  <pop-up-main v-on:closepopup="$emit('closepopup')" title="分享歌曲">
+  <MainPopUp v-on:closepopup="$emit('closepopup')" title="分享歌曲">
     <div>
       <div class="c-share-body">
         <div class="c-share-title">
@@ -96,7 +95,7 @@ const copy = (text, popper) => {
         </div>
       </div>
     </div>
-  </pop-up-main>
+  </MainPopUp>
 </template>
 
 <style scoped>

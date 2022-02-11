@@ -1,4 +1,5 @@
 import Consts from "globals/consts.js";
+import dayjs from "dayjs";
 
 function saveLoveList(l) {
   localStorage.setItem("love_list", JSON.stringify(l));
@@ -120,14 +121,21 @@ function decode_share(code) {
   return song_list;
 }
 
-function if_first_browse() {
+function checkFirstBrowse() {
   // 初始化
-  let lastest = "20220101";
-  if (!localStorage.getItem("browse_flag")) {
-    localStorage.setItem("browse_flag", lastest);
+  const _currentDate = dayjs().format("YYYY-MM-DD");
+  const _lastVisitDate = localStorage.getItem("browse_flag");
+  const _existedVersion = localStorage.getItem("app_version");
+  if (!_lastVisitDate) {
+    localStorage.setItem("browse_flag", _currentDate);
+    localStorage.setItem("app_version", APP_VERSION);
     return true;
-  } else if (localStorage.getItem("browse_flag") !== lastest) {
-    localStorage.setItem("browse_flag", lastest);
+  } else if (
+    _currentDate === dayjs(_lastVisitDate).add(7, "day").format("YYYY-MM-DD") ||
+    _existedVersion !== APP_VERSION
+  ) {
+    localStorage.setItem("browse_flag", _currentDate);
+    localStorage.setItem("app_version", APP_VERSION);
     return true;
   }
   return false;
@@ -152,7 +160,7 @@ export default {
   readSettings,
   encodeShare,
   decode_share,
-  if_first_browse,
+  checkFirstBrowse,
   str_to_code,
   debug,
 };

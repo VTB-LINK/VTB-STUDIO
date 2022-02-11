@@ -20,5 +20,6 @@ export default defineConfig({
   },
   define: {
     BACKDOOR_WORDS: JSON.stringify("ILOVEMEUMY"),
+    APP_VERSION: JSON.stringify("0.1"),
   },
 });
