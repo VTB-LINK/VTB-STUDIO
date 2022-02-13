@@ -9,7 +9,7 @@ export default defineComponent({
 import utils from "utils/utils.js";
 import bus from "vue3-eventbus";
 //import SongFilter from "./SongFilter.vue";
-//import SongListPagination from "./SongListPagination.vue";
+import SongListPagination from "components/SongListPagination.vue";
 
 const loveList = ref(window.AudioLists.love_list);
 const expandList = ref([]);
@@ -100,10 +100,10 @@ const expendAll = () => {
 
 const pageChangeEvent = () => {
   // 清空展开和选中
-  checkList.value = [];
   expandList.value = [];
   // 判断是不是在页面内并滚动到顶部
-  if (header.getBoundingClientRect().bottom < 0) header.scrollIntoView();
+  if (header.value.getBoundingClientRect().bottom < 0)
+    header.value.scrollIntoView();
 };
 </script>
 
@@ -310,12 +310,12 @@ const pageChangeEvent = () => {
         无结果...
       </div>
     </div>
-    <!--     <song-list-pagination
-      v-bind:page.sync="page"
-      v-bind:perPage.sync="perPage"
+    <SongListPagination
+      v-model:page="page"
+      v-model:perPage="perPage"
       v-bind:total="songListFiltered.length"
       v-on:update:page="pageChangeEvent"
-    ></song-list-pagination> -->
+    ></SongListPagination>
   </div>
 </template>
 
