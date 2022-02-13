@@ -8,7 +8,7 @@ export default defineComponent({
 <script setup>
 import utils from "utils/utils.js";
 import bus from "vue3-eventbus";
-//import SongFilter from "./SongFilter.vue";
+import SongFilter from "components/SongFilter.vue";
 import SongListPagination from "components/SongListPagination.vue";
 
 const loveList = ref(window.AudioLists.love_list);
@@ -109,10 +109,10 @@ const pageChangeEvent = () => {
 
 <template>
   <div class="c-main">
-    <!--     <song-filter
-      v-bind:songListFiltered.sync="songListFiltered"
+    <SongFilter
+      v-model:songListFiltered="songListFiltered"
       v-on:update:songListFiltered="page = 1"
-    /> -->
+    />
     <div class="c-controler">
       <button
         class="general-button controler-item controler-item-all"

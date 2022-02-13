@@ -487,6 +487,10 @@ onMounted(() => {
   bus.on("playlist-add-many-event", (para) => {
     playlistAddMany(para);
   });
+
+  bus.on("playlist-replace-event", (para) => {
+    playlistReplace(para);
+  });
 });
 
 //公开属性给到父组件

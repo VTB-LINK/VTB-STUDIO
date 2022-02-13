@@ -8,6 +8,7 @@ export default {
 import { ref, onMounted } from "vue";
 import song_data from "utils/data.js";
 import utils from "utils/utils.js";
+import bus from "vue3-eventbus";
 import MainSongList from "components/MainSongList.vue";
 import AudioPlayer from "components/AudioPlayer.vue";
 import Footer from "components/Footer.vue";
@@ -67,6 +68,7 @@ const init = () => {
         console.log(song_list);
         player.value.playlistAddMany(song_list);
       }
+      bus.emit("apply-search-event");
     })
     .catch((e) => console.log(e));
 };
