@@ -13,6 +13,7 @@ import MainSongList from "components/MainSongList.vue";
 import AudioPlayer from "components/AudioPlayer.vue";
 import Banner from "components/Banner.vue";
 import Footer from "components/Footer.vue";
+import Countdown from "./components/Countdown.vue";
 import CopyCallCode from "components/CopyCallCode.vue";
 import ImportSongList from "components/ImportSongList.vue";
 import InfoPopUp from "popup/Info.vue";
@@ -85,14 +86,13 @@ onMounted(() => {
   <div id="app">
     <div class="c-outer">
       <Banner />
-      <input v-show="develop" type="checkbox" v-model="if_debug" />
-      <div v-show="if_debug">
-        <div v-for="(d, idx) in debug_list" v-bind:key="d + idx">{{ d }}</div>
+      <input v-show="develop" type="checkbox" v-model="ifDebug" />
+      <div v-show="ifDebug">
+        <div v-for="(d, idx) in debugList" v-bind:key="d + idx">{{ d }}</div>
       </div>
       <MainSongList ref="mainsonglist" />
       <AudioPlayer ref="player" />
-      <!-- <countdown />
-      /> -->
+      <Countdown />
       <CopyCallCode />
       <ImportSongList />
       <Footer />

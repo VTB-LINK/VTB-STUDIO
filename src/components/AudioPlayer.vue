@@ -492,6 +492,8 @@ onMounted(() => {
   bus.on("playlist-replace-event", (para) => {
     playlistReplace(para);
   });
+
+  bus.on("player-audio-pause", audioPause);
 });
 
 //公开属性给到父组件
