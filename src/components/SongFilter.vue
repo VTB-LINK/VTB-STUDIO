@@ -194,7 +194,7 @@ onMounted(() => {
         v-bind:key="collection.name"
         v-on:click="replaceCollection(collection.list)"
       >
-        <img src="~bootstrap-icons/icons/tag.svg" />
+        <img src="node_modules/bootstrap-icons/icons/tag.svg?url" />
         <div>{{ collection.name }}</div>
       </div>
     </div>
@@ -282,5 +282,5 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@import "styles/SongFilter.scss";
+@import "styles/songfilter.scss";
 </style>

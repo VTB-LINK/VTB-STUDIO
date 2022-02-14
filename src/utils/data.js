@@ -48,9 +48,7 @@ function parse_song_csv(t) {
     else {
       // 按录播bv号判断
       if (s2.record.bv !== s1.record.bv)
-        return (
-          utils.str_to_code(s1.record.bv) - utils.str_to_code(s2.record.bv)
-        );
+        return utils.strToCode(s1.record.bv) - utils.strToCode(s2.record.bv);
       else {
         // 按分p判断
         if (s2.record.p !== s1.record.p) return s1.record.p - s2.record.p;

@@ -120,5 +120,5 @@ watch(
 </template>
 
 <style scoped>
-@import "styles/SongListPagination.scss";
+@import "styles/songlistpagination.scss";
 </style>
