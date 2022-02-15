@@ -8,7 +8,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: "@", replacement: path.resolve(__dirname, "./src") },
-      { find: "api", replacement: path.resolve(__dirname, "./src/apis") },
+      { find: "apis", replacement: path.resolve(__dirname, "./src/apis") },
       { find: "assets", replacement: path.resolve(__dirname, "./src/assets") },
       { find: "ui", replacement: path.resolve(__dirname, "./src/assets/ui") },
       {
@@ -42,5 +42,6 @@ export default defineConfig({
   define: {
     BACKDOOR_WORDS: JSON.stringify("ILOVEMEUMY"),
     APP_VERSION: JSON.stringify("0.1"),
+    REMOTE_SOURCE_URL: JSON.stringify("0.1"),
   },
 });
