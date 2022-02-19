@@ -20,70 +20,61 @@ onMounted(() => {
 <template>
   <div class="c-footer">
     <p>
-      或许你还不了解
+      或许你还不十分了解
       <a
-        href="https://space.bilibili.com/617459493"
+        href="https://zh.moegirl.org.cn/A-SOUL"
         target="_blank"
         rel="noreferrer noopener"
-        >@呜米</a
+        >A-SOUL</a
+      >？ 搞快去看看她们的直播间：
+      <a
+        href="https://live.bilibili.com/22625025"
+        target="_blank"
+        rel="noreferrer noopener"
+        >@向晚AvA
+      </a>
+      <a
+        href="https://live.bilibili.com/22632424"
+        target="_blank"
+        rel="noreferrer noopener"
+        >@贝拉Bella</a
       >
-      和
       <a
-        href="https://space.bilibili.com/745493"
+        href="https://live.bilibili.com/22634198"
         target="_blank"
         rel="noreferrer noopener"
-        >@咩栗</a
-      >？ 搞快去
-      <a
-        href="https://live.bilibili.com/22384516"
-        target="_blank"
-        rel="noreferrer noopener"
-        >呜米的直播间</a
+        >@珈乐Carol</a
       >
-      和
       <a
-        href="https://live.bilibili.com/8792912"
+        href="https://live.bilibili.com/22637261"
         target="_blank"
         rel="noreferrer noopener"
-        >咩栗的直播间</a
+        >@嘉然Diana</a
       >
-      看她们两个！
+      <a
+        href="https://live.bilibili.com/22625027"
+        target="_blank"
+        rel="noreferrer noopener"
+        >@乃琳Eileen</a
+      >
     </p>
     <p>
-      直播间之外，或许可以去网易云音乐
+      欢迎加入
       <a
-        href="https://music.163.com/#/user/home?id=1306304320"
+        href="https://discord.gg/TKyrqHqNyS"
         target="_blank"
         rel="noreferrer noopener"
-        >@呜米嗷嗷嗷</a
+        >A-Soul的非官方社区DC频道</a
       >
-      和
-      <a
-        href="https://music.163.com/#/user/home?id=1356709812"
-        target="_blank"
-        rel="noreferrer noopener"
-        >@咩栗咩咩咩</a
-      >
-      听听她们两个的歌！原创曲我吹爆！！！
-    </p>
-    <p>
-      顺便拜托关注下
-      <a
-        href="https://space.bilibili.com/674421433"
-        target="_blank"
-        rel="noreferrer noopener"
-        >@呜米咩栗的草原日常</a
-      >
-      吧！这里也会有歌听的！
+      ，这边有面向海外AU小伙伴的转播服务和AS社区建设交流频道。
     </p>
     <hr />
-    <p>使用方法懒得写了，自己玩吧</p>
     <p>
-      好多小棉花和小米星帮忙切了超级多的歌，戳这里看看->
+      AS社区的很多小伙伴们为本站提供了莫大的帮忙，戳这里看看->
       <a v-on:click="showCredit = true" class="credit">关于本站</a>
     </p>
     <p>
-      试着关注一下这个b站的切歌man？
+      试着关注一下这个b站的二创小伙伴？
       <a
         v-bind:href="'https://space.bilibili.com/' + cutter[0]"
         target="_blank"
@@ -95,22 +86,22 @@ onMounted(() => {
     <p class="links">
       友情链接：
       <a
-        href="https://space.bilibili.com/674622242"
+        href="https://asoul1.asoul-rec.com/"
         target="_blank"
         rel="noreferrer noopener"
-        >MeUmy录播组</a
-      >
-      <a href="https://mht.meumy.club" target="_blank" rel="noreferrer noopener"
-        >MeUmy的棉花糖</a
+        >A-SOUL录播站</a
       >
       <a
-        href="https://lamp.meumy.club"
+        href="https://www.youtube.com/channel/UCrC6Xdxx5Jmo3m0cPi-u_cw"
         target="_blank"
         rel="noreferrer noopener"
-        >MeUmy草原自动路灯</a
+        >A-soul Moments油管频道</a
       >
-      <a href="https://meumy.club" target="_blank" rel="noreferrer noopener"
-        >MeUmy草原平行时空</a
+      <a href="https://asoul.jp/" target="_blank" rel="noreferrer noopener"
+        >ASファンサイト</a
+      >
+      <a href="https://asoulfan.com/" target="_blank" rel="noreferrer noopener"
+        >Project ASF</a
       >
     </p>
     <CreditPopUp v-if="showCredit" v-on:closepopup="showCredit = false" />

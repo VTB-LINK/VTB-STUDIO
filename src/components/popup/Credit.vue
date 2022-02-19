@@ -34,8 +34,35 @@ const emit = defineEmits(["closepopup"]);
     class="popup-credit"
   >
     <div class="content">
-      <p>感谢录播评论区的各位路灯man，找歌过程中帮了太多忙（哭泣</p>
       <p>
+        感谢
+        <a
+          href="https://space.bilibili.com/5273959"
+          target="_blank"
+          rel="noreferrer noopener"
+          >@嘉然小姐的奶粉罐</a
+        >和<a
+          href="https://space.bilibili.com/393157178"
+          target="_blank"
+          rel="noreferrer noopener"
+          >@oldking139</a
+        >长久以来对于录播资源的整合和服务器运维的支持，没有他们就没法顺利发布本录音棚。
+      </p>
+      <p>
+        感谢
+        <a
+          href="https://space.bilibili.com/1112450"
+          target="_blank"
+          rel="noreferrer noopener"
+          >@悠游不见森</a
+        >和<a
+          href="https://space.bilibili.com/19964039"
+          target="_blank"
+          rel="noreferrer noopener"
+          >@P_P_P_P_P</a
+        >长久以来对于录播资源整理归纳，没有他们就没法顺利整理出完整的音频列表和切片信息。
+      </p>
+      <!-- <p>
         感谢
         <span
           v-for="cutter in cutterList"
@@ -52,33 +79,36 @@ const emit = defineEmits(["closepopup"]);
           ({{ cutter.count }})
         </span>
         切的歌，给录音棚添加了很多存货（鞠躬
-      </p>
+      </p> -->
       <p>
-        有问题？或者想帮忙！（提前感谢）狂戳这个人->
+        有问题？或者想帮忙！（提前感谢）狂戳这里ଘ(੭ˊᵕˋ)੭
         <a
-          href="https://message.bilibili.com/#/whisper/mid1818479062"
+          href="https://message.bilibili.com/#/whisper/mid271979"
           target="_blank"
           rel="noreferrer noopener"
-          >@呜米小姐的吃饭小虎牙</a
+          >@Chobitsnerv</a
         >
         的b站私信！
       </p>
       <p>
         本项目已开源（
         <a
-          href="https://github.com/K-bai/csv-based-web-music-player"
+          href="https://github.com/chobitsnerv/lite-web-studio/tree/a-soul"
           target="_blank"
           rel="noreferrer noopener"
           >Github</a
         >
-        ）欢迎Star, Fork！感谢
+        ）欢迎Star, Fork来一起建设录音棚！
+      </p>
+      <p>
+        最后特别鸣谢
         <a
-          href="https://space.bilibili.com/9420577"
+          href="https://space.bilibili.com/1818479062"
           target="_blank"
           rel="noreferrer noopener"
-          >@特斯拉309</a
+          >@呜米小姐的吃饭小虎牙</a
         >
-        的技术支持！
+        的开源和帮助！
       </p>
     </div>
   </MainPopUp>

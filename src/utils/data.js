@@ -44,15 +44,17 @@ function parseSongCsv(csvfile) {
     if (_d1.isBefore(_d2)) return -1;
     else if (_d2.isBefore(_d1)) return 1;
     else {
-      // 按录播bv号判断
-      if (s2.record.bv !== s1.record.bv)
-        return utils.strToCode(s1.record.bv) - utils.strToCode(s2.record.bv);
-      else {
-        // 按分p判断
-        if (s2.record.p !== s1.record.p) return s1.record.p - s2.record.p;
-        // 按时间点判断
-        else return s1.record_start_ms - s2.record_start_ms;
-      }
+      // // 按录播bv号判断
+      // if (s2.record.bv !== s1.record.bv)
+      //   return utils.strToCode(s1.record.bv) - utils.strToCode(s2.record.bv);
+      // else {
+      //   // 按分p判断
+      //   if (s2.record.p !== s1.record.p) return s1.record.p - s2.record.p;
+      //   // 按时间点判断
+      //   else return s1.record_start_ms - s2.record_start_ms;
+      // }
+      //按照歌曲编号顺序排列
+      return s2.id > s1.id ? -1 : 1;
     }
   });
 }
@@ -126,10 +128,12 @@ function convertSong(row) {
     language: row["语言"],
     note: row["备注"],
     ref: parseRef(row["参考路灯man"]),
-    ref_cut: parseRef(row["谁切的"]),
+    ref_cut: parseRef(row["切片源"]),
     duration: _duration,
     id: _songId,
-    src: `${PREFIX_ORIGN}${_songId}${SUFFIX_ORIGN}`,
+    src: `${PREFIX_ORIGN}${SONG_NAME_SOURCE_MODE ? _date : ""}${
+      SONG_NAME_SOURCE_MODE ? _songName : _songId
+    }${SUFFIX_ORIGN}`,
     second_src: _secondSrc,
     has_audio: _hasAudio,
     days_before_available: _daysBeforeAvailable,

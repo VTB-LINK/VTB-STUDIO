@@ -7,45 +7,54 @@ export default defineComponent({
 
 <template>
   <div class="c-title card">
+    <div class="banner-video">
+      <video playsinline="" autoplay="" loop="" muted="">
+        <source src="@/assets/banner.mp4?url" type="video/mp4" />
+      </video>
+    </div>
+    <div class="banner-logo">
+      <img src="@/assets/official-white.png?url" alt="logo" />
+    </div>
     <div class="title-info">
-      <h1>MeUmy的录音棚</h1>
+      <h1>录音棚</h1>
       <div class="title-detail">
-        <div>来听听草原上小狼和小羊的歌声吧！</div>
-        <div>录音棚收录了几乎全部呜米和一部分咩栗直播唱的歌</div>
+        <div>A-SOUL时代，沸腾期待！</div>
+        <div>录音棚收录了几乎全部solo和合唱的歌</div>
         <div>
-          还没关注
+          还没关注?
           <a
-            href="https://space.bilibili.com/617459493"
+            href="https://space.bilibili.com/672346917/"
             target="_blank"
             rel="noreferrer noopener"
-            >@呜米
+            >@向晚
           </a>
           <a
-            href="https://space.bilibili.com/745493"
+            href="https://space.bilibili.com/672353429/"
             target="_blank"
             rel="noreferrer noopener"
-            >@咩栗</a
+            >@贝拉</a
           >
-          ？搞快关注！
-        </div>
-        <div>
-          网易云音乐：
           <a
-            href="https://music.163.com/#/user/home?id=1306304320"
+            href="https://space.bilibili.com/351609538/"
             target="_blank"
             rel="noreferrer noopener"
-            >@呜米嗷嗷嗷
-          </a>
+            >@珈乐</a
+          >
           <a
-            href="https://music.163.com/#/user/home?id=1356709812"
+            href="https://space.bilibili.com/672328094/"
             target="_blank"
             rel="noreferrer noopener"
-            >@咩栗咩咩咩</a
+            >@嘉然</a
+          >
+          <a
+            href="https://space.bilibili.com/672342685/"
+            target="_blank"
+            rel="noreferrer noopener"
+            >@乃琳</a
           >
         </div>
       </div>
     </div>
-    <img class="logo-img" src="@/assets/logo_dark.png?url" />
   </div>
 </template>
 

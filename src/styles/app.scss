@@ -25,7 +25,15 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
+
+  position: absolute;
+  height: 100%;
 }
+
+#spaceholder {
+  height: 25vh;
+}
+
 .c-outer {
   max-width: 1200px;
   padding-left: 2rem;

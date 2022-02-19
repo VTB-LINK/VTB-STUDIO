@@ -14,7 +14,6 @@ import AudioPlayer from "components/AudioPlayer.vue";
 import Banner from "components/Banner.vue";
 import Footer from "components/Footer.vue";
 import Countdown from "./components/Countdown.vue";
-import CopyCallCode from "components/CopyCallCode.vue";
 import ImportSongList from "components/ImportSongList.vue";
 import InfoPopUp from "popup/Info.vue";
 
@@ -65,12 +64,12 @@ const init = () => {
         // 首次打开就播放推荐曲
         showInfo.value = true;
         // 光 逆光 我的偶像宣言 Fansa
-        let recommand_song_list = ["U00044", "U01506", "U00113", "U01500"];
-        let song_list = recommand_song_list.map((i) =>
-          window.AudioLists.song_list.find((s) => s.id === i)
-        );
-        console.log(song_list);
-        player.value.playlistAddMany(song_list);
+        // let recommand_song_list = ["U00044", "U01506", "U00113", "U01500"];
+        // let song_list = recommand_song_list.map((i) =>
+        //   window.AudioLists.song_list.find((s) => s.id === i)
+        // );
+        // //console.log(song_list);
+        // player.value.playlistAddMany(song_list);
       }
       bus.emit("apply-search-event");
     })
@@ -93,10 +92,10 @@ onMounted(() => {
       <MainSongList ref="mainsonglist" />
       <AudioPlayer ref="player" />
       <Countdown />
-      <CopyCallCode />
       <ImportSongList />
       <Footer />
       <InfoPopUp v-if="showInfo" v-on:closepopup="showInfo = false" />
+      <div id="spaceholder" />
     </div>
   </div>
 </template>
