@@ -54,6 +54,7 @@ export default defineConfig({
     SUFFIX_TUNED: JSON.stringify(".mp3?raw"),
     MOST_N: 5,
     AVAILABLE_DAYS_LIMIT: 5,
+    CUTTER_DISPLAY_MAX: 5,
     SONGNAME_CONTAIN_VERSION: true,
     SONG_NAME_SOURCE_MODE: true,
     AUDIO_DURATION_IN_MS: true,

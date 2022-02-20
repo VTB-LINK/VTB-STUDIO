@@ -7,18 +7,24 @@ export default defineComponent({
 
 <script setup>
 import MainPopUp from "popup/Main.vue";
+import LodashArray from "lodash/collection";
 
-const cutter = ref(window.AudioLists.cutter_list);
+const cutter = ref(
+  LodashArray.shuffle(window.AudioLists.cutter_list).slice(
+    0,
+    CUTTER_DISPLAY_MAX
+  )
+);
 
 const emit = defineEmits(["closepopup"]);
 </script>
 
 <template>
-  <MainPopUp v-on:closepopup="$emit('closepopup')" title="欢迎！">
+  <MainPopUp v-on:closepopup="$emit('closepopup')" title="欢迎来到AS录音棚！">
     <div class="content">
-      <p>看到你是首次打开，球球你关注一下在b站的MeUmy切歌man吧！！！</p>
+      <p>今天有好好吃饭吗？</p>
       <p>
-        随便给你推荐几个：
+        随便给你推荐几个AS社区的小伙伴，喜欢的话可以关注一下捏：
         <a
           v-for="c in cutter"
           v-bind:key="c[0]"
@@ -28,7 +34,7 @@ const emit = defineEmits(["closepopup"]);
           >@{{ c[1] }}</a
         >
       </p>
-      <p>快乐听歌鸭！~</p>
+      <p>和所有的烦恼说白白，和全部的快乐索嗨嗨！一起来愉快地听歌鸭~！</p>
     </div>
   </MainPopUp>
 </template>
