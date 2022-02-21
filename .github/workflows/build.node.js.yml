@@ -36,18 +36,6 @@ jobs:
     - name: Use tar to zip dist files
       run: tar -cf dist.zip dist
 
-    # - name: Remove old release
-    #   uses: actions/create-release@v1
-    #   id: create_release
-    #   with:
-    #     draft: false
-    #     prerelease: false
-    #     release_name: Latest
-    #     tag_name: Latest
-    #     body: Release Latest
-    #   env:
-    #     GITHUB_TOKEN: ${{ github.token }}
-
     - name: Create new release
       uses: actions/create-release@v1
       id: create_release
@@ -69,12 +57,3 @@ jobs:
          asset_path: dist.zip
          asset_name: dist.zip
          asset_content_type: application/zip
-
-
-  deploy:
-    runs-on: [self-hosted,linux,X64,hk]
-    needs: build
-    steps:
-    - run: cd /home/coderunner/dev.music
-    - run: wget https://github.do/https://github.com/oldking139/lite-web-studio/releases/download/Latest/dist.zip
-    - run: unzip dist.zip
