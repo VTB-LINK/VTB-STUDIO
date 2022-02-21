@@ -289,7 +289,7 @@ const pageChangeEvent = () => {
             </a>
           </div>
           <div class="song-full-details-note" v-show="song.note !== ''">
-            切歌man的留言: {{ song.note }}
+            备注: {{ song.note }}
           </div>
           <div
             class="song-full-details-ref-cut"
