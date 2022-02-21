@@ -29,7 +29,7 @@ jobs:
     - run: npm ci
     - run: npm run build
     - run: npm test
-    - run: t tar -cf dist.zip dist
+    - run: tar -cf dist.zip dist
 
     - name: CreateRelease
       uses: actions/create-release@v1
