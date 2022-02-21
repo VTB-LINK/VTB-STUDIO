@@ -6,9 +6,9 @@ name: Release Branch Node.js CI Build Frontend
 
 on:
   push:
-    branches: release
+    branches: [release]
   pull_request:
-    branches: release
+    branches: [release]
   workflow_dispatch:
 
 jobs:
@@ -26,12 +26,29 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - name: Delete last release
+      uses: ame-yu/action-delete-latest-release@v2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
     - run: npm ci
     - run: npm run build
     - run: npm test
-    - run: tar -cf dist.zip dist
+    - name: Use tar to zip dist files
+      run: tar -cf dist.zip dist
 
-    - name: CreateRelease
+    # - name: Remove old release
+    #   uses: actions/create-release@v1
+    #   id: create_release
+    #   with:
+    #     draft: false
+    #     prerelease: false
+    #     release_name: Latest
+    #     tag_name: Latest
+    #     body: Release Latest
+    #   env:
+    #     GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Create new release
       uses: actions/create-release@v1
       id: create_release
       with:
@@ -43,7 +60,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
-    - name: UploadAssets
+    - name: Upload assets
       uses: actions/upload-release-asset@v1
       env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -58,4 +75,5 @@ jobs:
   #   runs-on: [self-hosted,linux,X64,hk]
   #   needs: build
   #   steps:
-  #   - run: wget 
+  #   - run: wget https://github.com/oldking139/lite-web-studio/releases/tag/Latest/dist.zip 
+  # tar 
