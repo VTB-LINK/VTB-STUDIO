@@ -71,9 +71,10 @@ jobs:
          asset_content_type: application/zip
 
 
-  # deploy:
-  #   runs-on: [self-hosted,linux,X64,hk]
-  #   needs: build
-  #   steps:
-  #   - run: wget https://github.com/oldking139/lite-web-studio/releases/tag/Latest/dist.zip 
-  # tar 
+  deploy:
+    runs-on: [self-hosted,linux,X64,hk]
+    needs: build
+    steps:
+    - run: cd /home/coderunner/dev.music
+    - run: wget https://github.do/https://github.com/oldking139/lite-web-studio/releases/download/Latest/dist.zip
+    - run: unzip dist.zip
