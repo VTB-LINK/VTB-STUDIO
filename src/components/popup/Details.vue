@@ -25,7 +25,7 @@ const emit = defineEmits(["closepopup"]);
         <span>原唱：</span>{{ props.song?.orginal_artist }}
       </p>
       <p><span>语言：</span>{{ props.song?.language }}</p>
-      <p><span>切歌man的留言：</span>{{ props.song?.note }}</p>
+      <p><span>备注：</span>{{ props.song?.note }}</p>
       <p>
         <span>对应录播：</span>
         <a
