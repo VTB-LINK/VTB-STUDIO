@@ -21,13 +21,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: dev-drprasad/delete-older-releases@v0.2.0
-      with:
-        repo:
-        keep_latest: 0
-        delete_tag_pattern: Latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - uses: dev-drprasad/delete-older-releases@v0.2.0
+    #   with:
+    #     repo:
+    #     keep_latest: 0
+    #     delete_tag_pattern: Latest
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -45,9 +45,9 @@ jobs:
       with:
         draft: false
         prerelease: false
-        release_name: Latest
-        tag_name: Latest
-        body: Release Latest
+        release_name: build_${{ env.Version }}
+        tag_name: ${{ env.Version }}
+        body: Release build zip for ${{ env.Version }}
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
@@ -58,5 +58,5 @@ jobs:
       with:
          upload_url: ${{ steps.create_release.outputs.upload_url }}
          asset_path: dist.zip
-         asset_name: dist.zip
+         asset_name: dist${{ env.Version }}.zip
          asset_content_type: application/zip
