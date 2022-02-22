@@ -25,7 +25,7 @@ jobs:
       with:
         repo:
         keep_latest: 0
-        delete_tag_pattern:
+        delete_tag_pattern: Latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Use Node.js ${{ matrix.node-version }}
