@@ -21,15 +21,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: dev-drprasad/delete-older-releases@v0.2.0
+      with:
+        repo:
+        keep_latest: 0
+        delete_tag_pattern:
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: Delete last release
-      uses: ame-yu/action-delete-latest-release@v2
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
     - run: npm ci
     - run: npm run build
     - run: npm test
