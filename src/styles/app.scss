@@ -20,14 +20,18 @@ body {
   text-align: center;
   margin-top: 0px;
   padding-bottom: 20rem;
-  background-image: url("@/assets/ui/banner_bg_dark.png?url");
-  background-color: rgb(252, 252, 252);
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.83),
+      rgba(255, 255, 255, 0.83)
+    ),
+    url("@/assets/ui/banner_bg.png");
   width: 100%;
   display: flex;
   justify-content: center;
 
   position: absolute;
-  height: 100%;
+  height: 120%;
 }
 
 #spaceholder {
