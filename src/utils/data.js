@@ -75,7 +75,7 @@ function initialFilterOptions() {
   const _artist = new Set(["--"]);
   for (const _song of window.AudioLists.song_list)
     for (const _a of _song.artist.split(",")) _artist.add(_a.trim());
-  window.FilterOptions.artist.push(..._artist);
+  window.FilterOptions.artist.push(...Array.from(_artist).sort());
   // 月份
   window.FilterOptions.month.push("--");
   window.FilterOptions.month.push(
