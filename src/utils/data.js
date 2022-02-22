@@ -74,7 +74,7 @@ function initialFilterOptions() {
   // 演唱者
   const _artist = new Set(["--"]);
   for (const _song of window.AudioLists.song_list)
-    for (const _a of _song.artist.split(",")) _artist.add(_a);
+    for (const _a of _song.artist.split(",")) _artist.add(_a.trim());
   window.FilterOptions.artist.push(..._artist);
   // 月份
   window.FilterOptions.month.push("--");
