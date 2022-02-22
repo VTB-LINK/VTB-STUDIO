@@ -28,13 +28,6 @@ jobs:
         delete_tag_pattern: Latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - uses: dev-drprasad/delete-tag-and-release@v0.2.0
-      with:
-        delete_release: true # default: false
-        tag_name: Latest # tag name to delete
-        repo:  # target repo (optional). defaults to repo running this action
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
