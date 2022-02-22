@@ -21,13 +21,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    # - uses: dev-drprasad/delete-older-releases@v0.2.0
-    #   with:
-    #     repo:
-    #     keep_latest: 0
-    #     delete_tag_pattern: Latest
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Get Time
+      id: time
+      uses: nanzm/get-time-action@v1.1
+      with:
+         timeZone: 8
+         format: 'YYYY-MM-DD-HH-mm-ss'
+    - name: Usage
+      env:
+        TIME: "${{ steps.time.outputs.time }}"
+      run: |
+        echo $TIME
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -45,9 +49,9 @@ jobs:
       with:
         draft: false
         prerelease: false
-        release_name: build_${{ github.ref }}
-        tag_name: ${{ github.ref }}
-        body: Release build zip for ${{ github.ref }}
+        release_name: build_$TIME
+        tag_name: $TIME
+        body: Release build zip for $TIME
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
