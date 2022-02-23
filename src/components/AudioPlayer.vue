@@ -31,6 +31,7 @@ const playlist = ref(window.AudioLists.playlist);
 const loveList = ref(window.AudioLists.love_list);
 const volumebarref = ref(null);
 const playlistref = ref(null);
+const playlistcontentref = ref(null);
 const playlistbuttonref = ref(null);
 
 // 滑动检测
@@ -134,7 +135,7 @@ const progressBarMouseEvent = (event) => {
 const progressBarTouchEvent = (event) => {
   const _target = document.getElementById("c-progressBarRaw");
   const _percent =
-    (event.targetTouches[0].clientX - target.getBoundingClientRect().left) /
+    (event.targetTouches[0].clientX - _target.getBoundingClientRect().left) /
     _target.clientWidth;
   setPlayProgress(Math.max(Math.min(_percent, 1), 0));
 };
@@ -235,8 +236,10 @@ const playerMouseEvent = (event) => {
 };
 
 const setPlayProgress = (progress) => {
-  audio.currentTime = Math.max(progress * audio.duration - 0.05, 0);
-  playProgress.value = progress;
+  if (audio.duration > 0) {
+    audio.currentTime = Math.max(progress * audio.duration - 0.05, 0);
+    playProgress.value = progress;
+  }
 };
 
 const setVolume = (value) => {
@@ -271,12 +274,16 @@ const toggleLoved = () => {
 };
 
 const playlistClear = () => {
+  audioPause();
   playlist.value.splice(0, playlist.value.length);
   playlist.value.push(Consts.empty_song);
   currentSongIndex.value = 0;
   playStatus.value = false;
   playProgress.value = 0;
+  loadProgress.value = 0;
+  duration.value = 0;
   audioSource.src = "";
+  audio.load();
   // 保存当前歌单
   utils.savePlaylist(currentSongIndex.value, playlist.value);
 };
@@ -391,10 +398,9 @@ const playlistShare = () => {
 
 const playlistScroll = () => {
   // 滚动播放列表到当前歌曲
-  //todo once playlist components finished
-  // this.$refs.playlist.children[currentSongIndex.value].scrollIntoView({
-  //   block: "nearest",
-  // });
+  playlistcontentref.value.children[currentSongIndex.value].scrollIntoView({
+    block: "nearest",
+  });
 };
 
 onMounted(() => {
@@ -698,7 +704,7 @@ defineExpose({
             <span v-on:click="showPlaylist = false">收起</span>
           </div>
         </div>
-        <div class="c-playlist-songList">
+        <div class="c-playlist-songList" ref="playlistcontentref">
           <div
             v-for="(song, index) in playlistWithoutEmpty"
             v-bind:class="[
