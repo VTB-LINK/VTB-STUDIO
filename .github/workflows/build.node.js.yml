@@ -21,9 +21,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: ls -a ./src/styles/
-    - run: mv ./src/styles/SongFilter.scss ./src/styles/songfilter.scss && mv ./src/styles/SongListPagination.scss ./src/styles/songListpagination.scss
-    - run: ls -a ./src/styles/
+#     - run: ls -a ./src/styles/
+#     - run: mv ./src/styles/SongFilter.scss ./src/styles/songfilter.scss && mv ./src/styles/SongListPagination.scss ./src/styles/songListpagination.scss
+#     - run: ls -a ./src/styles/
 
     - run: npm ci
     - run: npm run build
