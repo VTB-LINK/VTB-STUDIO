@@ -1,4 +1,4 @@
-name: [release] Azure Static Web Apps CI/CD
+name: release-Azure Static Web Apps CI/CD
 
 on:
   push:
