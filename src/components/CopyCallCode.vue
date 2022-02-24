@@ -61,5 +61,5 @@ const copy = (idx) => {
 </template>
 
 <style scoped>
-@import "styles/copycallcode.scss";
+@import "@/styles/copycallcode.scss";
 </style>

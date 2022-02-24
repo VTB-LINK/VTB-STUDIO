@@ -100,5 +100,5 @@ const copy = (text, popper) => {
 </template>
 
 <style scoped>
-@import "styles/share.scss";
+@import "@/styles/share.scss";
 </style>

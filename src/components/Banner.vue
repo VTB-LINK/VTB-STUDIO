@@ -59,5 +59,5 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import "styles/banner.scss";
+@import "@/styles/banner.scss";
 </style>

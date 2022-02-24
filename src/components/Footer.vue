@@ -109,5 +109,5 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@import "styles/footer.scss";
+@import "@/styles/footer.scss";
 </style>

@@ -70,5 +70,5 @@ const emit = defineEmits(["closepopup"]);
 </template>
 
 <style scoped>
-@import "styles/details.scss";
+@import "@/styles/details.scss";
 </style>
