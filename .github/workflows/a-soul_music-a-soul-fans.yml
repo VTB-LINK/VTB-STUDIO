@@ -40,5 +40,5 @@ jobs:
         with:
           app-name: 'music-a-soul-fans'
           slot-name: 'Production'
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/dist
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_309C9C4C49A849FEAAAF41B20AD7F534 }}
