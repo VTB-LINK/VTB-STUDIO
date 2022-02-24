@@ -47,5 +47,5 @@ const importCode = () => {
 </template>
 
 <style scoped>
-@import "styles/importsonglist.scss";
+@import "@/styles/importsonglist.scss";
 </style>
