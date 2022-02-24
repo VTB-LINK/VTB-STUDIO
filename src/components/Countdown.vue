@@ -88,5 +88,5 @@ const countdownDisplay = computed(() => {
 </template>
 
 <style scoped>
-@import "styles/countdown.scss";
+@import "@/styles/countdown.scss";
 </style>

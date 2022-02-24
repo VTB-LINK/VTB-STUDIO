@@ -295,5 +295,5 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@import "styles/songfilter.scss";
+@import "@/styles/songfilter.scss";
 </style>

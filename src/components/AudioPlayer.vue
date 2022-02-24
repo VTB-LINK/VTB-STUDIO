@@ -755,5 +755,5 @@ defineExpose({
 </template>
 
 <style scoped>
-@import "styles/audioplayer.scss";
+@import "@/styles/audioplayer.scss";
 </style>

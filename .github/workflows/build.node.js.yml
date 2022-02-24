@@ -1,6 +1,5 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Node.js CI Build
 
 
@@ -22,23 +21,23 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: ls -a ./src/styles/
-    - run: mv ./src/styles/SongFilter.scss ./src/styles/songfilter.scss && mv ./src/styles/SongListPagination.scss ./src/styles/songListpagination.scss
-    - run: ls -a ./src/styles/
+#     - run: ls -a ./src/styles/
+#     - run: mv ./src/styles/SongFilter.scss ./src/styles/songfilter.scss && mv ./src/styles/SongListPagination.scss ./src/styles/songListpagination.scss
+#     - run: ls -a ./src/styles/
 
     - run: npm ci
     - run: npm run build
     - run: npm test
 
-    - name: Install SSH Key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.HK_CMI_SSH_PRIVATE_KEY }}
-        known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-    - name: Adding Known Hosts
-      run: ssh-keyscan -H ${{ secrets.HK_CMI_SSH_HOST_IP }} >> ~/.ssh/known_hosts
-    - name: Deploy with rsync
-      run: rsync -avz ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.HK_CMI_SSH_HOST_IP }}:/www/wwwroot/dev.music.a-soul.fans/dist/
+#     - name: Install SSH Key
+#       uses: shimataro/ssh-key-action@v2
+#       with:
+#         key: ${{ secrets.HK_CMI_SSH_PRIVATE_KEY }}
+#         known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+#     - name: Adding Known Hosts
+#       run: ssh-keyscan -H ${{ secrets.HK_CMI_SSH_HOST_IP }} >> ~/.ssh/known_hosts
+#     - name: Deploy with rsync
+#       run: rsync -avz ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.HK_CMI_SSH_HOST_IP }}:/www/wwwroot/dev.music.a-soul.fans/dist/
 
 
     # - name: Use tar to zip dist files

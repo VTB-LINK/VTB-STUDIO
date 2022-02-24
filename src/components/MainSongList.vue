@@ -320,5 +320,5 @@ const pageChangeEvent = () => {
 </template>
 
 <style scoped>
-@import "styles/mainsonglist.scss";
+@import "@/styles/mainsonglist.scss";
 </style>
