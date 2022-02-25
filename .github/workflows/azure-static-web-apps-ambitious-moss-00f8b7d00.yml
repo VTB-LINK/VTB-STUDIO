@@ -1,4 +1,4 @@
-name: 生产环境 Azure Static Web Apps CI/CD
+name: PROD AZ Static Web Apps CI/CD
 
 on:
   # push:
