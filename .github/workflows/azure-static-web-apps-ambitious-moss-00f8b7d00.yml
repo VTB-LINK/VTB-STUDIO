@@ -1,13 +1,13 @@
 name: a-soul-Azure Static Web Apps CI/CD
 
 on:
-#   push:
-#     branches:
-#       - a-soul
-#   pull_request:
-#     types: [opened, synchronize, reopened, closed]
-#     branches:
-#       - a-soul
+  # push:
+  #   branches:
+  #     - a-soul
+  # pull_request:
+  #   types: [opened, synchronize, reopened, closed]
+  #   branches:
+  #     - a-soul
   workflow_dispatch:
 
 jobs:
