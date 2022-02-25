@@ -1,4 +1,4 @@
-name: a-soul-Azure Static Web Apps CI/CD
+name: 生产环境 Azure Static Web Apps CI/CD
 
 on:
   # push:
