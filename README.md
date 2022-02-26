@@ -51,7 +51,7 @@ See [Configuration Reference](https://cn.vitejs.dev/config/#configuring-vite).
 
 Main: feature development for origin lite web studio. Please use the origin to contribute. No pull request will be accepted for this branch.
 A-soul: A-soul customzied version of lite web studio, any new feature pull request please submit to here.
-Release: branch for auto deplyment to AS 录音棚（https://music.a-soul.fans/）
+Release: branch for auto deplyment to [AS 录音棚 CN](https://studio.asf.ink/) or [AS 录音棚 Global](https://studio.a-soul.fans/)
 
 ### Directory Structure
 
