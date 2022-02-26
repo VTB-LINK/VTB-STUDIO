@@ -1,5 +1,5 @@
 <script>
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed, onBeforeMount, onMounted } from "vue";
 export default defineComponent({
   name: "MainSongList",
 });
@@ -12,6 +12,8 @@ import SongFilter from "components/SongFilter.vue";
 import SongListPagination from "components/SongListPagination.vue";
 
 const loveList = ref(window.AudioLists.love_list);
+const cachedList = ref(await window.AudioLists.cached_list);
+const cachingList = ref([]);
 const expandList = ref([]);
 const page = ref(1);
 const perPage = ref(10);
@@ -29,7 +31,20 @@ const songList = computed(() => {
 
 const inPlaylistList = computed(() => {
   return songList.value.map(
-    (s) => playlist.value.findIndex((song) => song.id === s.id) !== -1
+    (song) => playlist.value.findIndex((s) => song.id === s.id) !== -1
+  );
+});
+
+const isCaching = computed(() => {
+  return songList.value.map(
+    (song) =>
+      cachingList.value.findIndex((caching) => song.id === caching) !== -1
+  );
+});
+
+const isCached = computed(() => {
+  return songList.value.map(
+    (song) => cachedList.value.findIndex((cached) => song.id === cached) !== -1
   );
 });
 
@@ -105,6 +120,18 @@ const pageChangeEvent = () => {
   if (header.value.getBoundingClientRect().bottom < 0)
     header.value.scrollIntoView();
 };
+
+const cacheAudioLocally = async (id, url) => {
+  cachingList.value.push(id);
+  await utils.saveAudioInDB(id, url.split("/").pop());
+  cachedList.value = await utils.readCachedList();
+  cachingList.value.pop();
+};
+
+const decacheAudioLocally = async (id) => {
+  await utils.deleteAudioInDB(id);
+  cachedList.value = await utils.readCachedList();
+};
 </script>
 
 <template>
@@ -178,10 +205,24 @@ const pageChangeEvent = () => {
           <div class="item-column-op all-column all-column-op">
             <div
               class="item-op-download item-op-all"
-              title="下载歌曲"
-              v-show="song.has_audio"
+              title="缓存歌曲"
+              v-show="song.has_audio && !isCached[idx]"
+              v-on:click.stop="cacheAudioLocally(song.id, song.src)"
             >
-              <a v-bind:href="song.src" download><div></div></a>
+              <div
+                v-bind:class="[
+                  { 'item-op-download-ready': !isCaching[idx] },
+                  { 'item-op-download-doing': isCaching[idx] },
+                ]"
+              ></div>
+            </div>
+            <div
+              class="item-op-downloaded item-op-all"
+              title="移除歌曲"
+              v-show="song.has_audio && isCached[idx]"
+              v-on:click.stop="decacheAudioLocally(song.id)"
+            >
+              <div></div>
             </div>
             <div
               class="item-op-add item-op-all"

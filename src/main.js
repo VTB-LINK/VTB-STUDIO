@@ -8,9 +8,15 @@ import Consts from "globals/consts.js";
 import utils from "utils/utils.js";
 import eventBus from "vue3-eventbus";
 import "floating-vue/dist/style.css";
+import { initStoragePersistence } from "utils/persistence.js";
+import { util } from "prettier";
+
+initStoragePersistence();
 
 // 从localStorage读取喜爱列表
 AudioLists.love_list = utils.readLoveList();
+AudioLists.cached_list = utils.readCachedList();
+
 //初始化一些基础项目
 AudioLists.playlist.push(Consts.empty_song);
 AudioLists.cutter_list = Consts.cutter_list;

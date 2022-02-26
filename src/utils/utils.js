@@ -1,5 +1,7 @@
 import Consts from "globals/consts.js";
 import dayjs from "dayjs";
+import { getAudio } from "apis/audioloader.js";
+import cacheDB from "apis/db.js";
 
 function saveLoveList(l) {
   localStorage.setItem("love_list", JSON.stringify(l));
@@ -151,6 +153,21 @@ function debug(text) {
   window.Variables.debug_list.push(text);
 }
 
+async function saveAudioInDB(aid, sorucename, isOrign = true) {
+  const _blob = await getAudio(
+    `${isOrign ? "/remoteorign/" : "/remotetuned/"}${sorucename}`
+  );
+  return await cacheDB.addAudioBlob(aid, _blob);
+}
+
+async function deleteAudioInDB(aid) {
+  return await cacheDB.deleteAudioBlobByID(aid);
+}
+
+function readCachedList() {
+  return cacheDB.getAudioCachedList();
+}
+
 export default {
   saveLoveList,
   readLoveList,
@@ -162,5 +179,8 @@ export default {
   decodeShare,
   checkFirstBrowse,
   strToCode,
+  saveAudioInDB,
+  deleteAudioInDB,
+  readCachedList,
   debug,
 };
