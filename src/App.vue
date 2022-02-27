@@ -87,9 +87,7 @@ onMounted(() => {
       <div v-show="ifDebug">
         <div v-for="(d, idx) in debugList" v-bind:key="d + idx">{{ d }}</div>
       </div>
-      <Suspense>
-        <MainSongList ref="mainsonglist" />
-      </Suspense>
+      <MainSongList ref="mainsonglist" />
       <AudioPlayer ref="player" />
       <Countdown />
       <ImportSongList />

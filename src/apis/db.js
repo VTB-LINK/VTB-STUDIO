@@ -46,9 +46,6 @@ async function deleteAudioBlobByLRU() {
 
 async function getAudioBlobByID(aid) {
   try {
-    // 删除两周以上没听的歌曲（默认空间不足时调用，不会自动执行）
-    const _twoWeekAgo = new Date(Date.now() - 60 * 60 * 1000 * 24 * 7);
-
     return await db.audioblobs.get(aid);
   } catch (error) {
     console.log(error);
