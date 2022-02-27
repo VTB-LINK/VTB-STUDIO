@@ -9,7 +9,6 @@ import utils from "utils/utils.js";
 import eventBus from "vue3-eventbus";
 import "floating-vue/dist/style.css";
 import { initStoragePersistence } from "utils/persistence.js";
-import { util } from "prettier";
 
 initStoragePersistence();
 

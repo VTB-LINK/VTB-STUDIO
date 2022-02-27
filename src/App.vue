@@ -16,7 +16,6 @@ import Footer from "components/Footer.vue";
 import Countdown from "./components/Countdown.vue";
 import ImportSongList from "components/ImportSongList.vue";
 import InfoPopUp from "popup/Info.vue";
-import { P } from "../dist/assets/vendor.9441666a";
 
 //debug用变量，由于没响应式需求所以不用ref创建
 const develop = false;
