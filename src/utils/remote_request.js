@@ -8,6 +8,7 @@ const RemoteService = axios.create({
   baseURL: "",
   // 请求超时时间
   timeout: 1800000,
+  responseType: "arraybuffer",
 });
 
 // 请求拦截

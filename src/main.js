@@ -14,7 +14,6 @@ initStoragePersistence();
 
 // 从localStorage读取喜爱列表
 AudioLists.love_list = utils.readLoveList();
-AudioLists.cached_list = utils.readCachedList();
 
 //初始化一些基础项目
 AudioLists.playlist.push(Consts.empty_song);

@@ -157,11 +157,15 @@ async function saveAudioInDB(aid, sorucename, isOrign = true) {
   const _blob = await getAudio(
     `${isOrign ? "/remoteorign/" : "/remotetuned/"}${sorucename}`
   );
-  return await cacheDB.addAudioBlob(aid, _blob);
+  await cacheDB.addAudioBlob(aid, _blob);
 }
 
-async function deleteAudioInDB(aid) {
-  return await cacheDB.deleteAudioBlobByID(aid);
+function deleteAudioInDB(aid) {
+  cacheDB.deleteAudioBlobByID(aid);
+}
+
+function getAudioInDB(aid) {
+  return cacheDB.getAudioBlobByID(aid);
 }
 
 function readCachedList() {
@@ -181,6 +185,7 @@ export default {
   strToCode,
   saveAudioInDB,
   deleteAudioInDB,
+  getAudioInDB,
   readCachedList,
   debug,
 };

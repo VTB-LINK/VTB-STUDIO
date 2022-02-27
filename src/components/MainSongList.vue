@@ -12,7 +12,7 @@ import SongFilter from "components/SongFilter.vue";
 import SongListPagination from "components/SongListPagination.vue";
 
 const loveList = ref(window.AudioLists.love_list);
-const cachedList = ref(await window.AudioLists.cached_list);
+const cachedList = ref(window.AudioLists.cached_list);
 const cachingList = ref([]);
 const expandList = ref([]);
 const page = ref(1);
@@ -124,13 +124,15 @@ const pageChangeEvent = () => {
 const cacheAudioLocally = async (id, url) => {
   cachingList.value.push(id);
   await utils.saveAudioInDB(id, url.split("/").pop());
-  cachedList.value = await utils.readCachedList();
+  window.AudioLists.cached_list = cachedList.value =
+    await utils.readCachedList();
   cachingList.value.pop();
 };
 
 const decacheAudioLocally = async (id) => {
   await utils.deleteAudioInDB(id);
-  cachedList.value = await utils.readCachedList();
+  window.AudioLists.cached_list = cachedList.value =
+    await utils.readCachedList();
 };
 </script>
 
