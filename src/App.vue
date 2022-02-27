@@ -16,6 +16,7 @@ import Footer from "components/Footer.vue";
 import Countdown from "./components/Countdown.vue";
 import ImportSongList from "components/ImportSongList.vue";
 import InfoPopUp from "popup/Info.vue";
+import { P } from "../dist/assets/vendor.9441666a";
 
 //debug用变量，由于没响应式需求所以不用ref创建
 const develop = false;
@@ -30,6 +31,7 @@ const init = () => {
   const parsedUrl = new URL(window.location.href);
   let backdoor_query = parsedUrl.searchParams.get("backdoor");
   if (backdoor_query === BACKDOOR_WORDS) window.Variables.backdoor = true;
+
   // 获取歌曲
   song_data
     .getSongData()
@@ -86,7 +88,9 @@ onMounted(() => {
       <div v-show="ifDebug">
         <div v-for="(d, idx) in debugList" v-bind:key="d + idx">{{ d }}</div>
       </div>
-      <MainSongList ref="mainsonglist" />
+      <Suspense>
+        <MainSongList ref="mainsonglist" />
+      </Suspense>
       <AudioPlayer ref="player" />
       <Countdown />
       <ImportSongList />
