@@ -26,7 +26,7 @@ onMounted(() => {
         target="_blank"
         rel="noreferrer noopener"
         >A-SOUL</a
-      >？ 搞快去看看她们的直播间：
+      >？ 赶快去看看她们的直播间：
       <a
         href="https://live.bilibili.com/22625025"
         target="_blank"
@@ -103,6 +103,15 @@ onMounted(() => {
       <a href="https://asoulfan.com/" target="_blank" rel="noreferrer noopener"
         >Project ASF</a
       >
+      <!-- <a href="https://bbs.a-soul.fans" target="_blank" rel="noreferrer noopener"
+        >AS BBS</a
+      >
+      <a href="https://pt.a-soul.fans" target="_blank" rel="noreferrer noopener"
+        >ASPT</a
+      >
+      <a href="https://asoulworld.com/" target="_blank" rel="noreferrer noopener"
+        >A-SOUL WORLD导航站</a
+      > -->
       <a href="https://bbs.a-soul.fans" target="_blank" rel="noreferrer noopener"
         >AS BBS</a
       >
@@ -112,7 +121,6 @@ onMounted(() => {
       <a href="https://asoulworld.com/" target="_blank" rel="noreferrer noopener"
         >A-SOUL WORLD导航站</a
       >
-    </p>
     </p>
     <CreditPopUp v-if="showCredit" v-on:closepopup="showCredit = false" />
   </div>
