@@ -30,6 +30,7 @@ const init = () => {
   const parsedUrl = new URL(window.location.href);
   let backdoor_query = parsedUrl.searchParams.get("backdoor");
   if (backdoor_query === BACKDOOR_WORDS) window.Variables.backdoor = true;
+
   // 获取歌曲
   song_data
     .getSongData()

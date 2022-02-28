@@ -89,6 +89,10 @@ const isLoved = computed(() => {
   return false;
 });
 
+const currentSongObject = computed(() => {
+  return playlist.value[currentSongIndex.value];
+});
+
 const secondToText = (second) => {
   second = Math.floor(second);
   let _minute = String(Math.floor(second / 60));
@@ -155,29 +159,45 @@ const toggleDetails = () => {
     showDetails.value = !showDetails.value;
 };
 
-const applySong = () => {
+const applySong = async () => {
   audioLoading.value = false;
-  if (playlist.value[currentSongIndex.value].id === "empty_song") return false;
-  // 加载当前歌曲 如果是精选状态且有精选版本就跳精选
-  let _src = playlist.value[currentSongIndex.value].src;
-  if (window.Variables.use_treated.value) {
-    const _secondSrc = playlist.value[currentSongIndex.value].secondSrc;
-    if (_secondSrc !== "") _src = _secondSrc;
+  if (currentSongObject.value.id === "empty_song") return false;
+  let _src = null;
+  //加载歌曲，先查看是否有缓存过，有的话从换从加载
+  if (window.AudioLists.cached_list.includes(currentSongObject.value.id)) {
+    const _songFile = await utils.getAudioInDB(currentSongObject.value.id);
+    const _URL = window.URL || window.webkitURL;
+    const _mediaSource = new MediaSource();
+
+    _mediaSource.addEventListener("sourceopen", function () {
+      const _sourceBuffer = _mediaSource.addSourceBuffer("audio/mpeg");
+      _sourceBuffer.appendBuffer(_songFile?.blobcached);
+      _src = _URL.createObjectURL(_mediaSource);
+      audioSource.src = _src;
+    });
+  } else {
+    // 加载当前歌曲 如果是精选状态且有精选版本就跳精选
+    _src = currentSongObject.value.src;
+    if (window.Variables.use_treated.value) {
+      const _secondSrc = currentSongObject.value.secondSrc;
+      if (_secondSrc !== "") _src = _secondSrc;
+    }
+    audioSource.src = _src;
   }
-  audioSource.src = _src;
+
   audio.load();
   // 播放列表跳转
   if (showPlaylist.value) playlistScroll();
   // 更改media session信息
   if ("mediaSession" in navigator) {
     navigator.mediaSession.metadata = new window.MediaMetadata({
-      title: playlist.value[currentSongIndex.value].name,
-      artist: playlist.value[currentSongIndex.value].artist,
+      title: currentSongObject.value.name,
+      artist: currentSongObject.value.artist,
       album: "",
       artwork: [{ src: "../assets/logo.png" }],
     });
   }
-  audio.title = playlist.value[currentSongIndex.value].name;
+  audio.title = currentSongObject.value.name;
   // 保存当前歌单
   utils.savePlaylist(currentSongIndex.value, playlist.value);
 };

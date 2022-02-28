@@ -1,10 +1,31 @@
 import { defineConfig } from "vite";
+import { visualizer } from "rollup-plugin-visualizer";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), visualizer()],
+  server: {
+    host: "0.0.0.0",
+    port: 3000,
+    proxy: {
+      "/remoteorign": {
+        target:
+          "https://asoul1.asoul-rec.com/%E6%AD%8C%E8%88%9E%E5%88%87%E7%89%87/MP3%E7%9B%B4%E6%92%AD%E6%AD%8C%E6%9B%B2%E5%88%87%E7%89%87",
+        changeOrigin: true,
+        secure: true,
+        rewrite: (p) => p.replace(/^\/remoteorign/, ""),
+      },
+      "/remotetuned": {
+        target:
+          "https://asoul1.asoul-rec.com/%E6%AD%8C%E8%88%9E%E5%88%87%E7%89%87/MP3%E7%9B%B4%E6%92%AD%E6%AD%8C%E6%9B%B2%E5%88%87%E7%89%87/%E4%BF%AE%E5%A4%8D%E6%96%87%E7%89%A9",
+        changeOrigin: true,
+        secure: true,
+        rewrite: (p) => p.replace(/^\/remotetuned/, ""),
+      },
+    },
+  },
   resolve: {
     alias: [
       { find: "@", replacement: path.resolve(__dirname, "./src") },
@@ -26,18 +47,6 @@ export default defineConfig({
       { find: "styles", replacement: path.resolve(__dirname, "./src/styles") },
       { find: "utils", replacement: path.resolve(__dirname, "./src/utils") },
     ],
-
-    //  {
-    //   "@": "./src",
-    //   api: path.resolve(__dirname, "src/apis"),
-    //   assets: path.resolve(__dirname, "src/assets"),
-    //   ui: path.resolve(__dirname, "src/assets/ui"),
-    //   components: path.resolve(__dirname, "src/components"),
-    //   popup: path.resolve(__dirname, "src/components/popup"),
-    //   globals: path.resolve(__dirname, "src/globals"),
-    //   styles: path.resolve(__dirname, "src/styles"),
-    //   utils: path.resolve(__dirname, "src/utils"),
-    // },
   },
   define: {
     BACKDOOR_WORDS: JSON.stringify("ASOULMEMORY"),
