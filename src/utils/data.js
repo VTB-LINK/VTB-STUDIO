@@ -21,11 +21,16 @@ async function getSongData() {
   // 获取数据 包括歌曲数据库、歌单数据库
   const sheetList = ["song_database.csv", "playlist_database.csv"];
   const fetchedList = sheetList.map((l) => getDataSheets(l));
+  fetchedList.push(utils.readCachedList());
   return Promise.all(fetchedList).then((results) => {
     parseSongCsv(results[0]);
     parsePlaylistCsv(results[1]);
     initialFilterOptions();
     song_list.getAll();
+    window.AudioLists.cached_list.push.apply(
+      window.AudioLists.cached_list,
+      results[2]
+    );
   });
 }
 
