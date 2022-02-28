@@ -154,9 +154,15 @@ function debug(text) {
 }
 
 async function saveAudioInDB(aid, sorucename, isOrign = true) {
-  const _blob = await getAudio(
-    `${isOrign ? "/remoteorign/" : "/remotetuned/"}${sorucename}`
-  );
+  let _para = null;
+  if (DL_CDN_ON) {
+    _para = isOrign
+      ? `${PREFIX_ORIGN_DL_CDN}${sorucename}${SUFFIX_ORIGN_DL_CDN}`
+      : `${PREFIX_TUNED_DL_CDN}${sorucename}${SUFFIX_TUNED_DL_CDN}`;
+  } else {
+    _para = `${isOrign ? "/remoteorign/" : "/remotetuned/"}${sorucename}`;
+  }
+  const _blob = await getAudio(_para, DL_CDN_ON);
   await cacheDB.addAudioBlob(aid, _blob);
 }
 
