@@ -13,7 +13,7 @@ export default defineComponent({
       </video>
     </div>
     <div class="banner-logo">
-      <img src="@/assets/official-white.png?url" alt="logo" />
+      <img src="@/assets/official-white.webp?url" alt="logo" />
     </div>
     <div class="title-info">
       <h1>录音棚</h1>
