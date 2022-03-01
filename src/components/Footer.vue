@@ -104,7 +104,7 @@ onMounted(() => {
         >Project ASF</a
       >
     </p>
-    <p>
+    <p class="links">
       <a
         href="https://bbs.a-soul.fans"
         target="_blank"
