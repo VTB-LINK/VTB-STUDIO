@@ -121,9 +121,9 @@ const pageChangeEvent = () => {
     header.value.scrollIntoView();
 };
 
-const cacheAudioLocally = async (id, url) => {
-  cachingList.value.push(id);
-  await utils.saveAudioInDB(id, url.split("/").pop());
+const cacheAudioLocally = async (song) => {
+  cachingList.value.push(song.id);
+  await utils.saveAudioInDB(song.id, song.date + " " + song.name);
   window.AudioLists.cached_list = cachedList.value =
     await utils.readCachedList();
   cachingList.value.pop();
@@ -209,7 +209,7 @@ const decacheAudioLocally = async (id) => {
               class="item-op-download item-op-all"
               title="缓存歌曲"
               v-show="song.has_audio && !isCached[idx]"
-              v-on:click.stop="cacheAudioLocally(song.id, song.src)"
+              v-on:click.stop="cacheAudioLocally(song)"
             >
               <div
                 v-bind:class="[
