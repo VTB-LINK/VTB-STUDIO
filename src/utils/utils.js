@@ -55,9 +55,10 @@ function readPlaylist() {
   };
 }
 
-let defaultSettings = {
+const defaultSettings = {
   use_treated: false,
   play_mode: "loop",
+  play_volume: 0.9,
 };
 function saveSettings(newSet) {
   localStorage.setItem(
@@ -154,15 +155,14 @@ function debug(text) {
 }
 
 async function saveAudioInDB(aid, sorucename, isOrign = true) {
-  let _para = null;
-  if (DL_CDN_ON) {
-    _para = isOrign
-      ? `${PREFIX_ORIGN_DL_CDN}${sorucename}${SUFFIX_ORIGN_DL_CDN}`
-      : `${PREFIX_TUNED_DL_CDN}${sorucename}${SUFFIX_TUNED_DL_CDN}`;
-  } else {
-    _para = `${isOrign ? "/remoteorign/" : "/remotetuned/"}${sorucename}`;
-  }
-  const _blob = await getAudio(_para, DL_CDN_ON);
+  const _para = isOrign
+    ? `${import.meta.env.VITE_PREFIX_ORIGN_DL_CDN}${sorucename}${
+        import.meta.env.VITE_SUFFIX_ORIGN_DL_CDN
+      }`
+    : `${import.meta.env.VITE_PREFIX_TUNED_DL_CDN}${sorucename}${
+        import.meta.env.VITE_SUFFIX_TUNED_DL_CDN
+      }`;
+  const _blob = await getAudio(_para);
   await cacheDB.addAudioBlob(aid, _blob);
 }
 
