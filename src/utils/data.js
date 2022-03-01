@@ -103,7 +103,7 @@ function convertSong(row) {
     timecode: msToTimecode(_recordStartMs),
   };
   // 如果有中文歌名就加上
-  //todo 中文名追加在页面显示处实现，原始数据不进行更改
+  //todo 中文页面备注显示添加完毕，检索时后的对应还没检查
   //if (_songNameChs !== "") _songName = `${_songName}（${_songNameChs}）`;
   // 有没有音频
   let _hasAudio = false;
@@ -142,9 +142,11 @@ function convertSong(row) {
     ref_cut: parseRef(row["切片源"]),
     duration: _duration,
     id: _songId,
-    src: `${PREFIX_ORIGN}${SONG_NAME_SOURCE_MODE ? _date + " " : ""}${
-      SONG_NAME_SOURCE_MODE ? _songName : _songId
-    }${SUFFIX_ORIGN}`,
+    src: `${import.meta.env.VITE_PREFIX_ORIGN}${
+      SONG_NAME_SOURCE_MODE ? _date + " " : ""
+    }${SONG_NAME_SOURCE_MODE ? _songName : _songId}${
+      import.meta.env.VITE_SUFFIX_ORIGN
+    }`,
     second_src: _secondSrc,
     has_audio: _hasAudio,
     days_before_available: _daysBeforeAvailable,

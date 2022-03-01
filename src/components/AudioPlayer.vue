@@ -1,5 +1,12 @@
 <script>
-import { defineComponent, ref, reactive, computed, onMounted } from "vue";
+import {
+  defineComponent,
+  ref,
+  reactive,
+  computed,
+  watch,
+  onMounted,
+} from "vue";
 export default defineComponent({
   name: "AudioPlayer",
 });
@@ -93,6 +100,12 @@ const currentSongObject = computed(() => {
   return playlist.value[currentSongIndex.value];
 });
 
+watch(volume, (newV) => {
+  if (newV) {
+    audio.volume = newV;
+  }
+});
+
 const secondToText = (second) => {
   second = Math.floor(second);
   let _minute = String(Math.floor(second / 60));
@@ -167,14 +180,7 @@ const applySong = async () => {
   if (window.AudioLists.cached_list.includes(currentSongObject.value.id)) {
     const _songFile = await utils.getAudioInDB(currentSongObject.value.id);
     const _URL = window.URL || window.webkitURL;
-    const _mediaSource = new MediaSource();
-
-    _mediaSource.addEventListener("sourceopen", function () {
-      const _sourceBuffer = _mediaSource.addSourceBuffer("audio/mpeg");
-      _sourceBuffer.appendBuffer(_songFile?.blobcached);
-      _src = _URL.createObjectURL(_mediaSource);
-      audioSource.src = _src;
-    });
+    _src = _URL.createObjectURL(_songFile?.blobcached);
   } else {
     // 加载当前歌曲 如果是精选状态且有精选版本就跳精选
     _src = currentSongObject.value.src;
@@ -182,9 +188,8 @@ const applySong = async () => {
       const _secondSrc = currentSongObject.value.secondSrc;
       if (_secondSrc !== "") _src = _secondSrc;
     }
-    audioSource.src = _src;
   }
-
+  audioSource.src = _src;
   audio.load();
   // 播放列表跳转
   if (showPlaylist.value) playlistScroll();
@@ -264,8 +269,8 @@ const setPlayProgress = (progress) => {
 
 const setVolume = (value) => {
   value = Math.min(1, Math.max(0, value));
-  audio.volume = value;
   volume.value = value;
+  utils.saveSettings({ play_volume: value });
 };
 
 const randomSong = () => {
@@ -541,6 +546,7 @@ onMounted(() => {
 //公开属性给到父组件
 defineExpose({
   playMode,
+  volume,
   playlistReplace,
   playlistAddSong,
   playlistAddMany,
@@ -554,7 +560,12 @@ defineExpose({
         <div class="c-songInfo">
           <div class="c-songName">
             <div class="songName" v-if="playlist[currentSongIndex]">
-              {{ playlist[currentSongIndex].name }}
+              {{ playlist[currentSongIndex].name
+              }}{{
+                playlist[currentSongIndex].name_chs
+                  ? `(${playlist[currentSongIndex].name_chs})`
+                  : ""
+              }}
             </div>
             <div class="singer">
               {{ playlist[currentSongIndex]?.artist }}

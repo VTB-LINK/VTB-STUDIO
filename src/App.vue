@@ -42,6 +42,7 @@ const init = () => {
         _local_playlist.current_song
       );
       player.value.playMode = utils.readSettings().play_mode;
+      player.value.volume = utils.readSettings().play_volume;
       // 如果有查询参数就把这首歌加入播放列表
       const parsedUrl = new URL(window.location.href);
       let query = parsedUrl.searchParams.get("s");
