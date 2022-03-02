@@ -437,7 +437,9 @@ const playlistShare = () => {
 
 const playlistScroll = () => {
   // 滚动播放列表到当前歌曲
-  playlistcontentref.value.children[currentSongIndex.value].scrollIntoView({
+  playlistcontentref.value.children[0].children[
+    currentSongIndex.value
+  ].scrollIntoView({
     block: "nearest",
   });
 };
