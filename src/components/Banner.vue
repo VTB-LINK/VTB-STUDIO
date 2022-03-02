@@ -14,6 +14,7 @@ export default defineComponent({
     </div>
     <div class="banner-logo">
       <img src="@/assets/official-white.webp?url" alt="logo" />
+      <!-- <img src="/favicon.svg" alt="logo" /> -->
     </div>
     <div class="title-info">
       <h1>录音棚</h1>
