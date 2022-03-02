@@ -14,7 +14,7 @@ function readLoveList() {
     localStorage.setItem("love_list", "[]");
   else {
     loveList = JSON.parse(localStorage.getItem("love_list"));
-    if (loveList.length > 0 && loveList[0].substring(0, 1) !== "U") {
+    if (loveList.length > 0 && loveList[0].substring(0, 1) !== "A") {
       loveList = [];
       localStorage.setItem("love_list", "[]");
     }
@@ -27,7 +27,7 @@ function savePlaylist(currentSongIndex, songList) {
   localStorage.setItem(
     "current_playlist",
     JSON.stringify({
-      currentSongIndex,
+      current_song: currentSongIndex,
       song_id_list: songList.map((s) => s.id).filter((i) => i !== "empty_song"),
     })
   );

@@ -392,6 +392,20 @@
   height: 1.5rem;
   text-align: center;
 }
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+
+.no-move {
+  transition: transform 0s;
+}
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+
 @media (any-hover: hover) {
   .playlist-clear:hover {
     background-color: rgba(0, 0, 0, 0.1);

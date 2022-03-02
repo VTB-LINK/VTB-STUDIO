@@ -16,7 +16,8 @@
         "dexie": "^3.2.1",
         "floating-vue": "^2.0.0-beta.6",
         "lodash": "^4.17.21",
-        "vue": "^3.2.31"
+        "vue": "^3.2.31",
+        "vuedraggable": "^4.1.0"
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^2.2.2",
