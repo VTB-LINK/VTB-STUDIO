@@ -328,7 +328,10 @@ const decacheAudioLocally = async (id) => {
               target="_blank"
               rel="noreferrer noopener"
             >
-              {{ song.date }} p{{ song.record.p }} {{ song.record.timecode }}
+              {{ song.date }}
+              {{
+                song.record.p ? "p" + song.record.p + song.record.timecode : ""
+              }}
             </a>
           </div>
           <div class="song-full-details-note" v-show="song.note !== ''">
