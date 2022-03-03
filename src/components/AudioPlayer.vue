@@ -759,6 +759,7 @@ defineExpose({
             v-model="playlist"
             item-key="id"
             tag="transition-group"
+            handle=".handle"
             :component-data="{
               tag: 'div',
               name: 'flip-list',
@@ -777,7 +778,7 @@ defineExpose({
                 v-show="playlist[0]?.id !== 'empty_song'"
                 v-on:click="changeSong(index)"
               >
-                <div class="playlist-name">
+                <div class="playlist-name handle">
                   <span class="playlist-index">{{ index + 1 }}. </span
                   >{{ element.name }}
                 </div>
