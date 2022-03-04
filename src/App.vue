@@ -16,6 +16,7 @@ import Footer from "components/Footer.vue";
 import Countdown from "./components/Countdown.vue";
 import ImportSongList from "components/ImportSongList.vue";
 import InfoPopUp from "popup/Info.vue";
+import interpolator from "vue-apply-darkmode";
 
 //debug用变量，由于没响应式需求所以不用ref创建
 const develop = false;
@@ -83,18 +84,20 @@ onMounted(() => {
 <template>
   <div id="app">
     <div class="c-outer">
-      <Banner />
-      <input v-show="develop" type="checkbox" v-model="ifDebug" />
-      <div v-show="ifDebug">
-        <div v-for="(d, idx) in debugList" v-bind:key="d + idx">{{ d }}</div>
-      </div>
-      <MainSongList ref="mainsonglist" />
-      <AudioPlayer ref="player" />
-      <Countdown />
-      <ImportSongList />
-      <Footer />
-      <InfoPopUp v-if="showInfo" v-on:closepopup="showInfo = false" />
-      <div id="spaceholder" />
+      <interpolator :dark="false" :watch-system="false">
+        <Banner />
+        <input v-show="develop" type="checkbox" v-model="ifDebug" />
+        <div v-show="ifDebug">
+          <div v-for="(d, idx) in debugList" v-bind:key="d + idx">{{ d }}</div>
+        </div>
+        <MainSongList ref="mainsonglist" />
+        <AudioPlayer ref="player" />
+        <Countdown />
+        <ImportSongList />
+        <Footer />
+        <InfoPopUp v-if="showInfo" v-on:closepopup="showInfo = false" />
+        <div id="spaceholder" />
+      </interpolator>
     </div>
   </div>
 </template>
