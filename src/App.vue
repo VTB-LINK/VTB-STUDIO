@@ -16,7 +16,7 @@ import Footer from "components/Footer.vue";
 import FunctionBar from "./components/FunctionBar.vue";
 import ImportSongList from "components/ImportSongList.vue";
 import InfoPopUp from "popup/Info.vue";
-import interpolator from "vue-apply-darkmode";
+import Interpolator from "utils/vue-apply-darkmode.esm.js";
 
 //debug用变量，由于没响应式需求所以不用ref创建
 const develop = false;
@@ -106,7 +106,7 @@ onMounted(() => {
 <template>
   <div id="app">
     <div class="c-outer">
-      <interpolator ref="nightmodecomp">
+      <Interpolator ref="nightmodecomp">
         <Banner />
         <input v-show="develop" type="checkbox" v-model="ifDebug" />
         <div v-show="ifDebug">
@@ -119,7 +119,7 @@ onMounted(() => {
         <Footer />
         <InfoPopUp v-if="showInfo" v-on:closepopup="showInfo = false" />
         <div id="spaceholder" />
-      </interpolator>
+      </Interpolator>
     </div>
   </div>
 </template>
