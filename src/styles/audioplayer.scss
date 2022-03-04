@@ -179,10 +179,59 @@
 .playlistButton {
   position: relative;
 }
+
+.toggleShareIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/share.svg");
+  background-size: contain;
+}
+.toggleDetailsIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/three-dots.svg");
+  background-size: contain;
+}
+.loopIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/arrow-repeat.svg");
+  background-size: contain;
+}
+.loopOnceIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("@/assets/ui/arrow-repeat-once.svg");
+  background-size: contain;
+}
+.shuffleIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/shuffle.svg");
+  background-size: contain;
+}
+.volumeIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/volume-up.svg");
+  background-size: contain;
+}
+.isLovedOn {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/star-fill.svg");
+  background-size: contain;
+}
+.isLovedOff {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/star.svg");
+  background-size: contain;
+}
 .playlistButton-img {
   width: 1.3em;
   height: 1.3em;
-  background-image: url("/node_modules/bootstrap-icons/icons/music-note-list.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/music-note-list.svg");
   background-size: contain;
 }
 .playlistButton-corner {

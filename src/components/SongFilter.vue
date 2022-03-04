@@ -209,15 +209,15 @@ onMounted(() => {
         v-bind:key="collection.name"
         v-on:click="replaceCollection(collection.list)"
       >
-        <img src="/node_modules/bootstrap-icons/icons/tag.svg?url" />
+        <div class="collection-icon" />
         <div>{{ collection.name }}</div>
       </div>
       <div class="collection-item" v-on:click="replaceCollection(cachedList)">
-        <img src="/node_modules/bootstrap-icons/icons/tag.svg?url" />
+        <div class="collection-icon" />
         <div>本地缓存</div>
       </div>
       <div class="collection-item" v-on:click="replaceCollection(loveList)">
-        <img src="/node_modules/bootstrap-icons/icons/tag.svg?url" />
+        <div class="collection-icon" />
         <div>已收藏</div>
       </div>
     </div>
