@@ -13,7 +13,7 @@ import MainSongList from "components/MainSongList.vue";
 import AudioPlayer from "components/AudioPlayer.vue";
 import Banner from "components/Banner.vue";
 import Footer from "components/Footer.vue";
-import Countdown from "./components/Countdown.vue";
+import FunctionBar from "./components/FunctionBar.vue";
 import ImportSongList from "components/ImportSongList.vue";
 import InfoPopUp from "popup/Info.vue";
 import interpolator from "vue-apply-darkmode";
@@ -25,6 +25,9 @@ const showInfo = ref(false);
 const debugList = window.Variables.debug_list;
 const player = ref(null);
 const mainsonglist = ref(null);
+const nightmodecomp = ref(null);
+const isDarkMode = ref(false);
+const isAutoMode = ref(false);
 
 const init = () => {
   // 看看是不是开了后门
@@ -76,15 +79,34 @@ const init = () => {
     .catch((e) => console.log(e));
 };
 
+const changeNightMode = (mode) => {
+  switch (mode) {
+    case "dark":
+      nightmodecomp.value.activeDark = true;
+      nightmodecomp.value.systemDark = false;
+      break;
+    case "system":
+      nightmodecomp.value.activeDark = false;
+      nightmodecomp.value.systemDark = true;
+      break;
+    default:
+      nightmodecomp.value.activeDark = false;
+      nightmodecomp.value.systemDark = false;
+  }
+};
+
 onMounted(() => {
   init();
+  bus.on("night-mode-change", (para) => {
+    changeNightMode(para);
+  });
 });
 </script>
 
 <template>
   <div id="app">
     <div class="c-outer">
-      <interpolator :dark="false" :watch-system="false">
+      <interpolator ref="nightmodecomp">
         <Banner />
         <input v-show="develop" type="checkbox" v-model="ifDebug" />
         <div v-show="ifDebug">
@@ -92,7 +114,7 @@ onMounted(() => {
         </div>
         <MainSongList ref="mainsonglist" />
         <AudioPlayer ref="player" />
-        <Countdown />
+        <FunctionBar />
         <ImportSongList />
         <Footer />
         <InfoPopUp v-if="showInfo" v-on:closepopup="showInfo = false" />
