@@ -13,7 +13,6 @@ export default defineComponent({
       </video>
     </div>
     <div class="banner-logo">
-      <img src="@/assets/banner-logo.svg" alt="logo" />
       <!-- <img src="/favicon.svg" alt="logo" /> -->
     </div>
     <div class="title-info">
