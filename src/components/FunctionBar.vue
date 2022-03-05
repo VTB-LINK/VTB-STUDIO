@@ -1,5 +1,5 @@
 <script>
-import { computed, defineComponent, reactive, ref } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 export default defineComponent({
   name: "FunctionBar",
 });
@@ -66,6 +66,10 @@ const switchNightMode = () => {
   utils.saveSettings({ night_mode: nightMode.value });
   bus.emit("night-mode-change", nightMode.value);
 };
+
+onMounted(() => {
+  nightMode.value = utils.readSettings().night_mode;
+});
 </script>
 
 <template>

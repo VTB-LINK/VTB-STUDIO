@@ -59,6 +59,7 @@ const defaultSettings = {
   use_treated: false,
   play_mode: "loop",
   play_volume: 0.9,
+  night_mode: false,
 };
 function saveSettings(newSet) {
   localStorage.setItem(

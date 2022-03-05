@@ -1,75 +1,93 @@
+<script>
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  watch,
+  ref,
+  onBeforeUnmount,
+} from "vue";
+export default defineComponent({
+  name: "DarkMode",
+});
+</script>
+
+<script setup>
+import {
+  enable as enableDarkMode,
+  disable as disableDarkMode,
+} from "darkreader";
+
+const props = defineProps({
+  dark: { type: Boolean, default: false },
+  watchSystem: { type: Boolean, default: false },
+  brightness: { type: Number, default: 100 },
+  contrast: { type: Number, default: 90 },
+  sepia: { type: Number, default: 10 },
+});
+
+const systemDark = ref(false);
+const mq = ref(null);
+
+const appearanceSettings = computed(() => {
+  return (
+    String(props.brightness).padStart(3, 0) +
+    String(props.contrast).padStart(3, 0) +
+    String(props.sepia).padStart(3, 0)
+  );
+});
+
+watch(
+  () => props.dark,
+  (newV) => {
+    toggleDarkMode();
+  }
+);
+
+watch(
+  () => props.watchSystem,
+  (newV) => {
+    toggleDarkMode();
+  }
+);
+
+watch(systemDark, (newV) => {
+  toggleDarkMode();
+});
+
+const updateSystemTheme = (update) => {
+  systemDark.value = update.matches;
+};
+
+const toggleDarkMode = () => {
+  if (window) {
+    if (props.dark || (!props.dark && props.watchSystem && systemDark.value)) {
+      enableDarkMode({
+        brightness: props.brightness,
+        contrast: props.contrast,
+        sepia: props.sepia,
+      });
+    } else disableDarkMode();
+  }
+};
+
+onMounted(() => {
+  if (mq.value === null && window) {
+    mq.value = window.matchMedia("(prefers-color-scheme: dark)");
+    mq.value.addEventListener("change", updateSystemTheme);
+  }
+  toggleDarkMode();
+});
+
+onBeforeUnmount(() => {
+  if (mq.value !== null) {
+    mq.value.removeEventListener("change", updateSystemTheme);
+  }
+});
+</script>
+
 <template>
-  <div class="vue-apply-darkmode-root">
+  <div>
     <slot></slot>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    dark: { type: Boolean, default: false },
-    watchSystem: { type: Boolean, default: false },
-    brightness: { type: Number, default: 100 },
-    contrast: { type: Number, default: 90 },
-    sepia: { type: Number, default: 10 },
-  },
-  data() {
-    return {
-      systemDark: false,
-      mq: null,
-    };
-  },
-  computed: {
-    appearanceSettings() {
-      return (
-        String(this.brightness).padStart(3, 0) +
-        String(this.contrast).padStart(3, 0) +
-        String(this.sepia).padStart(3, 0)
-      );
-    },
-  },
-  watch: {
-    dark() {
-      this.toggleDarkMode();
-    },
-    systemDark() {
-      this.toggleDarkMode();
-    },
-    appearanceSettings() {
-      this.toggleDarkMode();
-    },
-  },
-  mounted() {
-    if (this.mq === null && window) {
-      this.mq = window.matchMedia("(prefers-color-scheme: dark)");
-      this.mq.addEventListener("change", this.updateSystemTheme);
-    }
-    this.toggleDarkMode();
-  },
-  beforeUnmount() {
-    if (this.mq !== null) {
-      this.mq.removeEventListener("change", this.updateSystemTheme);
-    }
-  },
-  methods: {
-    updateSystemTheme(update) {
-      this.systemDark = update.matches;
-    },
-    toggleDarkMode() {
-      if (window) {
-        const {
-          enable: enableDarkMode,
-          disable: disableDarkMode,
-        } = require("darkreader");
-        if (this.dark || (!this.dark && this.systemDark)) {
-          enableDarkMode({
-            brightness: this.brightness,
-            contrast: this.contrast,
-            sepia: this.sepia,
-          });
-        } else disableDarkMode();
-      }
-    },
-  },
-};
-</script>
