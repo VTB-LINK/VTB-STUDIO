@@ -16,7 +16,8 @@ import Footer from "components/Footer.vue";
 import FunctionBar from "./components/FunctionBar.vue";
 import ImportSongList from "components/ImportSongList.vue";
 import InfoPopUp from "popup/Info.vue";
-import Interpolator from "utils/vue-apply-darkmode.esm.js";
+//import Interpolator from "utils/vue-apply-darkmode.esm.js";
+import Interpolator from "components/DarkMode.vue";
 
 //debug用变量，由于没响应式需求所以不用ref创建
 const develop = false;
@@ -25,7 +26,6 @@ const showInfo = ref(false);
 const debugList = window.Variables.debug_list;
 const player = ref(null);
 const mainsonglist = ref(null);
-const nightmodecomp = ref(null);
 const isDarkMode = ref(false);
 const isAutoMode = ref(false);
 
@@ -82,16 +82,16 @@ const init = () => {
 const changeNightMode = (mode) => {
   switch (mode) {
     case "dark":
-      nightmodecomp.value.activeDark = true;
-      nightmodecomp.value.systemDark = false;
+      isDarkMode.value = true;
+      isAutoMode.value = false;
       break;
     case "system":
-      nightmodecomp.value.activeDark = false;
-      nightmodecomp.value.systemDark = true;
+      isDarkMode.value = false;
+      isAutoMode.value = true;
       break;
     default:
-      nightmodecomp.value.activeDark = false;
-      nightmodecomp.value.systemDark = false;
+      isDarkMode.value = false;
+      isAutoMode.value = false;
   }
 };
 
@@ -100,13 +100,14 @@ onMounted(() => {
   bus.on("night-mode-change", (para) => {
     changeNightMode(para);
   });
+  changeNightMode(utils.readSettings().night_mode);
 });
 </script>
 
 <template>
   <div id="app">
     <div class="c-outer">
-      <Interpolator ref="nightmodecomp">
+      <Interpolator v-bind:dark="isDarkMode" v-bind:watchSystem="isAutoMode">
         <Banner />
         <input v-show="develop" type="checkbox" v-model="ifDebug" />
         <div v-show="ifDebug">
