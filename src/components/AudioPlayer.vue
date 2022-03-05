@@ -598,10 +598,10 @@ defineExpose({
         </div>
         <div class="c-info-op">
           <div class="shareButton otherButtons" v-on:click="toggleShare">
-            <img src="/node_modules/bootstrap-icons/icons/share.svg?url" />
+            <div class="toggleShareIcon" />
           </div>
           <div class="detailsButton otherButtons" v-on:click="toggleDetails">
-            <img src="/node_modules/bootstrap-icons/icons/three-dots.svg?url" />
+            <div class="toggleDetailsIcon" />
           </div>
         </div>
       </div>
@@ -613,18 +613,9 @@ defineExpose({
               v-on:click="switchPlayMode"
               v-bind:title="playModeText"
             >
-              <img
-                v-show="playMode == 'loop'"
-                src="/node_modules/bootstrap-icons/icons/arrow-repeat.svg?url"
-              />
-              <img
-                v-show="playMode == 'loopOnce'"
-                src="@/assets/ui/arrow-repeat-once.svg"
-              />
-              <img
-                v-show="playMode == 'shuffle'"
-                src="/node_modules/bootstrap-icons/icons/shuffle.svg?url"
-              />
+              <div class="loopIcon" v-show="playMode == 'loop'" />
+              <div class="loopOnceIcon" v-show="playMode == 'loopOnce'" />
+              <div class="shuffleIcon" v-show="playMode == 'shuffle'" />
             </div>
             <div ref="volumebarref">
               <div
@@ -632,9 +623,7 @@ defineExpose({
                 v-on:click="showVolumeBar = !showVolumeBar"
                 title="音量"
               >
-                <img
-                  src="/node_modules/bootstrap-icons/icons/volume-up.svg?url"
-                />
+                <div class="volumeIcon" />
               </div>
               <transition name="fade">
                 <div class="c-volumeBar" v-show="showVolumeBar">
@@ -689,14 +678,8 @@ defineExpose({
               v-on:click="toggleLoved"
               title="设为星标歌曲"
             >
-              <img
-                v-show="!isLoved"
-                src="/node_modules/bootstrap-icons/icons/star.svg?url"
-              />
-              <img
-                v-show="isLoved"
-                src="/node_modules/bootstrap-icons/icons/star-fill.svg?url"
-              />
+              <div v-show="!isLoved" class="isLovedOff" />
+              <div v-show="isLoved" class="isLovedOn" />
             </div>
             <div
               class="playlistButton otherButtons"
