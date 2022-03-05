@@ -344,10 +344,10 @@ onMounted(() => {
               v-bind:href="
                 'https://www.bilibili.com/video/' +
                 song.record.bv +
-                '?p=' +
-                song.record.p +
-                '&start_progress=' +
-                song.record_start_ms
+                (song.record.p ? '?p=' + song.record.p : '') +
+                (song.record_start_ms
+                  ? '&start_progress=' + song.record_start_ms
+                  : '')
               "
               target="_blank"
               rel="noreferrer noopener"
