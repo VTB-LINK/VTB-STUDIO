@@ -1,5 +1,6 @@
 <script>
-import { defineComponent, ref, computed, onBeforeMount, onMounted } from "vue";
+import { defineComponent, ref, computed, onMounted } from "vue";
+
 export default defineComponent({
   name: "MainSongList",
 });
@@ -18,6 +19,7 @@ const expandList = ref([]);
 const page = ref(1);
 const perPage = ref(10);
 const songListFiltered = ref(window.AudioLists.song_list);
+const songListOrigin = ref([]);
 const playlist = ref(window.AudioLists.playlist);
 const header = ref(null);
 
@@ -57,6 +59,18 @@ const isLoved = computed(() => {
 const isExpanded = computed(() => {
   return songList.value.map(
     (song) => expandList.value.findIndex((expend) => song.id === expend) !== -1
+  );
+});
+
+const cachedListForPlay = computed(() => {
+  return songListOrigin.value.filter(
+    (song) => cachedList.value.findIndex((id) => song.id === id) !== -1
+  );
+});
+
+const loveListForPlay = computed(() => {
+  return songListOrigin.value.filter(
+    (song) => loveList.value.findIndex((id) => song.id === id) !== -1
   );
 });
 
@@ -134,6 +148,14 @@ const decacheAudioLocally = async (id) => {
   window.AudioLists.cached_list = cachedList.value =
     await utils.readCachedList();
 };
+
+const initAsyncList = () => {
+  songListOrigin.value = window.AudioLists.song_list;
+};
+
+onMounted(() => {
+  bus.on("apply-search-event", initAsyncList);
+});
 </script>
 
 <template>
@@ -141,6 +163,8 @@ const decacheAudioLocally = async (id) => {
     <SongFilter
       v-model:songListFiltered="songListFiltered"
       v-on:update:songListFiltered="page = 1"
+      v-bind:cachedList="cachedListForPlay"
+      v-bind:loveList="loveListForPlay"
     />
     <div class="c-controler">
       <button
@@ -328,7 +352,10 @@ const decacheAudioLocally = async (id) => {
               target="_blank"
               rel="noreferrer noopener"
             >
-              {{ song.date }} p{{ song.record.p }} {{ song.record.timecode }}
+              {{ song.date }}
+              {{
+                song.record.p ? "p" + song.record.p + song.record.timecode : ""
+              }}
             </a>
           </div>
           <div class="song-full-details-note" v-show="song.note !== ''">

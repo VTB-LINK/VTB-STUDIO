@@ -16,6 +16,7 @@ export default defineComponent({
 import utils from "utils/utils";
 import Consts from "globals/consts.js";
 import bus from "vue3-eventbus";
+import draggable from "vuedraggable";
 import SharePopUp from "popup/Share.vue";
 import DetailsPopUp from "popup/Details.vue";
 
@@ -47,11 +48,11 @@ window.addEventListener("mouseup", () => {
   if (isMouseDown === true) isMouseDown = false;
 });
 
-const playlistWithoutEmpty = computed(() => {
-  return playlist.value.filter((s) => {
-    return s.id !== "empty_song";
-  });
-});
+// const playlistWithoutEmpty = computed(() => {
+//   return playlist.value.filter((s) => {
+//     return s.id !== "empty_song";
+//   });
+// });
 
 const volumeHeight = computed(() => {
   return {
@@ -100,10 +101,23 @@ const currentSongObject = computed(() => {
   return playlist.value[currentSongIndex.value];
 });
 
+const dragOptions = computed(() => {
+  return {
+    animation: 0,
+    group: "description",
+    disabled: false,
+    ghostClass: "ghost",
+  };
+});
+
 watch(volume, (newV) => {
   if (newV) {
     audio.volume = newV;
   }
+});
+
+watch([currentSongIndex, () => [...playlist.value]], (newValues) => {
+  utils.savePlaylist(newValues[0], newValues[1]);
 });
 
 const secondToText = (second) => {
@@ -204,7 +218,7 @@ const applySong = async () => {
   }
   audio.title = currentSongObject.value.name;
   // 保存当前歌单
-  utils.savePlaylist(currentSongIndex.value, playlist.value);
+  //utils.savePlaylist(currentSongIndex.value, playlist.value);
 };
 
 const audioTogglePlay = () => {
@@ -310,7 +324,7 @@ const playlistClear = () => {
   audioSource.src = "";
   audio.load();
   // 保存当前歌单
-  utils.savePlaylist(currentSongIndex.value, playlist.value);
+  //utils.savePlaylist(currentSongIndex.value, playlist.value);
 };
 
 const playlistRemoveSong = (idx) => {
@@ -337,7 +351,7 @@ const playlistRemoveSong = (idx) => {
     return song.id === _currentSongID;
   });
   // 保存当前歌单
-  utils.savePlaylist(currentSongIndex.value, playlist.value);
+  //utils.savePlaylist(currentSongIndex.value, playlist.value);
 };
 
 const playlistRemoveSongID = (id) => {
@@ -362,7 +376,7 @@ const playlistAddSong = (song, isJump = false, isAutoplay = false) => {
     // 如果不重复
     playlist.value.push(song);
     // 保存当前歌单
-    utils.savePlaylist(currentSongIndex.value, playlist.value);
+    //utils.savePlaylist(currentSongIndex.value, playlist.value);
     idx = playlist.value.length - 1;
   }
   //
@@ -402,7 +416,7 @@ const playlistAddMany = (songs) => {
     autoPlay.value = false;
   }
   // 保存当前歌单
-  utils.savePlaylist(currentSongIndex.value, playlist.value);
+  //utils.savePlaylist(currentSongIndex.value, playlist.value);
   return added;
 };
 
@@ -423,7 +437,9 @@ const playlistShare = () => {
 
 const playlistScroll = () => {
   // 滚动播放列表到当前歌曲
-  playlistcontentref.value.children[currentSongIndex.value].scrollIntoView({
+  playlistcontentref.value.children[0].children[
+    currentSongIndex.value
+  ].scrollIntoView({
     block: "nearest",
   });
 };
@@ -582,10 +598,10 @@ defineExpose({
         </div>
         <div class="c-info-op">
           <div class="shareButton otherButtons" v-on:click="toggleShare">
-            <img src="/node_modules/bootstrap-icons/icons/share.svg?url" />
+            <div class="toggleShareIcon" />
           </div>
           <div class="detailsButton otherButtons" v-on:click="toggleDetails">
-            <img src="/node_modules/bootstrap-icons/icons/three-dots.svg?url" />
+            <div class="toggleDetailsIcon" />
           </div>
         </div>
       </div>
@@ -597,18 +613,9 @@ defineExpose({
               v-on:click="switchPlayMode"
               v-bind:title="playModeText"
             >
-              <img
-                v-show="playMode == 'loop'"
-                src="/node_modules/bootstrap-icons/icons/arrow-repeat.svg?url"
-              />
-              <img
-                v-show="playMode == 'loopOnce'"
-                src="@/assets/ui/arrow-repeat-once.svg"
-              />
-              <img
-                v-show="playMode == 'shuffle'"
-                src="/node_modules/bootstrap-icons/icons/shuffle.svg?url"
-              />
+              <div class="loopIcon" v-show="playMode == 'loop'" />
+              <div class="loopOnceIcon" v-show="playMode == 'loopOnce'" />
+              <div class="shuffleIcon" v-show="playMode == 'shuffle'" />
             </div>
             <div ref="volumebarref">
               <div
@@ -616,9 +623,7 @@ defineExpose({
                 v-on:click="showVolumeBar = !showVolumeBar"
                 title="音量"
               >
-                <img
-                  src="/node_modules/bootstrap-icons/icons/volume-up.svg?url"
-                />
+                <div class="volumeIcon" />
               </div>
               <transition name="fade">
                 <div class="c-volumeBar" v-show="showVolumeBar">
@@ -673,14 +678,8 @@ defineExpose({
               v-on:click="toggleLoved"
               title="设为星标歌曲"
             >
-              <img
-                v-show="!isLoved"
-                src="/node_modules/bootstrap-icons/icons/star.svg?url"
-              />
-              <img
-                v-show="isLoved"
-                src="/node_modules/bootstrap-icons/icons/star-fill.svg?url"
-              />
+              <div v-show="!isLoved" class="isLovedOff" />
+              <div v-show="isLoved" class="isLovedOn" />
             </div>
             <div
               class="playlistButton otherButtons"
@@ -736,7 +735,50 @@ defineExpose({
           </div>
         </div>
         <div class="c-playlist-songList" ref="playlistcontentref">
-          <div
+          <draggable
+            v-bind="dragOptions"
+            @start="drag = true"
+            @end="drag = false"
+            v-model="playlist"
+            item-key="id"
+            tag="transition-group"
+            handle=".handle"
+            :component-data="{
+              tag: 'div',
+              name: 'flip-list',
+              type: 'transition',
+            }"
+          >
+            <template #item="{ element, index }">
+              <div
+                v-bind:class="[
+                  'c-playlist-song',
+                  {
+                    'c-playlist-playing':
+                      element.id === playlist[currentSongIndex]?.id,
+                  },
+                ]"
+                v-show="playlist[0]?.id !== 'empty_song'"
+                v-on:click="changeSong(index)"
+              >
+                <div class="playlist-name handle">
+                  <span class="playlist-index">{{ index + 1 }}. </span
+                  >{{ element.name }}
+                </div>
+                <div class="playlist-dash">-</div>
+                <div class="playlist-artist">{{ element.artist }}</div>
+                <div class="playlist-status">{{ element.status }}</div>
+                <div class="playlist-duration">{{ element.duration }}</div>
+                <div
+                  class="playlist-clear"
+                  v-on:click.stop="playlistRemoveSong(index)"
+                >
+                  <div class="playlist-clear-img"></div>
+                </div>
+              </div>
+            </template>
+          </draggable>
+          <!-- <div
             v-for="(song, index) in playlistWithoutEmpty"
             v-bind:class="[
               'c-playlist-song',
@@ -762,7 +804,7 @@ defineExpose({
             >
               <div class="playlist-clear-img"></div>
             </div>
-          </div>
+          </div> -->
           <div class="playlist-empty" v-show="playlist[0]?.id === 'empty_song'">
             播放列表为空
           </div>
