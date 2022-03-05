@@ -1,5 +1,6 @@
 import { parse } from "csv-parse/browser/esm/sync";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import song_list from "utils/song_list.js";
 import utils from "utils/utils.js";
 import { getDataSheets } from "apis/datasheet.js";
@@ -16,6 +17,8 @@ import { getDataSheets } from "apis/datasheet.js";
 //     } else return Promise.reject("Wrong.");
 //   });
 // }
+
+dayjs.extend(customParseFormat);
 
 async function getSongData() {
   // 获取数据 包括歌曲数据库、歌单数据库
@@ -43,8 +46,8 @@ function parseSongCsv(csvfile) {
     window.AudioLists.song_list.push(convertSong(_row));
   // 按时间降序
   window.AudioLists.song_list.sort((s2, s1) => {
-    const _d1 = dayjs(s1.date, "YYYY-MM-DD");
-    const _d2 = dayjs(s2.date, "YYYY-MM-DD");
+    const _d1 = dayjs(s1.date, "YYYY.MM.DD");
+    const _d2 = dayjs(s2.date, "YYYY.MM.DD");
     // 按日期判断
     if (_d1.isBefore(_d2)) return -1;
     else if (_d2.isBefore(_d1)) return 1;
@@ -115,7 +118,7 @@ function convertSong(row) {
     _secondSrc = `${PREFIX_TUNED}${_songId}${SUFFIX_TUNED}`;
   // 如果没到时间也不可用
   const _daysBeforeAvailable =
-    AVAILABLE_DAYS_LIMIT - dayjs().diff(dayjs(_date), "day");
+    AVAILABLE_DAYS_LIMIT - dayjs().diff(dayjs(_date, "YYYY.MM.DD"), "day");
   if (_daysBeforeAvailable > 0 && !window.Variables.backdoor) _hasAudio = false;
   // 计算持续时间 解析不了结束时间戳就不算持续时间了
   let _duration = "--:--";
