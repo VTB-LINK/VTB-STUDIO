@@ -9,7 +9,7 @@ export default defineComponent({
   <div class="c-title card">
     <div class="banner-video">
       <video playsinline="" autoplay="" loop="" muted="">
-        <source src="@/assets/banner.mp4?url" type="video/mp4" />
+        <source src="https://link.01.asbbs.static.a-soul.fans/uploads/files/1/banner_1646556711136.mp4" type="video/mp4" />
       </video>
     </div>
     <div class="banner-logo">
