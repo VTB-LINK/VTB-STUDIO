@@ -553,7 +553,9 @@ onMounted(() => {
   });
 
   bus.on("playlist-replace-event", (para) => {
-    playlistReplace(para);
+    if (para.length > 0) {
+      playlistReplace(para);
+    }
   });
 
   bus.on("player-audio-pause", audioPause);
