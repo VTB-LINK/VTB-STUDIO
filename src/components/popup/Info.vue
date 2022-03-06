@@ -7,7 +7,7 @@ export default defineComponent({
 
 <script setup>
 import MainPopUp from "popup/Main.vue";
-import { shuffle } from "lodash/shuffle";
+import shuffle from "lodash.shuffle";
 
 const cutter = ref(
   shuffle(window.AudioLists.cutter_list).slice(0, CUTTER_DISPLAY_MAX)
