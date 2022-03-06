@@ -59,6 +59,7 @@ const defaultSettings = {
   use_treated: false,
   play_mode: "loop",
   play_volume: 0.9,
+  night_mode: false,
 };
 function saveSettings(newSet) {
   localStorage.setItem(
@@ -99,8 +100,9 @@ function encodeShare() {
 
 function decodeShare(code) {
   // 将分享代码转化为歌曲列表
-  if (code.substring(0, 9) !== Consts.code_prefix) return false;
-  let _pureCode = code.substring(9);
+  if (code.substring(0, Consts.code_prefix.length) !== Consts.code_prefix)
+    return false;
+  let _pureCode = code.substring(Consts.code_prefix.length);
   if (_pureCode.length % 3 !== 0 || _pureCode.length === 0) return false;
   const _songIdList = [];
   while (_pureCode.length > 0) {
@@ -114,8 +116,8 @@ function decodeShare(code) {
       _songCode = _songCode.slice(1);
     }
     let _songIdText = _songId.toString();
-    while (_songIdText.length < 5) _songIdText = "0" + _songIdText;
-    _songIdList.push("U" + _songIdText);
+    while (_songIdText.length < 6) _songIdText = "0" + _songIdText;
+    _songIdList.push("A" + _songIdText);
   }
   const _songList = window.AudioLists.song_list.filter(
     (s) => _songIdList.findIndex((i) => i === s.id) !== -1
