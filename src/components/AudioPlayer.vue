@@ -35,6 +35,7 @@ const playProgress = ref(0);
 const loadProgress = ref(0);
 const duration = ref(0);
 const currentSongIndex = ref(0);
+const currentSongID = ref("");
 const playlist = ref(window.AudioLists.playlist);
 const loveList = ref(window.AudioLists.love_list);
 const volumebarref = ref(null);
@@ -217,6 +218,7 @@ const applySong = async () => {
     });
   }
   audio.title = currentSongObject.value.name;
+  currentSongID.value = currentSongObject.value.id;
   // 保存当前歌单
   //utils.savePlaylist(currentSongIndex.value, playlist.value);
 };
@@ -442,6 +444,14 @@ const playlistScroll = () => {
   ].scrollIntoView({
     block: "nearest",
   });
+};
+
+const updateCurrentSongIndex = (evt) => {
+  const _actualCurrentSongIndex = playlist.value.findIndex(
+    (song) => song.id === currentSongID.value
+  );
+  if (_actualCurrentSongIndex !== currentSongIndex.value)
+    currentSongIndex.value = _actualCurrentSongIndex;
 };
 
 onMounted(() => {
@@ -750,6 +760,7 @@ defineExpose({
               name: 'flip-list',
               type: 'transition',
             }"
+            @change="updateCurrentSongIndex"
           >
             <template #item="{ element, index }">
               <div
