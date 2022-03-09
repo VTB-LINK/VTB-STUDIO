@@ -163,22 +163,27 @@ async function saveAudioInDB(
   isOrign = true,
   isChResource = true
 ) {
-  const _resourceBaseURLOrign = isChResource
-    ? import.meta.env.VITE_PREFIX_ORIGN_DL_CDN_CH
-    : import.meta.env.VITE_PREFIX_ORIGN_DL_CDN;
-  const _resourceBaseURLTuned = isChResource
-    ? import.meta.env.VITE_PREFIX_TUNED_DL_CDN_CH
-    : import.meta.env.VITE_PREFIX_TUNED_DL_CDN;
+  // const _resourceBaseURLOrign = isChResource
+  //   ? import.meta.env.VITE_PREFIX_ORIGN_DL_CDN_CH
+  //   : import.meta.env.VITE_PREFIX_ORIGN_DL_CDN;
+  // const _resourceBaseURLTuned = isChResource
+  //   ? import.meta.env.VITE_PREFIX_TUNED_DL_CDN_CH
+  //   : import.meta.env.VITE_PREFIX_TUNED_DL_CDN;
 
-  const _para = isOrign
-    ? `${_resourceBaseURLOrign}${sorucename}${
-        import.meta.env.VITE_SUFFIX_ORIGN_DL_CDN
-      }`
-    : `${_resourceBaseURLTuned}${sorucename}${
-        import.meta.env.VITE_SUFFIX_TUNED_DL_CDN
-      }`;
-  const _blob = await getAudio(_para);
-  await cacheDB.addAudioBlob(aid, _blob);
+  const _para = getResourceBaseURL(isOrign, isChResource, sorucename);
+  // isOrign
+  //   ? `${_resourceBaseURLOrign}${sorucename}${
+  //       import.meta.env.VITE_SUFFIX_ORIGN_DL_CDN
+  //     }`
+  //   : `${_resourceBaseURLTuned}${sorucename}${
+  //       import.meta.env.VITE_SUFFIX_TUNED_DL_CDN
+  //     }`;
+  try {
+    const _blob = await getAudio(_para);
+    await cacheDB.addAudioBlob(aid, _blob);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 function deleteAudioInDB(aid) {
@@ -193,7 +198,11 @@ function readCachedList() {
   return cacheDB.getAudioCachedList();
 }
 
-function getResourceBaseURL(isOrign = true, isChResource = true) {
+function getResourceBaseURL(
+  isOrign = true,
+  isChResource = true,
+  resourcename = ""
+) {
   const _resourceBaseURLOrign = isChResource
     ? import.meta.env.VITE_PREFIX_ORIGN_CH
     : import.meta.env.VITE_PREFIX_ORIGN;
@@ -201,7 +210,19 @@ function getResourceBaseURL(isOrign = true, isChResource = true) {
     ? import.meta.env.VITE_PREFIX_TUNED_CH
     : import.meta.env.VITE_PREFIX_TUNED;
 
-  return isOrign ? _resourceBaseURLOrign : _resourceBaseURLTuned;
+  //为下载获取proxy链接时，传入文件名。获取直链是不需要传入文件名。
+  let _resourcePathNameOrign =
+    resourcename.length > 0
+      ? resourcename + import.meta.env.VITE_SUFFIX_ORIGN_DL_CDN
+      : "";
+  let _resourcePathNameTuned =
+    resourcename.length > 0
+      ? resourcename + import.meta.env.VITE_SUFFIX_TUNED_DL_CDN
+      : "";
+
+  return isOrign
+    ? _resourceBaseURLOrign + _resourcePathNameOrign
+    : _resourceBaseURLTuned + _resourcePathNameTuned;
 }
 
 export default {

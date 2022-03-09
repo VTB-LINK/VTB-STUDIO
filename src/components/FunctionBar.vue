@@ -22,7 +22,7 @@ const isCountingDown = ref(false);
 const countdownTime = ref(0);
 const intervalObj = ref(null);
 const nightMode = ref("light");
-const isChResource = ref(utils.readSettings().use_ch_resource);
+const isChResource = ref(window.Variables.use_ch_resource);
 
 const nightModeText = computed(() => {
   if (nightMode.value === "light") return "白天";
@@ -32,6 +32,7 @@ const nightModeText = computed(() => {
 
 watch(isChResource, (newValue) => {
   bus.emit("change-resource-location", newValue);
+  window.Variables.use_ch_resource = newValue;
   utils.saveSettings({ use_ch_resource: newValue });
 });
 
