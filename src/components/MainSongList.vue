@@ -350,7 +350,7 @@ onMounted(() => {
                 'https://www.bilibili.com/video/' +
                 song.record.bv +
                 (song.record.p ? '?p=' + song.record.p : '') +
-                (song.record_start_ms
+                (song.record_start_ms > 0
                   ? '&start_progress=' + song.record_start_ms
                   : '')
               "
