@@ -1,3 +1,9 @@
+.function-bar-outer {
+  margin-top: 1rem;
+  justify-content: space-between;
+  display: flex;
+}
+
 .lightIcon {
   width: 1.6em;
   height: 1.6em;
@@ -25,11 +31,41 @@
   align-items: center;
   justify-content: flex-start;
 }
-.c-countdown-outer {
-  margin-top: 1rem;
-  justify-content: space-between;
-  display: flex;
+
+.switchOnIcon {
+  width: 1.6em;
+  height: 1.6em;
+  background-image: url("/node_modules/bootstrap-icons/icons/toggle-on.svg");
+  background-size: contain;
 }
+.switchOffIcon {
+  width: 1.6em;
+  height: 1.6em;
+  background-image: url("/node_modules/bootstrap-icons/icons/toggle-off.svg");
+  background-size: contain;
+}
+.srouce-location {
+  flex-grow: 1;
+  display: flex;
+  align-items: stretch;
+  max-width: 50%;
+}
+.srouce-location-text {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.srouce-location-switch {
+  border-radius: 2em;
+  height: 2.2em;
+  width: 2.2em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .c-countdown {
   flex-grow: 1;
   display: flex;

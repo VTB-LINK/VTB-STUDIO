@@ -1,5 +1,5 @@
 <script>
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, watch, onMounted, ref } from "vue";
 export default defineComponent({
   name: "FunctionBar",
 });
@@ -22,11 +22,17 @@ const isCountingDown = ref(false);
 const countdownTime = ref(0);
 const intervalObj = ref(null);
 const nightMode = ref("light");
+const isChResource = ref(utils.readSettings().use_ch_resource);
 
 const nightModeText = computed(() => {
   if (nightMode.value === "light") return "白天";
   if (nightMode.value === "dark") return "黑夜";
   return "系统";
+});
+
+watch(isChResource, (newValue) => {
+  bus.emit("change-resource-location", newValue);
+  utils.saveSettings({ use_ch_resource: newValue });
 });
 
 const toggleStart = () => {
@@ -75,7 +81,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="c-countdown-outer">
+  <div class="function-bar-outer">
     <div
       class="night-mode-button"
       v-on:click="switchNightMode"
@@ -84,6 +90,19 @@ onMounted(() => {
       <div class="lightIcon" v-show="nightMode == 'light'" />
       <div class="darkIcon" v-show="nightMode == 'dark'" />
       <div class="systemIcon" v-show="nightMode == 'system'" />
+    </div>
+    <div class="srouce-location">
+      <div class="srouce-location-text">启用国内资源：</div>
+      <div
+        v-bind:class="[
+          'srouce-location-switch',
+          {
+            switchOnIcon: isChResource,
+            switchOffIcon: !isChResource,
+          },
+        ]"
+        v-on:click="isChResource = !isChResource"
+      />
     </div>
     <div class="c-countdown">
       <div class="countdown-text"><div>定时停止：</div></div>

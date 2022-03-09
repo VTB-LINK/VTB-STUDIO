@@ -60,6 +60,7 @@ const defaultSettings = {
   play_mode: "loop",
   play_volume: 0.9,
   night_mode: "light",
+  use_ch_resource: true,
 };
 function saveSettings(newSet) {
   localStorage.setItem(
@@ -156,12 +157,24 @@ function debug(text) {
   window.Variables.debug_list.push(text);
 }
 
-async function saveAudioInDB(aid, sorucename, isOrign = true) {
+async function saveAudioInDB(
+  aid,
+  sorucename,
+  isOrign = true,
+  isChResource = true
+) {
+  const _resourceBaseURLOrign = isChResource
+    ? import.meta.env.VITE_PREFIX_ORIGN_DL_CDN_CH
+    : import.meta.env.VITE_PREFIX_ORIGN_DL_CDN;
+  const _resourceBaseURLTuned = isChResource
+    ? import.meta.env.VITE_PREFIX_TUNED_DL_CDN_CH
+    : import.meta.env.VITE_PREFIX_TUNED_DL_CDN;
+
   const _para = isOrign
-    ? `${import.meta.env.VITE_PREFIX_ORIGN_DL_CDN}${sorucename}${
+    ? `${_resourceBaseURLOrign}${sorucename}${
         import.meta.env.VITE_SUFFIX_ORIGN_DL_CDN
       }`
-    : `${import.meta.env.VITE_PREFIX_TUNED_DL_CDN}${sorucename}${
+    : `${_resourceBaseURLTuned}${sorucename}${
         import.meta.env.VITE_SUFFIX_TUNED_DL_CDN
       }`;
   const _blob = await getAudio(_para);
@@ -180,6 +193,17 @@ function readCachedList() {
   return cacheDB.getAudioCachedList();
 }
 
+function getResourceBaseURL(isOrign = true, isChResource = true) {
+  const _resourceBaseURLOrign = isChResource
+    ? import.meta.env.VITE_PREFIX_ORIGN_CH
+    : import.meta.env.VITE_PREFIX_ORIGN;
+  const _resourceBaseURLTuned = isChResource
+    ? import.meta.env.VITE_PREFIX_TUNED_CH
+    : import.meta.env.VITE_PREFIX_TUNED;
+
+  return isOrign ? _resourceBaseURLOrign : _resourceBaseURLTuned;
+}
+
 export default {
   saveLoveList,
   readLoveList,
@@ -195,5 +219,6 @@ export default {
   deleteAudioInDB,
   getAudioInDB,
   readCachedList,
+  getResourceBaseURL,
   debug,
 };

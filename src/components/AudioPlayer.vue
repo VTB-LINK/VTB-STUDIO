@@ -29,6 +29,7 @@ const showDetails = ref(false);
 const playStatus = ref(false);
 const audioLoading = ref(false);
 const autoPlay = ref(false);
+const isChResource = ref(utils.readSettings().use_ch_resource);
 const playMode = ref("loop");
 const volume = ref(0.9);
 const playProgress = ref(0);
@@ -198,10 +199,17 @@ const applySong = async () => {
     _src = _URL.createObjectURL(_songFile?.blobcached);
   } else {
     // 加载当前歌曲 如果是精选状态且有精选版本就跳精选
-    _src = currentSongObject.value.src;
-    if (window.Variables.use_treated.value) {
-      const _secondSrc = currentSongObject.value.secondSrc;
-      if (_secondSrc !== "") _src = _secondSrc;
+    _src =
+      utils.getResourceBaseURL(true, isChResource.value) +
+      currentSongObject.value.src;
+
+    if (
+      window.Variables.use_treated.value &&
+      currentSongObject.value.secondSrc !== ""
+    ) {
+      _src =
+        utils.getResourceBaseURL(false, isChResource.value) +
+        currentSongObject.value.secondSrc;
     }
   }
   audioSource.src = _src;
@@ -569,6 +577,12 @@ onMounted(() => {
   });
 
   bus.on("player-audio-pause", audioPause);
+
+  bus.on("change-resource-location", (para) => {
+    if (isChResource.value !== para) {
+      isChResource.value = para;
+    }
+  });
 });
 
 //公开属性给到父组件
