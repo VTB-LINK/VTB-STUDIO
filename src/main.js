@@ -19,6 +19,7 @@ AudioLists.love_list = utils.readLoveList();
 AudioLists.playlist.push(Consts.empty_song);
 AudioLists.cutter_list = Consts.cutter_list;
 Variables.use_treated = { value: utils.readSettings().use_treated };
+Variables.use_ch_resource = utils.readSettings().use_ch_resource;
 
 window.AudioLists = AudioLists;
 window.FilterOptions = FilterOptions;

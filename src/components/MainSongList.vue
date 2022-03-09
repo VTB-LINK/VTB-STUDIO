@@ -137,7 +137,12 @@ const pageChangeEvent = () => {
 
 const cacheAudioLocally = async (song) => {
   cachingList.value.push(song.id);
-  await utils.saveAudioInDB(song.id, song.date + " " + song.name);
+  await utils.saveAudioInDB(
+    song.id,
+    song.date + " " + song.name,
+    !window.Variables.use_treated.value,
+    window.Variables.use_ch_resource
+  );
   window.AudioLists.cached_list = cachedList.value =
     await utils.readCachedList();
   cachingList.value.pop();
@@ -345,7 +350,7 @@ onMounted(() => {
                 'https://www.bilibili.com/video/' +
                 song.record.bv +
                 (song.record.p ? '?p=' + song.record.p : '') +
-                (song.record_start_ms
+                (song.record_start_ms > 0
                   ? '&start_progress=' + song.record_start_ms
                   : '')
               "
