@@ -29,6 +29,14 @@ const playlistID = computed(() => {
   return utils.encodeShare();
 });
 
+const downloadURL = computed(() => {
+  return utils.getResourceBaseURL(
+    !window.Variables.use_treated.value,
+    window.Variables.use_ch_resource,
+    props.song.date + " " + props.song.name
+  );
+});
+
 const copy = (text, popper) => {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text).then(
@@ -88,12 +96,12 @@ const copy = (text, popper) => {
       <div class="c-share-body">
         <div class="c-share-title">
           <div class="share-title">下载当前歌曲</div>
-          <a v-bind:href="props.song?.src" download>点击下载</a>
+          <a v-bind:href="downloadURL" download>点击下载</a>
         </div>
-        <div class="c-share-title">
+        <!--         <div class="c-share-title">
           <div class="share-title">下载全部歌曲数据库</div>
           <a href="/static/song database.csv" download>点击下载</a>
-        </div>
+        </div> -->
       </div>
     </div>
   </MainPopUp>
