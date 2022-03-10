@@ -19,6 +19,7 @@ import bus from "vue3-eventbus";
 import draggable from "vuedraggable";
 import SharePopUp from "popup/Share.vue";
 import DetailsPopUp from "popup/Details.vue";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 let audio = {};
 let audioSource = {};
@@ -470,11 +471,11 @@ const updateCurrentSongIndex = (evt) => {
 
 // 弹出框出现时锁定背景防止滚动穿透
 const lockBackGroundForPopup = () => {
-  document.documentElement.style.overflow = "hidden";
+  disableBodyScroll(playlistcontentref, { reserveScrollBarGap: true });
 };
 // 关闭是解除背景锁定
 const unlockBackGroundForPopup = () => {
-  document.documentElement.style.overflow = "auto";
+  enableBodyScroll(playlistcontentref);
 };
 
 onMounted(() => {
