@@ -19,7 +19,6 @@ import bus from "vue3-eventbus";
 import draggable from "vuedraggable";
 import SharePopUp from "popup/Share.vue";
 import DetailsPopUp from "popup/Details.vue";
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 let audio = {};
 let audioSource = {};
@@ -469,13 +468,24 @@ const updateCurrentSongIndex = (evt) => {
     currentSongIndex.value = _actualCurrentSongIndex;
 };
 
+let scrollPosition = 0;
 // 弹出框出现时锁定背景防止滚动穿透
 const lockBackGroundForPopup = () => {
-  disableBodyScroll(playlistcontentref);
+  const $body = document.querySelector("body");
+  scrollPosition = window.pageYOffset;
+  $body.style.overflow = "hidden";
+  $body.style.position = "fixed";
+  $body.style.top = `-${scrollPosition}px`;
+  $body.style.width = "100%";
 };
 // 关闭是解除背景锁定
 const unlockBackGroundForPopup = () => {
-  enableBodyScroll(playlistcontentref);
+  const $body = document.querySelector("body");
+  $body.style.removeProperty("overflow");
+  $body.style.removeProperty("position");
+  $body.style.removeProperty("top");
+  $body.style.removeProperty("width");
+  window.scrollTo(0, scrollPosition);
 };
 
 onMounted(() => {
