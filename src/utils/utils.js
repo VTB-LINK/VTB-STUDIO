@@ -120,9 +120,14 @@ function decodeShare(code) {
     while (_songIdText.length < 6) _songIdText = "0" + _songIdText;
     _songIdList.push("A" + _songIdText);
   }
-  const _songList = window.AudioLists.song_list.filter(
-    (s) => _songIdList.findIndex((i) => i === s.id) !== -1
-  );
+  const _songList = [];
+  _songIdList.forEach((i) => {
+    const _tempEle = window.AudioLists.song_list.find((s) => i === s.id);
+    if (_tempEle) _songList.push(_tempEle);
+  });
+  // window.AudioLists.song_list.filter(
+  //   (s) => _songIdList.findIndex((i) => i === s.id) !== -1
+  // );
   if (_songList.length !== _songIdList.length) return [];
   return _songList;
 }
