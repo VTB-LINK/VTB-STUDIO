@@ -17,8 +17,7 @@ const empty_song = {
   src: "",
 };
 
-const cipher =
-  "ASOULForeverhOc0nWsJzCVau4BYGAtSH2XpZPld1b657F3xNi98wRKDQkTrgjqf";
+const cipher = "ASOULForevERIhc0nWsJzCVau4BpYGMtH2XZPld1b6573xNi98wKDyQmkTgjqf";
 const code_prefix = "asoulink://";
 
 export default {
