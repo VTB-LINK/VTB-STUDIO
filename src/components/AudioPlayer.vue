@@ -120,6 +120,7 @@ watch(volume, (newV) => {
 
 watch([currentSongIndex, () => [...playlist.value]], (newValues) => {
   utils.savePlaylist(newValues[0], newValues[1]);
+  window.AudioLists.playlist = newValues[1];
 });
 
 const secondToText = (second) => {
