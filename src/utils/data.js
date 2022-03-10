@@ -115,7 +115,9 @@ function convertSong(row) {
   //.mp3之类的文件名扩展名变更为存储在csv文件，增加功能的统一适配性。
   let _secondSrc = "";
   if (row["有没有第二版本"] == "TRUE")
-    _secondSrc = `${PREFIX_TUNED}${_songId}${SUFFIX_TUNED}`;
+    _secondSrc = `${SONG_NAME_SOURCE_MODE ? _date + " " : ""}${
+      SONG_NAME_SOURCE_MODE ? _songName : _songId
+    }${import.meta.env.VITE_SUFFIX_TUNED}`;
   // 如果没到时间也不可用
   const _daysBeforeAvailable =
     AVAILABLE_DAYS_LIMIT - dayjs().diff(dayjs(_date, "YYYY.MM.DD"), "day");
@@ -145,11 +147,9 @@ function convertSong(row) {
     ref_cut: parseRef(row["切片源"]),
     duration: _duration,
     id: _songId,
-    src: `${import.meta.env.VITE_PREFIX_ORIGN}${
-      SONG_NAME_SOURCE_MODE ? _date + " " : ""
-    }${SONG_NAME_SOURCE_MODE ? _songName : _songId}${
-      import.meta.env.VITE_SUFFIX_ORIGN
-    }`,
+    src: `${SONG_NAME_SOURCE_MODE ? _date + " " : ""}${
+      SONG_NAME_SOURCE_MODE ? _songName : _songId
+    }${import.meta.env.VITE_SUFFIX_ORIGN}`,
     second_src: _secondSrc,
     has_audio: _hasAudio,
     days_before_available: _daysBeforeAvailable,

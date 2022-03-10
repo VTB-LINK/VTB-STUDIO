@@ -78,7 +78,7 @@ const search = ref({
   type: "搜索歌名",
   options: window.FilterOptions.search_type,
 });
-const useTreated = ref(window.Variables.use_treated);
+const useTreated = ref(window.Variables.use_treated.value);
 const showExplain = ref(false);
 
 const selfSongListFiltered = computed(() => {
