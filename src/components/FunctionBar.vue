@@ -93,7 +93,7 @@ onMounted(() => {
       <div class="systemIcon" v-show="nightMode == 'system'" />
     </div>
     <div class="srouce-location">
-      <div class="srouce-location-text">启用国内资源：</div>
+      <div class="srouce-location-text">境内资源：</div>
       <div
         v-bind:class="[
           'srouce-location-switch',
