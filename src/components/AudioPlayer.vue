@@ -123,6 +123,11 @@ watch([currentSongIndex, () => [...playlist.value]], (newValues) => {
   window.AudioLists.playlist = newValues[1];
 });
 
+watch(showPlaylist, (newV) => {
+  if (newV) lockBackGroundForPopup();
+  else unlockBackGroundForPopup();
+});
+
 const secondToText = (second) => {
   second = Math.floor(second);
   let _minute = String(Math.floor(second / 60));
@@ -461,6 +466,15 @@ const updateCurrentSongIndex = (evt) => {
   );
   if (_actualCurrentSongIndex !== currentSongIndex.value)
     currentSongIndex.value = _actualCurrentSongIndex;
+};
+
+// 弹出框出现时锁定背景防止滚动穿透
+const lockBackGroundForPopup = () => {
+  document.documentElement.style.overflow = "hidden";
+};
+// 关闭是解除背景锁定
+const unlockBackGroundForPopup = () => {
+  document.documentElement.style.overflow = "auto";
 };
 
 onMounted(() => {
