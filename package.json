@@ -9,14 +9,15 @@
         "format": "prettier .  --write"
     },
     "dependencies": {
-        "@vueuse/core": "^7.7.0",
-        "axios": "^0.26.0",
+        "@vueuse/core": "^8.0.0",
+        "axios": "^0.26.1",
+        "body-scroll-lock": "^4.0.0-beta.0",
         "bootstrap-icons": "^1.8.1",
         "csv-parse": "^5.0.4",
-        "darkreader": "^4.9.44",
+        "darkreader": "^4.9.46",
         "dayjs": "^1.10.8",
         "dexie": "^3.2.1",
-        "floating-vue": "^2.0.0-beta.6",
+        "floating-vue": "^2.0.0-beta.7",
         "lodash.shuffle": "^4.2.0",
         "vue": "^3.2.31",
         "vuedraggable": "^4.1.0"
