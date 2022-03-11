@@ -471,7 +471,7 @@ const updateCurrentSongIndex = (evt) => {
 
 // 弹出框出现时锁定背景防止滚动穿透
 const lockBackGroundForPopup = () => {
-  disableBodyScroll(playlistcontentref.value, { reserveScrollBarGap: true });
+  disableBodyScroll(playlistcontentref.value);
 };
 // 关闭是解除背景锁定
 const unlockBackGroundForPopup = () => {
