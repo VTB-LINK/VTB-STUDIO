@@ -73,6 +73,13 @@ watch(
     nPage.value = current;
   }
 );
+
+watch(
+  () => props.perPage,
+  (current, previous) => {
+    nPerPage.value = current;
+  }
+);
 </script>
 
 <template>
