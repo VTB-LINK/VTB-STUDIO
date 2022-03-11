@@ -179,6 +179,12 @@ onMounted(() => {
         全部筛选结果加入播放列表
       </button>
     </div>
+    <SongListPagination
+      v-model:page="page"
+      v-model:perPage="perPage"
+      v-bind:total="songListFiltered.length"
+      v-on:update:page="pageChangeEvent"
+    ></SongListPagination>
     <div class="c-song-list">
       <div class="song-list-header" ref="header">
         <div class="header-column all-column all-column-idx"></div>

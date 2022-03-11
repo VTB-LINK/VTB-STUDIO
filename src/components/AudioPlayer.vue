@@ -19,6 +19,7 @@ import bus from "vue3-eventbus";
 import draggable from "vuedraggable";
 import SharePopUp from "popup/Share.vue";
 import DetailsPopUp from "popup/Details.vue";
+import { lock, unlock } from "tua-body-scroll-lock";
 
 let audio = {};
 let audioSource = {};
@@ -120,6 +121,12 @@ watch(volume, (newV) => {
 
 watch([currentSongIndex, () => [...playlist.value]], (newValues) => {
   utils.savePlaylist(newValues[0], newValues[1]);
+  window.AudioLists.playlist = newValues[1];
+});
+
+watch(showPlaylist, (newV) => {
+  if (newV) lockBackGroundForPopup();
+  else unlockBackGroundForPopup();
 });
 
 const secondToText = (second) => {
@@ -460,6 +467,28 @@ const updateCurrentSongIndex = (evt) => {
   );
   if (_actualCurrentSongIndex !== currentSongIndex.value)
     currentSongIndex.value = _actualCurrentSongIndex;
+};
+
+let scrollPosition = 0;
+// 弹出框出现时锁定背景防止滚动穿透
+const lockBackGroundForPopup = () => {
+  // const $body = document.querySelector("body");
+  // scrollPosition = window.pageYOffset;
+  // $body.style.overflow = "hidden";
+  // $body.style.position = "fixed";
+  // $body.style.top = `-${scrollPosition}px`;
+  // $body.style.width = "100%";
+  lock(playlistcontentref.value);
+};
+// 关闭是解除背景锁定
+const unlockBackGroundForPopup = () => {
+  // const $body = document.querySelector("body");
+  // $body.style.removeProperty("overflow");
+  // $body.style.removeProperty("position");
+  // $body.style.removeProperty("top");
+  // $body.style.removeProperty("width");
+  // window.scrollTo(0, scrollPosition);
+  unlock(playlistcontentref.value);
 };
 
 onMounted(() => {
