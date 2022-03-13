@@ -206,18 +206,15 @@ const applySong = async () => {
     _src = _URL.createObjectURL(_songFile?.blobcached);
   } else {
     // 加载当前歌曲 如果是精选状态且有精选版本就跳精选
-    _src =
-      utils.getResourceBaseURL(true, isChResource.value) +
-      currentSongObject.value.src;
-
-    if (
-      window.Variables.use_treated.value &&
-      currentSongObject.value.secondSrc !== ""
-    ) {
-      _src =
-        utils.getResourceBaseURL(false, isChResource.value) +
-        currentSongObject.value.secondSrc;
-    }
+    _src = utils.getResourceURL(
+      !window.Variables.use_treated.value ||
+        !currentSongObject.value.has_audio_sec,
+      isChResource.value,
+      false,
+      currentSongObject.value.date,
+      currentSongObject.value.name,
+      currentSongObject.value.ext_name
+    );
   }
   audioSource.src = _src;
   audio.load();

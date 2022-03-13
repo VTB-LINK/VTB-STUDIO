@@ -91,8 +91,21 @@ function initialFilterOptions() {
   );
 }
 
+function formatSongName(fileName, songName, songVersion, songVerComm) {
+  let _output = "";
+  if (fileName) _output = fileName;
+  else _output = `${songName}【${songVersion} ${songVerComm}】`;
+  return _output;
+}
+
 function convertSong(row) {
-  const _songName = row["歌名"].trim();
+  //const _songName = row["歌名"].trim();
+  const _songName = formatSongName(
+    row["文件名"].trim(),
+    row["歌名"].trim(),
+    row["版本号"].trim(),
+    row["版本备注"].trim()
+  );
   const _songNameChs = row["中文歌名"].trim();
   const _date = row["日期"];
   const _recordStartMs = AUDIO_DURATION_IN_MS
@@ -108,16 +121,17 @@ function convertSong(row) {
   // 如果有中文歌名就加上
   //todo 中文页面备注显示添加完毕，检索时后的对应还没检查
   //if (_songNameChs !== "") _songName = `${_songName}（${_songNameChs}）`;
-  // 有没有音频
-  let _hasAudio = false;
-  if (row["有没有音频"] == "TRUE") _hasAudio = true;
+
   // 有没有第二版本
   //.mp3之类的文件名扩展名变更为存储在csv文件，增加功能的统一适配性。
-  let _secondSrc = "";
-  if (row["有没有第二版本"] == "TRUE")
-    _secondSrc = `${SONG_NAME_SOURCE_MODE ? _date + " " : ""}${
-      SONG_NAME_SOURCE_MODE ? _songName : _songId
-    }${import.meta.env.VITE_SUFFIX_TUNED}`;
+  // let _secondSrc = "";
+  // if (row["有没有第二版本"] == "TRUE")
+  //   _secondSrc = `${SONG_NAME_SOURCE_MODE ? _date + " " : ""}${
+  //     SONG_NAME_SOURCE_MODE ? _songName : _songId
+  //   }.${row["文件类型"]}${import.meta.env.VITE_SUFFIX_TUNED}`;
+
+  let _hasAudio = row["有没有音频"] == "TRUE" ? true : false;
+
   // 如果没到时间也不可用
   const _daysBeforeAvailable =
     AVAILABLE_DAYS_LIMIT - dayjs().diff(dayjs(_date, "YYYY.MM.DD"), "day");
@@ -136,6 +150,7 @@ function convertSong(row) {
     record: _record,
     record_start_ms: _recordStartMs,
     name: _songName,
+    ext_name: row["文件类型"],
     name_chs: _songNameChs,
     version: "",
     orginal_artist: row["原曲艺术家"],
@@ -147,11 +162,12 @@ function convertSong(row) {
     ref_cut: parseRef(row["切片源"]),
     duration: _duration,
     id: _songId,
-    src: `${SONG_NAME_SOURCE_MODE ? _date + " " : ""}${
-      SONG_NAME_SOURCE_MODE ? _songName : _songId
-    }${import.meta.env.VITE_SUFFIX_ORIGN}`,
-    second_src: _secondSrc,
+    // src: `${SONG_NAME_SOURCE_MODE ? _date + " " : ""}${
+    //   SONG_NAME_SOURCE_MODE ? _songName : _songId
+    // }.${row["文件类型"]}${import.meta.env.VITE_SUFFIX_ORIGN}`,
+    // second_src: _secondSrc,
     has_audio: _hasAudio,
+    has_audio_sec: row["有没有第二版本"] == "TRUE" ? true : false,
     days_before_available: _daysBeforeAvailable,
   };
 }
