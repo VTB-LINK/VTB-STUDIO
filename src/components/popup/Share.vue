@@ -31,8 +31,8 @@ const playlistID = computed(() => {
 
 const downloadURL = computed(() => {
   return utils.getResourceURL(
-    !window.Variables.use_treated.value ||
-      !currentSongObject.value.has_audio_sec,
+    !window.Variables.use_treated.value,
+    false,
     true,
     props.song.date,
     props.song.name,

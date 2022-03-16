@@ -97,7 +97,7 @@ function formatSongName(fileName, songName, songVersion, songVerComm) {
   else
     _output =
       songVersion.length > 0 || songVerComm.length > 0
-        ? `${songName}【${(songVersion + " " + songVerComm).trim()}】`
+        ? `${songName}『${(songVersion + " " + songVerComm).trim()}』`
         : songName;
   return _output;
 }
