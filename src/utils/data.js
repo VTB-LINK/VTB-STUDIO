@@ -94,7 +94,11 @@ function initialFilterOptions() {
 function formatSongName(fileName, songName, songVersion, songVerComm) {
   let _output = "";
   if (fileName) _output = fileName;
-  else _output = `${songName}【${songVersion} ${songVerComm}】`;
+  else
+    _output =
+      songVersion.length > 0 || songVerComm.length > 0
+        ? `${songName}【${(songVersion + " " + songVerComm).trim()}】`
+        : songName;
   return _output;
 }
 
