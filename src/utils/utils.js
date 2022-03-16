@@ -164,25 +164,20 @@ function debug(text) {
 
 async function saveAudioInDB(
   aid,
+  sorucedate,
   sorucename,
+  extname,
   isOrign = true,
   isChResource = true
 ) {
-  // const _resourceBaseURLOrign = isChResource
-  //   ? import.meta.env.VITE_PREFIX_ORIGN_DL_CDN_CH
-  //   : import.meta.env.VITE_PREFIX_ORIGN_DL_CDN;
-  // const _resourceBaseURLTuned = isChResource
-  //   ? import.meta.env.VITE_PREFIX_TUNED_DL_CDN_CH
-  //   : import.meta.env.VITE_PREFIX_TUNED_DL_CDN;
-
-  const _para = getResourceBaseURL(isOrign, isChResource, sorucename);
-  // isOrign
-  //   ? `${_resourceBaseURLOrign}${sorucename}${
-  //       import.meta.env.VITE_SUFFIX_ORIGN_DL_CDN
-  //     }`
-  //   : `${_resourceBaseURLTuned}${sorucename}${
-  //       import.meta.env.VITE_SUFFIX_TUNED_DL_CDN
-  //     }`;
+  const _para = getResourceURL(
+    isOrign,
+    isChResource,
+    true,
+    sorucedate,
+    sorucename,
+    extname
+  );
   try {
     const _blob = await getAudio(_para);
     await cacheDB.addAudioBlob(aid, _blob);
@@ -203,31 +198,66 @@ function readCachedList() {
   return cacheDB.getAudioCachedList();
 }
 
-function getResourceBaseURL(
-  isOrign = true,
-  isChResource = true,
-  resourcename = ""
+function getResourceURL(
+  isOrign,
+  isChResource,
+  isCDN,
+  resourcedate,
+  resourcefilename,
+  extname
 ) {
-  const _resourceBaseURLOrign = isChResource
-    ? import.meta.env.VITE_PREFIX_ORIGN_CH
-    : import.meta.env.VITE_PREFIX_ORIGN;
-  const _resourceBaseURLTuned = isChResource
-    ? import.meta.env.VITE_PREFIX_TUNED_CH
-    : import.meta.env.VITE_PREFIX_TUNED;
+  let __resourceBaseURL = "";
+  let __resourceExtPath = "";
 
-  //为下载获取proxy链接时，传入文件名。获取直链是不需要传入文件名。
-  let _resourcePathNameOrign =
-    resourcename.length > 0
-      ? resourcename + import.meta.env.VITE_SUFFIX_ORIGN_DL_CDN
-      : "";
-  let _resourcePathNameTuned =
-    resourcename.length > 0
-      ? resourcename + import.meta.env.VITE_SUFFIX_TUNED_DL_CDN
-      : "";
+  switch (parseInt(`${+isOrign}${+isChResource}${+isCDN}`, 2)) {
+    //isOrign = true =>4
+    //isChResource = true =>2
+    //isCDN = true =>1
+    case 0:
+      __resourceBaseURL = import.meta.env.VITE_PREFIX_TUNED;
+      __resourceExtPath = import.meta.env.VITE_SUFFIX_TUNED;
+      break;
+    case 1:
+      __resourceBaseURL = import.meta.env.VITE_PREFIX_TUNED_DL_CDN;
+      __resourceExtPath = import.meta.env.VITE_SUFFIX_TUNED_DL_CDN;
+      break;
+    case 2:
+      __resourceBaseURL = import.meta.env.VITE_PREFIX_TUNED_CH;
+      __resourceExtPath = import.meta.env.VITE_SUFFIX_TUNED_CH;
+      break;
+    case 3:
+      __resourceBaseURL = import.meta.env.VITE_PREFIX_TUNED_DL_CDN_CH;
+      __resourceExtPath = import.meta.env.VITE_SUFFIX_TUNED_DL_CDN_CH;
+      break;
+    case 4:
+      __resourceBaseURL = import.meta.env.VITE_PREFIX_ORIGN;
+      __resourceExtPath = import.meta.env.VITE_SUFFIX_ORIGN;
+      break;
+    case 5:
+      __resourceBaseURL = import.meta.env.VITE_PREFIX_ORIGN_DL_CDN;
+      __resourceExtPath = import.meta.env.VITE_SUFFIX_ORIGN_DL_CDN;
+      break;
+    case 6:
+      __resourceBaseURL = import.meta.env.VITE_PREFIX_ORIGN_CH;
+      __resourceExtPath = import.meta.env.VITE_SUFFIX_ORIGN_CH;
+      break;
+    case 7:
+      __resourceBaseURL = import.meta.env.VITE_PREFIX_ORIGN_DL_CDN_CH;
+      __resourceExtPath = import.meta.env.VITE_SUFFIX_ORIGN_DL_CDN_CH;
+      break;
+  }
 
-  return isOrign
-    ? _resourceBaseURLOrign + _resourcePathNameOrign
-    : _resourceBaseURLTuned + _resourcePathNameTuned;
+  const _fileName = `${
+    SONG_NAME_SOURCE_MODE
+      ? resourcedate + " " + resourcefilename
+      : resourcefilename
+  }.${extname}`;
+
+  return (
+    __resourceBaseURL +
+    _fileName.replace("『", "【").replace("』", "】") +
+    __resourceExtPath
+  );
 }
 
 export default {
@@ -245,6 +275,6 @@ export default {
   deleteAudioInDB,
   getAudioInDB,
   readCachedList,
-  getResourceBaseURL,
+  getResourceURL,
   debug,
 };

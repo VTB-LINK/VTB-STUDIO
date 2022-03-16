@@ -30,10 +30,13 @@ const playlistID = computed(() => {
 });
 
 const downloadURL = computed(() => {
-  return utils.getResourceBaseURL(
+  return utils.getResourceURL(
     !window.Variables.use_treated.value,
-    window.Variables.use_ch_resource,
-    props.song.date + " " + props.song.name
+    false,
+    true,
+    props.song.date,
+    props.song.name,
+    props.song.ext_name
   );
 });
 
