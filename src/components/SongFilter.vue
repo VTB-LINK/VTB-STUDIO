@@ -177,8 +177,9 @@ const searchPressEnter = (event) => {
 };
 
 const changeUseTreated = () => {
+  window.Variables.use_treated.value = useTreated.value;
   utils.saveSettings({
-    use_treated: useTreated.value.value,
+    use_treated: useTreated.value,
   });
 };
 
@@ -254,7 +255,7 @@ onMounted(() => {
           id="filter-checkbox-treated"
           class="general-checkbox"
           type="checkbox"
-          v-model="useTreated.value"
+          v-model="useTreated"
           v-on:change="changeUseTreated"
         />
         <label
