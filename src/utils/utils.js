@@ -253,7 +253,11 @@ function getResourceURL(
       : resourcefilename
   }.${extname}`;
 
-  return __resourceBaseURL + _fileName + __resourceExtPath;
+  return (
+    __resourceBaseURL +
+    _fileName.replace("『", "【").replace("』", "】") +
+    __resourceExtPath
+  );
 }
 
 export default {

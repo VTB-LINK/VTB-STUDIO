@@ -139,7 +139,9 @@ const cacheAudioLocally = async (song) => {
   cachingList.value.push(song.id);
   await utils.saveAudioInDB(
     song.id,
-    song.date + " " + song.name,
+    song.date,
+    song.name,
+    song.ext_name,
     !window.Variables.use_treated.value,
     window.Variables.use_ch_resource
   );

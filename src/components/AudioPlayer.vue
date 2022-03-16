@@ -216,7 +216,7 @@ const applySong = async () => {
       currentSongObject.value.ext_name
     );
   }
-  audioSource.src = _src;
+  audioSource.src = _src.replace("『", "【").replace("』", "】");
   audio.load();
   // 播放列表跳转
   if (showPlaylist.value) playlistScroll();
