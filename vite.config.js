@@ -50,7 +50,7 @@ export default defineConfig({
   },
   define: {
     BACKDOOR_WORDS: JSON.stringify("ASOULMEMORY"),
-    APP_VERSION: JSON.stringify("0.1"),
+    APP_VERSION: JSON.stringify("1.1"),
     REMOTE_SOURCE_URL: JSON.stringify("0.1"),
     MOST_N: 10,
     AVAILABLE_DAYS_LIMIT: 5,
