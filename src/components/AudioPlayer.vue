@@ -114,11 +114,11 @@ const dragOptions = computed(() => {
 });
 
 const isMarquee = computed(() => {
-  const _length = [...currentSongObject.value.name].reduce(
-    (count, char) => count + Math.min(new Blob([char]).size, 2),
-    0
-  );
-  return _length > 24;
+  const _length = [
+    ...currentSongObject.value.name,
+    ...currentSongObject.value.artist,
+  ].reduce((count, char) => count + Math.min(new Blob([char]).size, 2), 0);
+  return _length > 39;
 });
 
 watch(volume, (newV) => {
