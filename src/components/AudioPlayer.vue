@@ -648,22 +648,22 @@ defineExpose({
               ]"
               v-if="playlist[currentSongIndex]"
             >
-              <span
-                >{{ playlist[currentSongIndex].name
+              <div></div>
+                {{ playlist[currentSongIndex].name
                 }}{{
                   playlist[currentSongIndex].name_chs
                     ? `(${playlist[currentSongIndex].name_chs})`
                     : ""
-                }}</span
-              >
-              <span v-if="isMarquee"
-                >{{ playlist[currentSongIndex].name
+                }}
+              </div>
+              <div v-if="isMarquee">
+                {{ playlist[currentSongIndex].name
                 }}{{
                   playlist[currentSongIndex].name_chs
                     ? `(${playlist[currentSongIndex].name_chs})`
                     : ""
-                }}</span
-              >
+                }}
+              </div>
             </div>
             <div class="singer">
               {{ playlist[currentSongIndex]?.artist }}
