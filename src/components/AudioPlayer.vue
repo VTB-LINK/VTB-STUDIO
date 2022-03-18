@@ -113,6 +113,14 @@ const dragOptions = computed(() => {
   };
 });
 
+const isMarquee = computed(() => {
+  const _length = [
+    ...currentSongObject.value.name,
+    ...currentSongObject.value.artist,
+  ].reduce((count, char) => count + Math.min(new Blob([char]).size, 2), 0);
+  return _length > 39;
+});
+
 watch(volume, (newV) => {
   if (newV) {
     audio.volume = newV;
@@ -627,13 +635,31 @@ defineExpose({
       <div class="c-info">
         <div class="c-songInfo">
           <div class="c-songName">
-            <div class="songName" v-if="playlist[currentSongIndex]">
-              {{ playlist[currentSongIndex].name
-              }}{{
-                playlist[currentSongIndex].name_chs
-                  ? `(${playlist[currentSongIndex].name_chs})`
-                  : ""
-              }}
+            <div
+              v-bind:class="[
+                'songName',
+                {
+                  'songname-marquee': isMarquee,
+                },
+              ]"
+              v-if="playlist[currentSongIndex]"
+            >
+              <span
+                >{{ playlist[currentSongIndex].name
+                }}{{
+                  playlist[currentSongIndex].name_chs
+                    ? `(${playlist[currentSongIndex].name_chs})`
+                    : ""
+                }}</span
+              >
+              <span v-if="isMarquee"
+                >{{ playlist[currentSongIndex].name
+                }}{{
+                  playlist[currentSongIndex].name_chs
+                    ? `(${playlist[currentSongIndex].name_chs})`
+                    : ""
+                }}</span
+              >
             </div>
             <div class="singer">
               {{ playlist[currentSongIndex]?.artist }}
