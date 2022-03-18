@@ -185,10 +185,7 @@ const changeUseTreated = () => {
 
 onMounted(() => {
   bus.on("apply-search-event", applySearch);
-  showSongCollection.value =
-    !navigator.userAgent.match(
-      /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
-    ) || !window.matchMedia("(max-width: 799px)").matches;
+  showSongCollection.value = !window.Variables.is_mobile_device;
 });
 </script>
 

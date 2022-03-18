@@ -117,8 +117,12 @@ const isMarquee = computed(() => {
   const _length = [
     ...currentSongObject.value.name,
     ...currentSongObject.value.artist,
+    ...(currentSongObject.value.name_chs
+      ? `(${currentSongObject.value.name_chs})`
+      : ""),
   ].reduce((count, char) => count + Math.min(new Blob([char]).size, 2), 0);
-  return _length > 39;
+
+  return window.Variables.is_mobile_device ? _length > 34 : _length > 48;
 });
 
 watch(volume, (newV) => {
@@ -637,10 +641,10 @@ defineExpose({
           <div class="c-songName">
             <div
               v-bind:class="[
-                'songName',
                 {
                   'songname-marquee': isMarquee,
                 },
+                'songName',
               ]"
               v-if="playlist[currentSongIndex]"
             >

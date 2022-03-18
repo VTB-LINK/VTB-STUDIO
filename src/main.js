@@ -20,6 +20,10 @@ AudioLists.playlist.push(Consts.empty_song);
 AudioLists.cutter_list = Consts.cutter_list;
 Variables.use_treated = { value: utils.readSettings().use_treated };
 Variables.use_ch_resource = utils.readSettings().use_ch_resource;
+Variables.is_mobile_device =
+  navigator.userAgent.match(
+    /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+  ) || window.matchMedia("(max-width: 799px)").matches;
 
 window.AudioLists = AudioLists;
 window.FilterOptions = FilterOptions;
