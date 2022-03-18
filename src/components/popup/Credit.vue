@@ -91,7 +91,7 @@ const emit = defineEmits(["closepopup"]);
         切的歌，给录音棚添加了很多存货（鞠躬
       </p> -->
       <p>
-        有问题？或者想帮忙！（提前感谢）狂戳这里ଘ(੭ˊᵕˋ)੭
+        运行代码有问题？或者想帮忙！（提前感谢）狂戳这里ଘ(੭ˊᵕˋ)੭
         <a
           href="https://message.bilibili.com/#/whisper/mid271979"
           target="_blank"
