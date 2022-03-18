@@ -648,7 +648,7 @@ defineExpose({
               ]"
               v-if="playlist[currentSongIndex]"
             >
-              <div></div>
+              <div>
                 {{ playlist[currentSongIndex].name
                 }}{{
                   playlist[currentSongIndex].name_chs
