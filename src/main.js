@@ -10,6 +10,12 @@ import eventBus from "vue3-eventbus";
 import "floating-vue/dist/style.css";
 import { initStoragePersistence } from "utils/persistence.js";
 
+const parsedUrl = new URL(window.location.href);
+let backdoor_query = parsedUrl.searchParams.get("backdoor");
+if (parsedUrl.searchParams.get("clearcache") !== null) {
+  utils.clearCache(parsedUrl.origin);
+}
+
 initStoragePersistence();
 
 // 从localStorage读取喜爱列表
@@ -28,6 +34,7 @@ Variables.is_mobile_device =
 window.AudioLists = AudioLists;
 window.FilterOptions = FilterOptions;
 window.Variables = Variables;
+if (backdoor_query === BACKDOOR_WORDS) window.Variables.backdoor = true;
 
 const app = createApp(App);
 app.use(FloatingVue, {

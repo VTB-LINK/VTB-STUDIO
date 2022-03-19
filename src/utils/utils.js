@@ -192,6 +192,10 @@ function readCachedList() {
   return cacheDB.getAudioCachedList();
 }
 
+async function clearCache(redirecturl) {
+  if (await cacheDB.clearDB()) window.location.href = redirecturl;
+}
+
 function getResourceURL(
   isOrign,
   isChResource,
@@ -242,6 +246,19 @@ function getResourceURL(
       break;
   }
 
+  const _artist = artists
+    .split(",")
+    .map((x) => (x = Consts.artist_mapping[x.trim()]))
+    .sort()
+    .join("");
+
+  const _artistTag =
+    _artist.length === artists.split(",").length
+      ? _artist.length > 3
+        ? "F"
+        : _artist
+      : "L";
+
   const _fileName = `${
     SONG_NAME_SOURCE_MODE
       ? resourcedate +
@@ -279,5 +296,6 @@ export default {
   getAudioInDB,
   readCachedList,
   getResourceURL,
+  clearCache,
   debug,
 };
