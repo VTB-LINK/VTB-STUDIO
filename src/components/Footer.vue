@@ -61,17 +61,12 @@ onMounted(() => {
     <p>
       欢迎加入
       <a
-        href="https://discord.gg/TKyrqHqNyS"
+        href="https://discord.gg/a-soul"
         target="_blank"
         rel="noreferrer noopener"
         >A-Soul的非官方社区DC频道</a
       >
       ，这边有面向海外AU小伙伴的转播服务和AS社区建设交流频道。
-    </p>
-    <hr />
-    <p>
-      AS社区的很多小伙伴们为本站提供了莫大的帮忙，戳这里看看->
-      <a v-on:click="showCredit = true" class="credit">关于本站</a>
     </p>
     <p>
       试着关注一下这个b站的二创小伙伴？
@@ -83,14 +78,31 @@ onMounted(() => {
       >
     </p>
     <hr />
-    <p class="links">
-      友情链接：
+    <p>
+      录播资源，翻唱切片等请访问：
       <a
         href="https://asoul1.asoul-rec.com/"
         target="_blank"
         rel="noreferrer noopener"
         >A-SOUL录播站</a
       >
+    </p>
+    <p>
+      AS社区的很多小伙伴们为本站提供了莫大的帮忙，戳这里看看->
+      <a v-on:click="showCredit = true" class="credit">关于本站</a>
+    </p>
+    <p>
+      录音棚版本更新情报，资源文件报错反馈，问题咨询和新功能建议等请关注并私信联系：
+      <a
+        href="https://space.bilibili.com/674044855"
+        target="_blank"
+        rel="noreferrer noopener"
+        >@A-SOUL_Studio录音棚</a
+      >
+    </p>
+    <hr />
+    <p class="links">
+      友情链接：
       <a
         href="https://www.youtube.com/channel/UCrC6Xdxx5Jmo3m0cPi-u_cw"
         target="_blank"

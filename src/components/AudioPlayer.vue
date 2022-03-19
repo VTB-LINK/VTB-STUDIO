@@ -113,6 +113,18 @@ const dragOptions = computed(() => {
   };
 });
 
+const isMarquee = computed(() => {
+  const _length = [
+    ...currentSongObject.value.name,
+    ...currentSongObject.value.artist,
+    ...(currentSongObject.value.name_chs
+      ? `(${currentSongObject.value.name_chs})`
+      : ""),
+  ].reduce((count, char) => count + Math.min(new Blob([char]).size, 2), 0);
+
+  return window.Variables.is_mobile_device ? _length > 34 : _length > 48;
+});
+
 watch(volume, (newV) => {
   if (newV) {
     audio.volume = newV;
@@ -213,7 +225,8 @@ const applySong = async () => {
       false,
       currentSongObject.value.date,
       currentSongObject.value.name,
-      currentSongObject.value.ext_name
+      currentSongObject.value.ext_name,
+      currentSongObject.value.artist
     );
   }
   audioSource.src = _src.replace("『", "【").replace("』", "】");
@@ -627,13 +640,31 @@ defineExpose({
       <div class="c-info">
         <div class="c-songInfo">
           <div class="c-songName">
-            <div class="songName" v-if="playlist[currentSongIndex]">
-              {{ playlist[currentSongIndex].name
-              }}{{
-                playlist[currentSongIndex].name_chs
-                  ? `(${playlist[currentSongIndex].name_chs})`
-                  : ""
-              }}
+            <div
+              v-bind:class="[
+                {
+                  'songname-marquee': isMarquee,
+                },
+                'songName',
+              ]"
+              v-if="playlist[currentSongIndex]"
+            >
+              <div>
+                {{ playlist[currentSongIndex].name
+                }}{{
+                  playlist[currentSongIndex].name_chs
+                    ? `(${playlist[currentSongIndex].name_chs})`
+                    : ""
+                }}
+              </div>
+              <div v-if="isMarquee">
+                {{ playlist[currentSongIndex].name
+                }}{{
+                  playlist[currentSongIndex].name_chs
+                    ? `(${playlist[currentSongIndex].name_chs})`
+                    : ""
+                }}
+              </div>
             </div>
             <div class="singer">
               {{ playlist[currentSongIndex]?.artist }}

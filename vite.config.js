@@ -12,14 +12,14 @@ export default defineConfig({
     proxy: {
       "/remoteorign": {
         target:
-          "https://asoul1.asoul-rec.com/%E6%AD%8C%E8%88%9E%E5%88%87%E7%89%87/MP3%E7%9B%B4%E6%92%AD%E6%AD%8C%E6%9B%B2%E5%88%87%E7%89%87",
+          "https://as-archive-load-balance.kzmidc.workers.dev/Normalized%20Audio%20New/",
         changeOrigin: true,
         secure: true,
         rewrite: (p) => p.replace(/^\/remoteorign/, ""),
       },
       "/remotetuned": {
         target:
-          "https://asoul1.asoul-rec.com/%E6%AD%8C%E8%88%9E%E5%88%87%E7%89%87/MP3%E7%9B%B4%E6%92%AD%E6%AD%8C%E6%9B%B2%E5%88%87%E7%89%87/%E4%BF%AE%E5%A4%8D%E6%96%87%E7%89%A9",
+          "https://as-archive-load-balance.kzmidc.workers.dev/Normalized%20Audio%20New/%E4%BF%AE%E5%A4%8D%E6%96%87%E7%89%A9",
         changeOrigin: true,
         secure: true,
         rewrite: (p) => p.replace(/^\/remotetuned/, ""),
@@ -50,7 +50,7 @@ export default defineConfig({
   },
   define: {
     BACKDOOR_WORDS: JSON.stringify("ASOULMEMORY"),
-    APP_VERSION: JSON.stringify("0.1"),
+    APP_VERSION: JSON.stringify("1.1"),
     REMOTE_SOURCE_URL: JSON.stringify("0.1"),
     MOST_N: 10,
     AVAILABLE_DAYS_LIMIT: 5,

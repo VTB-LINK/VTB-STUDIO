@@ -36,8 +36,13 @@ const downloadURL = computed(() => {
     true,
     props.song.date,
     props.song.name,
-    props.song.ext_name
+    props.song.ext_name,
+    props.song.artist
   );
+});
+
+const isBackdoor = computed(() => {
+  return window.Variables.backdoor;
 });
 
 const copy = (text, popper) => {
@@ -96,7 +101,7 @@ const copy = (text, popper) => {
         <div class="share-list-text">{{ playlistID }}</div>
       </div>
       <hr />
-      <div class="c-share-body">
+      <div class="c-share-body" v-if="isBackdoor">
         <div class="c-share-title">
           <div class="share-title">下载当前歌曲</div>
           <a v-bind:href="downloadURL" download>点击下载</a>
