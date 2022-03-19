@@ -61,7 +61,7 @@ onMounted(() => {
     <p>
       欢迎加入
       <a
-        href="https://discord.gg/TKyrqHqNyS"
+        href="https://discord.gg/a-soul"
         target="_blank"
         rel="noreferrer noopener"
         >A-Soul的非官方社区DC频道</a
