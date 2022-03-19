@@ -261,15 +261,7 @@ function getResourceURL(
 
   const _fileName = `${
     SONG_NAME_SOURCE_MODE
-      ? resourcedate +
-        " " +
-        artists
-          .split(",")
-          .map((x) => (x = Consts.artist_mapping[x.trim()]))
-          .sort()
-          .join("") +
-        " " +
-        resourcefilename
+      ? resourcedate + " " + _artistTag + " " + resourcefilename
       : resourcefilename
   }.${extname}`;
 
