@@ -138,10 +138,7 @@ const pageChangeEvent = () => {
 const cacheAudioLocally = async (song) => {
   cachingList.value.push(song.id);
   await utils.saveAudioInDB(
-    song.id,
-    song.date,
-    song.name,
-    song.ext_name,
+    song,
     !window.Variables.use_treated.value,
     window.Variables.use_ch_resource
   );

@@ -162,25 +162,19 @@ function debug(text) {
   window.Variables.debug_list.push(text);
 }
 
-async function saveAudioInDB(
-  aid,
-  sorucedate,
-  sorucename,
-  extname,
-  isOrign = true,
-  isChResource = true
-) {
+async function saveAudioInDB(song, isOrign = true, isChResource = true) {
   const _para = getResourceURL(
     isOrign,
     isChResource,
     true,
-    sorucedate,
-    sorucename,
-    extname
+    song.date,
+    song.name,
+    song.ext_name,
+    song.artist
   );
   try {
     const _blob = await getAudio(_para);
-    await cacheDB.addAudioBlob(aid, _blob);
+    await cacheDB.addAudioBlob(song.id, _blob);
   } catch (err) {
     console.log(err);
   }
@@ -198,13 +192,18 @@ function readCachedList() {
   return cacheDB.getAudioCachedList();
 }
 
+async function clearCache(redirecturl) {
+  if (await cacheDB.clearDB()) window.location.href = redirecturl;
+}
+
 function getResourceURL(
   isOrign,
   isChResource,
   isCDN,
   resourcedate,
   resourcefilename,
-  extname
+  extname,
+  artists
 ) {
   let __resourceBaseURL = "";
   let __resourceExtPath = "";
@@ -247,9 +246,22 @@ function getResourceURL(
       break;
   }
 
+  const _artist = artists
+    .split(",")
+    .map((x) => (x = Consts.artist_mapping[x.trim()]))
+    .sort()
+    .join("");
+
+  const _artistTag =
+    _artist.length === artists.split(",").length
+      ? _artist.length > 3
+        ? "F"
+        : _artist
+      : "L";
+
   const _fileName = `${
     SONG_NAME_SOURCE_MODE
-      ? resourcedate + " " + resourcefilename
+      ? resourcedate + " " + _artistTag + " " + resourcefilename
       : resourcefilename
   }.${extname}`;
 
@@ -276,5 +288,6 @@ export default {
   getAudioInDB,
   readCachedList,
   getResourceURL,
+  clearCache,
   debug,
 };

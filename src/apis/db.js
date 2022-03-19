@@ -62,10 +62,22 @@ async function getAudioCachedList() {
   }
 }
 
+async function clearDB() {
+  try {
+    await db.audioblobs.clear();
+    console.log("cachecleared!");
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 export default {
   addAudioBlob,
   deleteAudioBlobByID,
   deleteAudioBlobByLRU,
   getAudioBlobByID,
   getAudioCachedList,
+  clearDB,
 };
