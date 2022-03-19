@@ -36,7 +36,8 @@ const downloadURL = computed(() => {
     true,
     props.song.date,
     props.song.name,
-    props.song.ext_name
+    props.song.ext_name,
+    props.song.artist
   );
 });
 

@@ -162,25 +162,19 @@ function debug(text) {
   window.Variables.debug_list.push(text);
 }
 
-async function saveAudioInDB(
-  aid,
-  sorucedate,
-  sorucename,
-  extname,
-  isOrign = true,
-  isChResource = true
-) {
+async function saveAudioInDB(song, isOrign = true, isChResource = true) {
   const _para = getResourceURL(
     isOrign,
     isChResource,
     true,
-    sorucedate,
-    sorucename,
-    extname
+    song.date,
+    song.name,
+    song.ext_name,
+    song.artist
   );
   try {
     const _blob = await getAudio(_para);
-    await cacheDB.addAudioBlob(aid, _blob);
+    await cacheDB.addAudioBlob(song.id, _blob);
   } catch (err) {
     console.log(err);
   }
@@ -204,7 +198,8 @@ function getResourceURL(
   isCDN,
   resourcedate,
   resourcefilename,
-  extname
+  extname,
+  artists
 ) {
   let __resourceBaseURL = "";
   let __resourceExtPath = "";
@@ -249,7 +244,15 @@ function getResourceURL(
 
   const _fileName = `${
     SONG_NAME_SOURCE_MODE
-      ? resourcedate + " " + resourcefilename
+      ? resourcedate +
+        " " +
+        artists
+          .split(",")
+          .map((x) => (x = Consts.artist_mapping[x.trim()]))
+          .sort()
+          .join("") +
+        " " +
+        resourcefilename
       : resourcefilename
   }.${extname}`;
 

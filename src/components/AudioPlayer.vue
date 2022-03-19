@@ -225,7 +225,8 @@ const applySong = async () => {
       false,
       currentSongObject.value.date,
       currentSongObject.value.name,
-      currentSongObject.value.ext_name
+      currentSongObject.value.ext_name,
+      currentSongObject.value.artist
     );
   }
   audioSource.src = _src.replace("『", "【").replace("』", "】");
