@@ -23,10 +23,10 @@ export default defineConfig({
                                 //         studio.a-soul.fans
                                 id: "G-LTKGP0Z3WC",
                             },
-                            gtm: [{
-                                //           studio.asf.ink
-                                id: 'GTM-595VN9V',
-                            }],
+                            // gtm: [{
+                            //     //           studio.asf.ink
+                            //     id: 'GTM-595VN9V',
+                            // }],
                         ],
                         server: {
                             host: "0.0.0.0",
