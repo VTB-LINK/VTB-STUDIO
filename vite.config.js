@@ -15,9 +15,19 @@ export default defineConfig({
         chunkSplitPlugin(),
         ViteRadar({
             // Google Analytics tag injection
-            analytics: {
-                id: "G-XXXXX",
-            },
+            analytics: [{
+                    id: "G-EKWV7Q91WM",
+                    // studio.asf.ink
+                },
+                {
+                    id: "G-LTKGP0Z3WC",
+                    // studio.a-soul.fans
+                },
+                // gtm:  [{
+                //     id: 'GTM-595VN9V',
+                // },]
+            ]
+
         }),
     ],
     server: {
