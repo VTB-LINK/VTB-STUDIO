@@ -42,8 +42,10 @@ function parseSongCsv(csvfile) {
   const _csvObject = parse(csvfile, { columns: true });
   // 转换为对象
   window.AudioLists.song_list.splice(0, window.AudioLists.song_list.length);
-  for (const _row of _csvObject)
+  for (const _row of _csvObject) {
+    if (_row["日期"].trim() === "") continue;
     window.AudioLists.song_list.push(convertSong(_row));
+  }
   // 按时间降序
   window.AudioLists.song_list.sort((s2, s1) => {
     const _d1 = dayjs(s1.date, "YYYY.MM.DD");
