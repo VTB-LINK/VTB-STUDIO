@@ -17,14 +17,19 @@ export default defineConfig({
       // Google Analytics tag injection
       analytics: [
        {
+//          studio.asf.ink
         id: "G-EKWV7Q91WM",
+      },
+      {
+//         studio.a-soul.fans
+        id: "G-LTKGP0Z3WC",
       },
        gtm: [
         {
-          id: 'GTM-595VN9V',
+//           studio.asf.ink
+        id: 'GTM-595VN9V',
         }
       ],
-    }),
   ],
   server: {
     host: "0.0.0.0",
