@@ -16,7 +16,7 @@ export default defineConfig({
     ViteRadar({
       // Google Analytics tag injection
       analytics: {
-        id: "G-XXXXX",
+        id: "G-EKWV7Q91WM",
       },
     }),
   ],
