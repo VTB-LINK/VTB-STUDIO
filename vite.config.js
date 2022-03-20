@@ -2,12 +2,24 @@ import { defineConfig } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
 import { chunkSplitPlugin } from "vite-plugin-chunk-split";
 import viteCompression from "vite-plugin-compression";
+import ViteRadar from "vite-plugin-radar";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), visualizer(), viteCompression(), chunkSplitPlugin()],
+  plugins: [
+    vue(),
+    visualizer(),
+    viteCompression(),
+    chunkSplitPlugin(),
+    ViteRadar({
+      // Google Analytics tag injection
+      analytics: {
+        id: "G-XXXXX",
+      },
+    }),
+  ],
   server: {
     host: "0.0.0.0",
     port: 3000,

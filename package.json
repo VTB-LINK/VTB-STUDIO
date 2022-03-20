@@ -33,6 +33,7 @@
     "sass": "^1.49.9",
     "vite": "^2.8.6",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-radar": "^0.4.2",
     "vue3-eventbus": "^2.0.0"
   }
 }
