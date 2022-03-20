@@ -1,11 +1,44 @@
 import { defineConfig } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
+import { chunkSplitPlugin } from "vite-plugin-chunk-split";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import viteCompression from "vite-plugin-compression";
+import ViteRadar from "vite-plugin-radar";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), visualizer()],
+  plugins: [
+    vue(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+    visualizer(),
+    viteCompression(),
+    chunkSplitPlugin(),
+    ViteRadar({
+      // Google Analytics tag injection
+      analytics: [
+        {
+          id: "G-EKWV7Q91WM",
+          // studio.asf.ink
+        },
+        {
+          id: "G-LTKGP0Z3WC",
+          // studio.a-soul.fans
+        },
+        // gtm:  [{
+        //     id: 'GTM-595VN9V',
+        // },]
+      ],
+    }),
+  ],
   server: {
     host: "0.0.0.0",
     port: 3000,
@@ -30,7 +63,10 @@ export default defineConfig({
     alias: [
       { find: "@", replacement: path.resolve(__dirname, "./src") },
       { find: "apis", replacement: path.resolve(__dirname, "./src/apis") },
-      { find: "assets", replacement: path.resolve(__dirname, "./src/assets") },
+      {
+        find: "assets",
+        replacement: path.resolve(__dirname, "./src/assets"),
+      },
       { find: "ui", replacement: path.resolve(__dirname, "./src/assets/ui") },
       {
         find: "components",
@@ -44,7 +80,10 @@ export default defineConfig({
         find: "globals",
         replacement: path.resolve(__dirname, "./src/globals"),
       },
-      { find: "styles", replacement: path.resolve(__dirname, "./src/styles") },
+      {
+        find: "styles",
+        replacement: path.resolve(__dirname, "./src/styles"),
+      },
       { find: "utils", replacement: path.resolve(__dirname, "./src/utils") },
     ],
   },
@@ -62,18 +101,5 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 1500,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes("node_modules")) {
-            return id
-              .toString()
-              .split("node_modules/")[1]
-              .split("/")[0]
-              .toString();
-          }
-        },
-      },
-    },
   },
 });
