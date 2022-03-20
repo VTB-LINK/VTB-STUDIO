@@ -76,8 +76,8 @@ const switchNightMode = () => {
 
 onMounted(() => {
   //todo remove after 1month for fixing issue on darkmode icon display
-  if (typeof utils.readSettings().night_mode === String)
-    nightMode.value = utils.readSettings().night_mode;
+  // if (typeof utils.readSettings().night_mode === String)
+  //   nightMode.value = utils.readSettings().night_mode;
 });
 </script>
 
