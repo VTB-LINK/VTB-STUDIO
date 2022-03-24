@@ -72,22 +72,19 @@ function parseSongCsv(csvfile) {
 function initialFilterOptions() {
   // 计算各种筛选条件
   // 状态
-  window.FilterOptions.status.push("--");
   window.FilterOptions.status.push(
     ...new Set(window.AudioLists.song_list.map((i) => i.status))
   );
   // 语言
-  window.FilterOptions.language.push("--");
   window.FilterOptions.language.push(
     ...new Set(window.AudioLists.song_list.map((i) => i.language))
   );
   // 演唱者
-  const _artist = new Set(["--"]);
+  const _artist = new Set();
   for (const _song of window.AudioLists.song_list)
     for (const _a of _song.artist.split(",")) _artist.add(_a.trim());
   window.FilterOptions.artist.push(...Array.from(_artist).sort());
   // 月份
-  window.FilterOptions.month.push("--");
   window.FilterOptions.month.push(
     ...new Set(window.AudioLists.song_list.map((i) => i.date.substring(0, 7)))
   );
