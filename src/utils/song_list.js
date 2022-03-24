@@ -11,7 +11,6 @@ function getAll() {
       },
     ]
   );
-  window.FilterOptions.collection.push("--");
   window.FilterOptions.collection.push(
     ...window.AudioLists.song_collection.map((c) => c.name)
   );
