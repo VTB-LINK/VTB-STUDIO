@@ -9,6 +9,7 @@ export default defineComponent({
 import utils from "utils/utils.js";
 import bus from "vue3-eventbus";
 import ExplainTreatedPopUp from "popup/ExplainTreated.vue";
+import intersection from "lodash.intersection";
 
 const props = defineProps({
   songListFiltered: Array,
@@ -26,43 +27,43 @@ const filters = ref([
   {
     name: "artist",
     text: "演唱者",
-    value: "--",
+    value: "",
     options: window.FilterOptions.artist,
   },
   {
     name: "status",
     text: "演唱状态",
-    value: "--",
+    value: "",
     options: window.FilterOptions.status,
   },
   {
     name: "language",
     text: "语言",
-    value: "--",
+    value: "",
     options: window.FilterOptions.language,
   },
   {
     name: "month",
     text: "月份",
-    value: "--",
+    value: "",
     options: window.FilterOptions.month,
   },
   {
     name: "collection",
     text: "歌单",
-    value: "--",
+    value: "",
     options: window.FilterOptions.collection,
   },
   {
     name: "star",
     text: "星标",
-    value: "--",
+    value: "",
     options: window.FilterOptions.star,
   },
   {
     name: "has_audio",
     text: "是否有音频",
-    value: "--",
+    value: "",
     options: window.FilterOptions.has_audio,
   },
   {
@@ -86,25 +87,33 @@ const selfSongListFiltered = computed(() => {
   let filter = {};
   for (const item of filters.value) filter[item.name] = item.value;
   // 筛选歌单
-  if (filter.collection !== "--")
+  if (filter.collection !== "")
     _templist = songCollection.value
       .find((c) => c.name === filter.collection)
       .list.slice();
   // 筛选演唱状态
-  if (filter.status !== "--")
+  if (filter.status !== "")
     _templist = _templist.filter((song) => song.status === filter.status);
   // 筛选语言
-  if (filter.language !== "--")
+  if (filter.language !== "")
     _templist = _templist.filter((song) => song.language === filter.language);
   // 筛选演唱者
-  if (filter.artist !== "--") {
+  if (filter.artist.length) {
     _templist = _templist.filter((song) => {
       const _artistList = song.artist.split(",");
-      return _artistList.findIndex((a) => a === filter.artist) !== -1;
+      let _result = false;
+      if (filter.artist.length === 1)
+        _result =
+          _artistList.findIndex((a) => filter.artist.includes(a)) !== -1;
+      else
+        _result =
+          intersection(_artistList, filter.artist).length ===
+          filter.artist.length;
+      return _result;
     });
   }
   // 筛选月份
-  if (filter.month !== "--")
+  if (filter.month !== "")
     _templist = _templist.filter(
       (song) => song.date.substring(0, 7) === filter.month
     );
@@ -233,7 +242,7 @@ onMounted(() => {
         v-bind:key="filter_item.name"
       >
         <div class="filter-item-label">{{ filter_item.text }}:</div>
-        <select
+        <!--         <select
           class="general-input"
           v-model="filter_item.value"
           v-on:change="filterChangeEvent"
@@ -245,7 +254,22 @@ onMounted(() => {
           >
             {{ option }}
           </option>
-        </select>
+        </select> -->
+        <el-select
+          v-model="filter_item.value"
+          :multiple="filter_item.name == 'artist'"
+          clearable
+          placeholder="--"
+          style="general-input"
+          :change="filterChangeEvent"
+        >
+          <el-option
+            v-for="option in filter_item.options"
+            :key="option"
+            :label="option"
+            :value="option"
+          />
+        </el-select>
       </div>
       <div class="filter-item">
         <input
