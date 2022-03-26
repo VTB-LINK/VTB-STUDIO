@@ -1,5 +1,5 @@
 <script>
-import { defineComponent, ref, computed, onMounted } from "vue";
+import { defineComponent, ref, computed, onMounted, reactive } from "vue";
 export default defineComponent({
   name: "SongFilter",
 });
@@ -9,6 +9,8 @@ export default defineComponent({
 import utils from "utils/utils.js";
 import bus from "vue3-eventbus";
 import ExplainTreatedPopUp from "popup/ExplainTreated.vue";
+import intersection from "lodash.intersection";
+import shuffle from "lodash.shuffle";
 
 const props = defineProps({
   songListFiltered: Array,
@@ -22,47 +24,50 @@ const songListOrg = ref(window.AudioLists.song_list);
 const songCollection = ref(window.AudioLists.song_collection);
 const showSongCollection = ref(false);
 const showFilter = ref(false);
-const filters = ref([
+const useTreated = ref(window.Variables.use_treated.value);
+const showExplain = ref(false);
+const artistExactMacth = ref(false);
+const filters = reactive([
   {
     name: "artist",
     text: "演唱者",
-    value: "--",
+    value: "",
     options: window.FilterOptions.artist,
   },
   {
     name: "status",
     text: "演唱状态",
-    value: "--",
+    value: "",
     options: window.FilterOptions.status,
   },
   {
     name: "language",
     text: "语言",
-    value: "--",
+    value: "",
     options: window.FilterOptions.language,
   },
   {
     name: "month",
     text: "月份",
-    value: "--",
+    value: "",
     options: window.FilterOptions.month,
   },
   {
     name: "collection",
     text: "歌单",
-    value: "--",
+    value: "",
     options: window.FilterOptions.collection,
   },
   {
     name: "star",
     text: "星标",
-    value: "--",
+    value: "",
     options: window.FilterOptions.star,
   },
   {
     name: "has_audio",
     text: "是否有音频",
-    value: "--",
+    value: "",
     options: window.FilterOptions.has_audio,
   },
   {
@@ -78,33 +83,41 @@ const search = ref({
   type: "搜索歌名",
   options: window.FilterOptions.search_type,
 });
-const useTreated = ref(window.Variables.use_treated.value);
-const showExplain = ref(false);
 
 const selfSongListFiltered = computed(() => {
   let _templist = songListOrg.value.slice();
   let filter = {};
-  for (const item of filters.value) filter[item.name] = item.value;
+  for (const item of filters) filter[item.name] = item.value;
   // 筛选歌单
-  if (filter.collection !== "--")
+  if (filter.collection !== "")
     _templist = songCollection.value
       .find((c) => c.name === filter.collection)
       .list.slice();
   // 筛选演唱状态
-  if (filter.status !== "--")
+  if (filter.status !== "")
     _templist = _templist.filter((song) => song.status === filter.status);
   // 筛选语言
-  if (filter.language !== "--")
+  if (filter.language !== "")
     _templist = _templist.filter((song) => song.language === filter.language);
   // 筛选演唱者
-  if (filter.artist !== "--") {
+  if (filter.artist.length) {
     _templist = _templist.filter((song) => {
       const _artistList = song.artist.split(",");
-      return _artistList.findIndex((a) => a === filter.artist) !== -1;
+      let _result = false;
+      if (filter.artist.length === 1)
+        _result =
+          _artistList.findIndex((a) => filter.artist.includes(a)) !== -1;
+      else
+        _result =
+          intersection(_artistList, filter.artist).length ===
+          filter.artist.length;
+      return artistExactMacth.value
+        ? _result && _artistList.length == filter.artist.length
+        : _result;
     });
   }
   // 筛选月份
-  if (filter.month !== "--")
+  if (filter.month !== "")
     _templist = _templist.filter(
       (song) => song.date.substring(0, 7) === filter.month
     );
@@ -183,6 +196,22 @@ const changeUseTreated = () => {
   });
 };
 
+const calculateSelectWidth = (list, mutipleflag) => {
+  let _length = 4;
+  if (list.length) {
+    _length = [
+      ...list.reduce((acc, val) => {
+        return acc.length >= val.length ? acc : val;
+      }),
+    ].reduce((count, char) => count + Math.min(new Blob([char]).size, 2), 0);
+  }
+  return `width: ${Math.ceil(_length / 2) + (mutipleflag ? 11 : 4)}rem`;
+};
+
+const switchStylePicker = () => {
+  return shuffle(["#9AC8E2", "#DB7D74", "#B8A6D9", "#E799B0", "#576690"])[0];
+};
+
 onMounted(() => {
   bus.on("apply-search-event", applySearch);
   showSongCollection.value = !window.Variables.is_mobile_device;
@@ -232,20 +261,38 @@ onMounted(() => {
         v-for="filter_item in filters"
         v-bind:key="filter_item.name"
       >
-        <div class="filter-item-label">{{ filter_item.text }}:</div>
-        <select
-          class="general-input"
+        <div class="filter-item-label">
+          <div>{{ filter_item.text }}:</div>
+          <el-switch
+            v-model="artistExactMacth"
+            inline-prompt
+            active-text="精确"
+            inactive-text="模糊"
+            :width="50"
+            :active-color="switchStylePicker()"
+            inactive-color="#FC966E"
+            v-if="filter_item.name == 'artist'"
+          />
+        </div>
+        <el-select
           v-model="filter_item.value"
-          v-on:change="filterChangeEvent"
+          :multiple="filter_item.name == 'artist'"
+          clearable
+          placeholder="--"
+          :style="
+            calculateSelectWidth(
+              filter_item.options,
+              filter_item.name == 'artist'
+            )
+          "
         >
-          <option
+          <el-option
             v-for="option in filter_item.options"
-            v-bind:value="option"
-            v-bind:key="option"
-          >
-            {{ option }}
-          </option>
-        </select>
+            :key="option"
+            :label="option"
+            :value="option"
+          />
+        </el-select>
       </div>
       <div class="filter-item">
         <input
