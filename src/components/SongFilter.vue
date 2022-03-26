@@ -1,5 +1,5 @@
 <script>
-import { defineComponent, ref, computed, onMounted } from "vue";
+import { defineComponent, ref, computed, onMounted, reactive } from "vue";
 export default defineComponent({
   name: "SongFilter",
 });
@@ -23,7 +23,7 @@ const songListOrg = ref(window.AudioLists.song_list);
 const songCollection = ref(window.AudioLists.song_collection);
 const showSongCollection = ref(false);
 const showFilter = ref(false);
-const filters = ref([
+const filters = reactive([
   {
     name: "artist",
     text: "演唱者",
@@ -85,7 +85,7 @@ const showExplain = ref(false);
 const selfSongListFiltered = computed(() => {
   let _templist = songListOrg.value.slice();
   let filter = {};
-  for (const item of filters.value) filter[item.name] = item.value;
+  for (const item of filters) filter[item.name] = item.value;
   // 筛选歌单
   if (filter.collection !== "")
     _templist = songCollection.value
@@ -192,6 +192,18 @@ const changeUseTreated = () => {
   });
 };
 
+const calculateSelectWidth = (list, mutipleflag) => {
+  let _length = 4;
+  if (list.length) {
+    _length = [
+      ...list.reduce((acc, val) => {
+        return acc.length >= val.length ? acc : val;
+      }),
+    ].reduce((count, char) => count + Math.min(new Blob([char]).size, 2), 0);
+  }
+  return `width: ${Math.ceil(_length / 2) + (mutipleflag ? 11 : 4)}rem`;
+};
+
 onMounted(() => {
   bus.on("apply-search-event", applySearch);
   showSongCollection.value = !window.Variables.is_mobile_device;
@@ -260,8 +272,12 @@ onMounted(() => {
           :multiple="filter_item.name == 'artist'"
           clearable
           placeholder="--"
-          style="general-input"
-          :change="filterChangeEvent"
+          :style="
+            calculateSelectWidth(
+              filter_item.options,
+              filter_item.name == 'artist'
+            )
+          "
         >
           <el-option
             v-for="option in filter_item.options"
