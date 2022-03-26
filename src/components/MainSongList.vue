@@ -166,7 +166,6 @@ onMounted(() => {
   <div class="c-main">
     <SongFilter
       v-model:songListFiltered="songListFiltered"
-      v-on:update:songListFiltered="page = 1"
       v-bind:cachedList="cachedListForPlay"
       v-bind:loveList="loveListForPlay"
     />

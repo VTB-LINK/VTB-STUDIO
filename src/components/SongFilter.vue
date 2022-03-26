@@ -1,5 +1,5 @@
 <script>
-import { defineComponent, ref, computed, onMounted } from "vue";
+import { defineComponent, ref, computed, onMounted, reactive } from "vue";
 export default defineComponent({
   name: "SongFilter",
 });
@@ -10,6 +10,7 @@ import utils from "utils/utils.js";
 import bus from "vue3-eventbus";
 import ExplainTreatedPopUp from "popup/ExplainTreated.vue";
 import intersection from "lodash.intersection";
+import shuffle from "lodash.shuffle";
 
 const props = defineProps({
   songListFiltered: Array,
@@ -23,7 +24,10 @@ const songListOrg = ref(window.AudioLists.song_list);
 const songCollection = ref(window.AudioLists.song_collection);
 const showSongCollection = ref(false);
 const showFilter = ref(false);
-const filters = ref([
+const useTreated = ref(window.Variables.use_treated.value);
+const showExplain = ref(false);
+const artistExactMacth = ref(false);
+const filters = reactive([
   {
     name: "artist",
     text: "演唱者",
@@ -79,13 +83,11 @@ const search = ref({
   type: "搜索歌名",
   options: window.FilterOptions.search_type,
 });
-const useTreated = ref(window.Variables.use_treated.value);
-const showExplain = ref(false);
 
 const selfSongListFiltered = computed(() => {
   let _templist = songListOrg.value.slice();
   let filter = {};
-  for (const item of filters.value) filter[item.name] = item.value;
+  for (const item of filters) filter[item.name] = item.value;
   // 筛选歌单
   if (filter.collection !== "")
     _templist = songCollection.value
@@ -109,7 +111,9 @@ const selfSongListFiltered = computed(() => {
         _result =
           intersection(_artistList, filter.artist).length ===
           filter.artist.length;
-      return _result;
+      return artistExactMacth.value
+        ? _result && _artistList.length == filter.artist.length
+        : _result;
     });
   }
   // 筛选月份
@@ -192,6 +196,22 @@ const changeUseTreated = () => {
   });
 };
 
+const calculateSelectWidth = (list, mutipleflag) => {
+  let _length = 4;
+  if (list.length) {
+    _length = [
+      ...list.reduce((acc, val) => {
+        return acc.length >= val.length ? acc : val;
+      }),
+    ].reduce((count, char) => count + Math.min(new Blob([char]).size, 2), 0);
+  }
+  return `width: ${Math.ceil(_length / 2) + (mutipleflag ? 11 : 4)}rem`;
+};
+
+const switchStylePicker = () => {
+  return shuffle(["#9AC8E2", "#DB7D74", "#B8A6D9", "#E799B0", "#576690"])[0];
+};
+
 onMounted(() => {
   bus.on("apply-search-event", applySearch);
   showSongCollection.value = !window.Variables.is_mobile_device;
@@ -241,27 +261,30 @@ onMounted(() => {
         v-for="filter_item in filters"
         v-bind:key="filter_item.name"
       >
-        <div class="filter-item-label">{{ filter_item.text }}:</div>
-        <!--         <select
-          class="general-input"
-          v-model="filter_item.value"
-          v-on:change="filterChangeEvent"
-        >
-          <option
-            v-for="option in filter_item.options"
-            v-bind:value="option"
-            v-bind:key="option"
-          >
-            {{ option }}
-          </option>
-        </select> -->
+        <div class="filter-item-label">
+          <div>{{ filter_item.text }}:</div>
+          <el-switch
+            v-model="artistExactMacth"
+            inline-prompt
+            active-text="精确"
+            inactive-text="模糊"
+            :width="50"
+            :active-color="switchStylePicker()"
+            inactive-color="#FC966E"
+            v-if="filter_item.name == 'artist'"
+          />
+        </div>
         <el-select
           v-model="filter_item.value"
           :multiple="filter_item.name == 'artist'"
           clearable
           placeholder="--"
-          style="general-input"
-          :change="filterChangeEvent"
+          :style="
+            calculateSelectWidth(
+              filter_item.options,
+              filter_item.name == 'artist'
+            )
+          "
         >
           <el-option
             v-for="option in filter_item.options"
