@@ -5,6 +5,7 @@ const cutter_list = [
   ["1628088", "金色の闇Official"],
   ["394998430", "肥恐龙523"],
   ["511750000", "很难不suki"],
+  ["428891", "千彼Penxill"],
 ];
 
 const empty_song = {
