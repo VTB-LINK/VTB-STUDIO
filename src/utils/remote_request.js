@@ -1,6 +1,7 @@
 import axios from "axios";
 
 let _remoteURL = "";
+let _responseType = "";
 
 // 创建 axios 实例
 const RemoteService = axios.create({
@@ -8,7 +9,7 @@ const RemoteService = axios.create({
   baseURL: "",
   // 请求超时时间
   timeout: 30000,
-  responseType: "blob",
+  responseType: "",
 });
 
 const _httpCode = {
@@ -27,6 +28,7 @@ const _httpCode = {
 RemoteService.interceptors.request.use(
   (config) => {
     config.baseURL = _remoteURL;
+    config.responseType = _responseType;
     return config;
   },
   (error) => {
@@ -73,8 +75,9 @@ RemoteService.interceptors.response.use(
 );
 
 //动态设置远程资源URL
-function setServiceURL(remoteURL) {
+function setServicePara(remoteURL, type) {
   _remoteURL = remoteURL;
+  _responseType = type;
 }
 
-export default { RemoteService, setServiceURL };
+export default { RemoteService, setServicePara };
