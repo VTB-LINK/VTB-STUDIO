@@ -26,11 +26,39 @@ export default defineConfig({
       // Google Analytics tag injection
       analytics: [
         {
+          // studio.asf.ink
           id: "G-EKWV7Q91WM",
+          config: {
+            cookie_domain: "auto",
+            cookie_expires: 63072000,
+            cookie_prefix: "none",
+            cookie_update: true,
+            cookie_flags: "",
+            send_page_view: true,
+            allow_google_signals: true,
+            allow_ad_personalization_signals: true,
+          },
+        },
+        {
+          // studio.a-soul.fans
+          id: "G-LTKGP0Z3WC",
+          config: {
+            cookie_domain: "auto",
+            cookie_expires: 63072000,
+            cookie_prefix: "none",
+            cookie_update: true,
+            cookie_flags: "",
+            send_page_view: true,
+            allow_google_signals: true,
+            allow_ad_personalization_signals: true,
+          },
+        },
+        {
+          id: "UA-221501635-2",
           // studio.asf.ink
         },
         {
-          id: "G-LTKGP0Z3WC",
+          id: "UA-221501635-1",
           // studio.a-soul.fans
         },
         // gtm:  [{
