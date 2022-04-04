@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import song_list from "utils/song_list.js";
 import utils from "utils/utils.js";
-import { getDataSheets } from "apis/datasheet.js";
+import { getDataSheetsLocal, getDataSheetsRemote } from "apis/datasheet.js";
 
 // function fetch_csv(url) {
 //   return fetch(url, {
@@ -23,7 +23,10 @@ dayjs.extend(customParseFormat);
 async function getSongData() {
   // 获取数据 包括歌曲数据库、歌单数据库
   const sheetList = ["song_database.csv", "playlist_database.csv"];
-  const fetchedList = sheetList.map((l) => getDataSheets(l));
+  const fetchedList =
+    import.meta.env.MODE === "development"
+      ? sheetList.map((l) => getDataSheetsLocal(l))
+      : sheetList.map((l) => getDataSheetsRemote(l));
   fetchedList.push(utils.readCachedList());
   return Promise.all(fetchedList).then((results) => {
     parseSongCsv(results[0]);
