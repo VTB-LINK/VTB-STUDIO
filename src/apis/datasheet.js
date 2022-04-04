@@ -18,12 +18,12 @@ export const getDataSheetsRemote = (params) => {
   RemoteService.setServicePara(import.meta.env.VITE_DB, "json");
   return RemoteService.RemoteService({
     method: "get",
-    url: `${params}?timestamp=${Date.now()}`,
+    url: params,
     headers: {
       "Content-Type": "text/csv",
-      // "Cache-Control": "no-cache",
+      "Cache-Control": "no-cache",
       // Pragma: "no-cache",
-      // Expires: "0",
+      //Expires: "0",
     },
   });
 };
