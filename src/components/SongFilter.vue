@@ -317,6 +317,7 @@ onMounted(() => {
         placeholder="请输入搜索信息"
         class="input-with-select"
         clearable
+        @clear="applySearch(true)"
       >
         <template #prepend>
           <el-select
@@ -333,7 +334,7 @@ onMounted(() => {
           </el-select>
         </template>
         <template #append>
-          <el-button :icon="Search" />
+          <el-button :icon="Search" v-on:click="applySearch(false)" />
         </template>
       </el-input>
 
