@@ -314,7 +314,7 @@ onMounted(() => {
     <div class="filter-song-search">
       <el-input
         v-model="search.text"
-        placeholder="Please input"
+        placeholder="请输入搜索信息"
         class="input-with-select"
         clearable
       >
