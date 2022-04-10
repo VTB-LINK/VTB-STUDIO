@@ -11,6 +11,7 @@ import bus from "vue3-eventbus";
 import ExplainTreatedPopUp from "popup/ExplainTreated.vue";
 import intersection from "lodash.intersection";
 import shuffle from "lodash.shuffle";
+import { Search } from "@element-plus/icons-vue";
 
 const props = defineProps({
   songListFiltered: Array,
@@ -311,7 +312,33 @@ onMounted(() => {
       </div>
     </div>
     <div class="filter-song-search">
-      <select
+      <el-input
+        v-model="search.text"
+        placeholder="请输入搜索信息"
+        class="input-with-select"
+        clearable
+        @clear="applySearch(true)"
+      >
+        <template #prepend>
+          <el-select
+            v-model="search.type"
+            placeholder="Select"
+            style="width: 110px"
+          >
+            <el-option
+              v-for="option in search.options"
+              :key="option"
+              :label="option"
+              :value="option"
+            />
+          </el-select>
+        </template>
+        <template #append>
+          <el-button :icon="Search" v-on:click="applySearch(false)" />
+        </template>
+      </el-input>
+
+      <!--  <select
         class="general-input filter-song-search-select"
         v-model="search.type"
       >
@@ -340,7 +367,7 @@ onMounted(() => {
         v-on:click="applySearch(true)"
       >
         清空
-      </button>
+      </button> -->
     </div>
     <ExplainTreatedPopUp
       v-if="showExplain"
