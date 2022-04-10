@@ -21,7 +21,7 @@ export const getDataSheetsRemote = (params) => {
     url: params,
     headers: {
       "Content-Type": "text/csv",
-      "Cache-Control": "no-cache",
+      //"Cache-Control": "no-cache",
       // Pragma: "no-cache",
       //Expires: "0",
     },

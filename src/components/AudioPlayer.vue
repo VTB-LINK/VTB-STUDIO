@@ -36,6 +36,7 @@ const volume = ref(0.9);
 const playProgress = ref(0);
 const loadProgress = ref(0);
 const duration = ref(0);
+const previousSongIndex = ref(0);
 const currentSongIndex = ref(0);
 const currentSongID = ref("");
 const playlist = ref(window.AudioLists.playlist);
@@ -131,7 +132,8 @@ watch(volume, (newV) => {
   }
 });
 
-watch([currentSongIndex, () => [...playlist.value]], (newValues) => {
+watch([currentSongIndex, () => [...playlist.value]], (newValues, oldValues) => {
+  previousSongIndex.value = oldValues[0];
   utils.savePlaylist(newValues[0], newValues[1]);
   window.AudioLists.playlist = newValues[1];
 });
@@ -269,16 +271,20 @@ const nextSong = (idx) => {
   // 如果当前正在播放，就自动播放下一首
   autoPlay.value = playStatus.value;
   // 只有一首歌就回到开头
-  if (playlist.value.length === 1) {
+  if (
+    playlist.value.length === 1 ||
+    (idx === -1 &&
+      (previousSongIndex.value === currentSongIndex.value ||
+        !previousSongIndex.value))
+  ) {
     audio.currentTime = 0;
     audio.play();
     return;
   }
-  if (playMode.value === "loop" || playMode.value === "loopOnce") {
+  if (idx === -1) currentSongIndex.value = previousSongIndex.value;
+  else if (playMode.value === "loop" || playMode.value === "loopOnce") {
     // 列表循环和单曲循环就下一首
     currentSongIndex.value += idx;
-    if (currentSongIndex.value < 0)
-      currentSongIndex.value += playlist.value.length;
     currentSongIndex.value %= playlist.value.length;
   } else if (playMode.value === "shuffle") {
     // 随机就随机一首歌
@@ -452,6 +458,7 @@ const playlistReplace = (newlist, currentSongidx = 0) => {
   playlist.value.splice(0, playlist.value.length);
   for (const song of newlist) playlist.value.push(song);
   currentSongIndex.value = currentSongidx;
+  previousSongIndex.value = currentSongidx;
   autoPlay.value = false;
   playStatus.value = false;
   applySong();
