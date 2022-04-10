@@ -318,6 +318,7 @@ onMounted(() => {
         class="input-with-select"
         clearable
         @clear="applySearch(true)"
+        @change="searchPressEnter"
       >
         <template #prepend>
           <el-select
