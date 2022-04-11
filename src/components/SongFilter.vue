@@ -324,7 +324,7 @@ onMounted(() => {
           <el-select
             v-model="search.type"
             placeholder="Select"
-            style="width: 110px"
+            style="width: 8rem"
           >
             <el-option
               v-for="option in search.options"
