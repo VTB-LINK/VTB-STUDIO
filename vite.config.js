@@ -120,7 +120,7 @@ export default defineConfig({
     APP_VERSION: JSON.stringify("1.1"),
     REMOTE_SOURCE_URL: JSON.stringify("0.1"),
     MOST_N: 10,
-    AVAILABLE_DAYS_LIMIT: 3,
+    AVAILABLE_DAYS_LIMIT: 0,
     CUTTER_DISPLAY_MAX: 5,
     SONGNAME_CONTAIN_VERSION: true,
     SONG_NAME_SOURCE_MODE: true,
