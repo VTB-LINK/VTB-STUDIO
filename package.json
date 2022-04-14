@@ -20,6 +20,7 @@
     "floating-vue": "^2.0.0-beta.14",
     "lodash.intersection": "^4.4.0",
     "lodash.shuffle": "^4.2.0",
+    "lrc-file-parser": "^1.2.7",
     "tua-body-scroll-lock": "^1.2.1",
     "vite-plugin-chunk-split": "^0.2.1",
     "vue": "^3.2.31",
