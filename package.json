@@ -11,7 +11,6 @@
   "dependencies": {
     "@vueuse/core": "^8.2.6",
     "axios": "^0.26.1",
-    "bootstrap-icons": "^1.8.1",
     "csv-parse": "^5.0.4",
     "darkreader": "^4.9.46",
     "dayjs": "^1.11.1",
@@ -27,14 +26,18 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
+    "@iconify-json/ic": "^1.1.2",
+    "@iconify-json/ion": "^1.1.1",
     "@vitejs/plugin-vue": "^2.3.1",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.6.0",
     "prettier": "2.6.2",
     "rollup-plugin-visualizer": "^5.6.0",
     "sass": "^1.50.0",
     "unplugin-auto-import": "^0.7.1",
+    "unplugin-icons": "^0.14.1",
     "unplugin-vue-components": "^0.19.3",
     "vite": "^2.9.5",
     "vite-plugin-compression": "^0.5.1",

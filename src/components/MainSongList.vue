@@ -1,6 +1,4 @@
 <script>
-import { defineComponent, ref, computed, onMounted } from "vue";
-
 export default defineComponent({
   name: "MainSongList",
 });
@@ -11,6 +9,7 @@ import utils from "utils/utils.js";
 import bus from "vue3-eventbus";
 import SongFilter from "components/SongFilter.vue";
 import SongListPagination from "components/SongListPagination.vue";
+import IconCloudLoading from "~icons/local-icons/cloud-loading";
 
 const loveList = ref(window.AudioLists.love_list);
 const cachedList = ref(window.AudioLists.cached_list);
@@ -245,12 +244,16 @@ onMounted(() => {
               v-show="song.has_audio && !isCached[idx]"
               v-on:click.stop="cacheAudioLocally(song)"
             >
-              <div
+              <!--               <div
                 v-bind:class="[
                   { 'item-op-download-ready': !isCaching[idx] },
                   { 'item-op-download-doing': isCaching[idx] },
                 ]"
-              ></div>
+              ></div> -->
+              <div>
+                <i-ic-outline-cloud-download v-show="!isCaching[idx]" />
+                <IconCloudLoading v-show="isCaching[idx]" />
+              </div>
             </div>
             <div
               class="item-op-downloaded item-op-all"
@@ -258,7 +261,9 @@ onMounted(() => {
               v-show="song.has_audio && isCached[idx]"
               v-on:click.stop="decacheAudioLocally(song.id)"
             >
-              <div></div>
+              <div>
+                <i-ic-round-cloud-done />
+              </div>
             </div>
             <div
               class="item-op-add item-op-all"
@@ -266,7 +271,9 @@ onMounted(() => {
               v-show="song.has_audio && !inPlaylistList[idx]"
               v-on:click.stop="addSong(idx)"
             >
-              <div></div>
+              <div>
+                <i-ic-outline-playlist-add-circle />
+              </div>
             </div>
             <div
               class="item-op-added item-op-all"
@@ -274,7 +281,9 @@ onMounted(() => {
               v-show="song.has_audio && inPlaylistList[idx]"
               v-on:click.stop="removeSong(idx)"
             >
-              <div></div>
+              <div>
+                <i-ic-baseline-playlist-add-check-circle />
+              </div>
             </div>
             <div
               class="item-op-star item-op-all"
@@ -282,12 +291,10 @@ onMounted(() => {
               v-show="song.has_audio"
               v-on:click.stop="loveSong(idx)"
             >
-              <div
-                v-bind:class="[
-                  { 'item-op-star-true': isLoved[idx] },
-                  { 'item-op-star-false': !isLoved[idx] },
-                ]"
-              ></div>
+              <div>
+                <i-ic-round-favorite-border v-show="!isLoved[idx]" />
+                <i-ic-round-favorite v-show="isLoved[idx]" />
+              </div>
             </div>
             <div class="item-op-none" v-show="!song.has_audio">
               {{

@@ -118,29 +118,18 @@
   width: 2.5em;
   height: 2.5em;
 }
-.prevButton div {
-  width: 1.2em;
-  height: 1.2em;
-  background-image: url("ui/prev.svg");
-  background-size: contain;
+.prevButton-icon {
+  font-size: 2.1em;
 }
 .playButton {
   width: 3em;
   height: 3em;
 }
-.playButton div {
-  width: 2.5em;
-  height: 2.5em;
-  background-size: contain;
+.playButton-icon {
+  font-size: 3em;
 }
-.playButton-play {
-  background-image: url("ui/play.svg");
-}
-.playButton-pause {
-  background-image: url("ui/pause.svg");
-}
-.playButton-loading {
-  background-image: url("ui/loading.svg");
+.playButton-icon-loading {
+  font-size: 2.8em;
   animation: loading-rotation 1.5s cubic-bezier(0.16, 0.39, 0.86, 0.62) 0s
     infinite;
 }
@@ -156,11 +145,8 @@
   width: 2.5em;
   height: 2.5em;
 }
-.nextButton div {
-  width: 1.2em;
-  height: 1.2em;
-  background-image: url("ui/next.svg");
-  background-size: contain;
+.nextButton-icon {
+  font-size: 2.1em;
 }
 @media (any-hover: hover) {
   .playButtons:hover {
@@ -195,58 +181,31 @@
 }
 
 .toggleShareIcon {
-  width: 1.3em;
-  height: 1.3em;
-  background-image: url("/node_modules/bootstrap-icons/icons/share.svg");
-  background-size: contain;
+  font-size: 1.3em;
 }
 .toggleDetailsIcon {
-  width: 1.3em;
-  height: 1.3em;
-  background-image: url("/node_modules/bootstrap-icons/icons/three-dots.svg");
-  background-size: contain;
+  font-size: 1.3em;
 }
 .loopIcon {
-  width: 1.3em;
-  height: 1.3em;
-  background-image: url("/node_modules/bootstrap-icons/icons/arrow-repeat.svg");
-  background-size: contain;
+  font-size: 1.3em;
 }
 .loopOnceIcon {
-  width: 1.3em;
-  height: 1.3em;
-  background-image: url("@/assets/ui/arrow-repeat-once.svg");
-  background-size: contain;
+  font-size: 1.3em;
 }
 .shuffleIcon {
-  width: 1.3em;
-  height: 1.3em;
-  background-image: url("/node_modules/bootstrap-icons/icons/shuffle.svg");
-  background-size: contain;
+  font-size: 1.3em;
 }
 .volumeIcon {
-  width: 1.3em;
-  height: 1.3em;
-  background-image: url("/node_modules/bootstrap-icons/icons/volume-up.svg");
-  background-size: contain;
+  font-size: 1.3em;
 }
 .isLovedOn {
-  width: 1.3em;
-  height: 1.3em;
-  background-image: url("/node_modules/bootstrap-icons/icons/star-fill.svg");
-  background-size: contain;
+  font-size: 1.3em;
 }
 .isLovedOff {
-  width: 1.3em;
-  height: 1.3em;
-  background-image: url("/node_modules/bootstrap-icons/icons/star.svg");
-  background-size: contain;
+  font-size: 1.3em;
 }
 .playlistButton-img {
-  width: 1.3em;
-  height: 1.3em;
-  background-image: url("/node_modules/bootstrap-icons/icons/music-note-list.svg");
-  background-size: contain;
+  font-size: 1.3em;
 }
 .playlistButton-corner {
   color: rgb(50, 50, 50);
@@ -478,11 +437,7 @@
   background-color: rgba(0, 0, 0, 0.35);
 }
 .playlist-clear-img {
-  width: 1.5rem;
-  height: 1.5rem;
-  background-image: url("/node_modules/bootstrap-icons/icons/x.svg?url");
-  background-position: center;
-  background-size: contain;
+  font-size: 1.3em;
 }
 .playlist-empty {
   margin-top: 0.7rem;

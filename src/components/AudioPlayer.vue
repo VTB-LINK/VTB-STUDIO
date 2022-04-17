@@ -688,10 +688,10 @@ defineExpose({
         </div>
         <div class="c-info-op">
           <div class="shareButton otherButtons" v-on:click="toggleShare">
-            <div class="toggleShareIcon" />
+            <i-ic-outline-share class="toggleShareIcon" />
           </div>
           <div class="detailsButton otherButtons" v-on:click="toggleDetails">
-            <div class="toggleDetailsIcon" />
+            <i-ic-round-read-more class="toggleShareIcon" />
           </div>
         </div>
       </div>
@@ -703,9 +703,15 @@ defineExpose({
               v-on:click="switchPlayMode"
               v-bind:title="playModeText"
             >
-              <div class="loopIcon" v-show="playMode == 'loop'" />
-              <div class="loopOnceIcon" v-show="playMode == 'loopOnce'" />
-              <div class="shuffleIcon" v-show="playMode == 'shuffle'" />
+              <i-ic-round-repeat class="loopIcon" v-show="playMode == 'loop'" />
+              <i-ic-round-repeat-one
+                class="loopOnceIcon"
+                v-show="playMode == 'loopOnce'"
+              />
+              <i-ic-round-shuffle
+                class="shuffleIcon"
+                v-show="playMode == 'shuffle'"
+              />
             </div>
             <div ref="volumebarref">
               <div
@@ -713,7 +719,14 @@ defineExpose({
                 v-on:click="showVolumeBar = !showVolumeBar"
                 title="音量"
               >
-                <div class="volumeIcon" />
+                <i-ic-round-volume-up
+                  class="volumeIcon"
+                  v-show="volume > 0.4"
+                />
+                <i-ic-round-volume-down
+                  class="volumeIcon"
+                  v-show="volume <= 0.4"
+                />
               </div>
               <transition name="fade">
                 <div class="c-volumeBar" v-show="showVolumeBar">
@@ -739,27 +752,32 @@ defineExpose({
               v-on:click="nextSong(-1)"
               title="上一曲"
             >
-              <div></div>
+              <i-ic-round-skip-previous class="prevButton-icon" />
             </div>
             <div
               class="playButton playButtons"
               v-on:click="audioTogglePlay"
               title="按下空格播放/暂停"
             >
-              <div
-                v-bind:class="[
-                  { 'playButton-play': !playStatus },
-                  { 'playButton-pause': playStatus },
-                  { 'playButton-loading': audioLoading },
-                ]"
-              ></div>
+              <i-ic-round-play-circle
+                class="playButton-icon"
+                v-show="!playStatus"
+              />
+              <i-ic-round-pause-circle
+                class="playButton-icon"
+                v-show="playStatus"
+              />
+              <i-ion-reload-circle
+                class="playButton-icon-loading"
+                v-show="audioLoading"
+              />
             </div>
             <div
               class="nextButton playButtons"
               v-on:click="nextSong(1)"
               title="下一曲"
             >
-              <div></div>
+              <i-ic-round-skip-next class="nextButton-icon" />
             </div>
           </div>
           <div class="c-otherButtons">
@@ -768,8 +786,11 @@ defineExpose({
               v-on:click="toggleLoved"
               title="设为星标歌曲"
             >
-              <div v-show="!isLoved" class="isLovedOff" />
-              <div v-show="isLoved" class="isLovedOn" />
+              <i-ic-round-favorite-border
+                v-show="!isLoved"
+                class="isLovedOff"
+              />
+              <i-ic-round-favorite v-show="isLoved" class="isLovedOn" />
             </div>
             <div
               class="playlistButton otherButtons"
@@ -777,7 +798,7 @@ defineExpose({
               title="播放列表"
               ref="playlistbuttonref"
             >
-              <div class="playlistButton-img"></div>
+              <i-ic-round-queue-music class="playlistButton-img" />
               <div class="playlistButton-corner">{{ playlistLength }}</div>
             </div>
           </div>
@@ -864,7 +885,7 @@ defineExpose({
                   class="playlist-clear"
                   v-on:click.stop="playlistRemoveSong(index)"
                 >
-                  <div class="playlist-clear-img"></div>
+                  <i-ic-round-close class="playlist-clear-img" />
                 </div>
               </div>
             </template>

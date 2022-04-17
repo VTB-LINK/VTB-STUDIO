@@ -1,5 +1,4 @@
 <script>
-import { computed, defineComponent, ref, watch, nextTick } from "vue";
 export default defineComponent({
   name: "SongListPagination",
 });
@@ -105,17 +104,11 @@ watch(
       </option>
     </select>
     <div class="pagination-item c-pagination-go">
-      <div
-        class="pagination-go-first pagination-go-button"
-        v-on:click="changePage(1)"
-      >
-        <div></div>
+      <div class="pagination-go-button" v-on:click="changePage(1)">
+        <i-ic-round-keyboard-double-arrow-left class="pagination-go-icon" />
       </div>
-      <div
-        class="pagination-go-left pagination-go-button"
-        v-on:click="addPage(-1)"
-      >
-        <div></div>
+      <div class="pagination-go-button" v-on:click="addPage(-1)">
+        <i-ic-round-keyboard-arrow-left class="pagination-go-icon" />
       </div>
       <input
         class="pagination-current-page"
@@ -125,17 +118,11 @@ watch(
         v-on:blur="checkPage"
         v-on:keydown.enter="$event.target.blur()"
       />
-      <div
-        class="pagination-go-right pagination-go-button"
-        v-on:click="addPage(1)"
-      >
-        <div></div>
+      <div class="pagination-go-button" v-on:click="addPage(1)">
+        <i-ic-round-keyboard-arrow-right class="pagination-go-icon" />
       </div>
-      <div
-        class="pagination-go-last pagination-go-button"
-        v-on:click="toLastPage"
-      >
-        <div></div>
+      <div class="pagination-go-button" v-on:click="toLastPage">
+        <i-ic-round-keyboard-double-arrow-right class="pagination-go-icon" />
       </div>
     </div>
   </div>

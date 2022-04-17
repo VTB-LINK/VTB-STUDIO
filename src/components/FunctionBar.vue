@@ -1,5 +1,4 @@
 <script>
-import { computed, defineComponent, watch, onMounted, ref } from "vue";
 export default defineComponent({
   name: "FunctionBar",
 });
@@ -88,22 +87,22 @@ onMounted(() => {
       v-on:click="switchNightMode"
       v-bind:title="nightModeText"
     >
-      <div class="lightIcon" v-show="nightMode == 'light'" />
-      <div class="darkIcon" v-show="nightMode == 'dark'" />
-      <div class="systemIcon" v-show="nightMode == 'system'" />
+      <i-ic-outline-light-mode
+        class="darkModeIcon"
+        v-if="nightMode == 'light'"
+      />
+      <i-ic-round-dark-mode class="darkModeIcon" v-if="nightMode == 'dark'" />
+      <i-ic-round-auto-mode class="darkModeIcon" v-if="nightMode == 'system'" />
     </div>
     <div class="srouce-location">
-      <div class="srouce-location-text">境内资源：</div>
-      <div
-        v-bind:class="[
-          'srouce-location-switch',
-          {
-            switchOnIcon: isChResource,
-            switchOffIcon: !isChResource,
-          },
-        ]"
-        v-on:click="isChResource = !isChResource"
-      />
+      <div class="srouce-location-text">
+        境内资源：
+        <el-switch
+          v-model="isChResource"
+          inline-prompt
+          active-color="#FC966E"
+        />
+      </div>
     </div>
     <div class="c-countdown">
       <div class="countdown-text"><div>定时停止：</div></div>

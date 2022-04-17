@@ -4,23 +4,8 @@
   display: flex;
 }
 
-.lightIcon {
-  width: 1.6em;
-  height: 1.6em;
-  background-image: url("/node_modules/bootstrap-icons/icons/sun.svg");
-  background-size: contain;
-}
-.darkIcon {
-  width: 1.6em;
-  height: 1.6em;
-  background-image: url("/node_modules/bootstrap-icons/icons/moon-fill.svg");
-  background-size: contain;
-}
-.systemIcon {
-  width: 1.6em;
-  height: 1.6em;
-  background-image: url("/node_modules/bootstrap-icons/icons/tv.svg");
-  background-size: contain;
+.darkModeIcon {
+  font-size: 1.6em;
 }
 .night-mode-button {
   border-radius: 2em;
@@ -30,19 +15,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-}
-
-.switchOnIcon {
-  width: 1.6em;
-  height: 1.6em;
-  background-image: url("/node_modules/bootstrap-icons/icons/toggle-on.svg");
-  background-size: contain;
-}
-.switchOffIcon {
-  width: 1.6em;
-  height: 1.6em;
-  background-image: url("/node_modules/bootstrap-icons/icons/toggle-off.svg");
-  background-size: contain;
 }
 .srouce-location {
   flex-grow: 1;
@@ -57,10 +29,6 @@
   align-items: center;
 }
 .srouce-location-switch {
-  border-radius: 2em;
-  height: 2.2em;
-  width: 2.2em;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: flex-start;
