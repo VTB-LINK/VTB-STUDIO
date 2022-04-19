@@ -244,7 +244,7 @@ onMounted(() => {
         <div>本地缓存</div>
       </div>
       <div class="collection-item" @click="replaceCollection(loveList)">
-        <i-ic-outline-collections-bookmark class="collection-icon" />
+        <i-ic-round-favorite class="collection-icon" style="color: red" />
         <div>已收藏</div>
       </div>
     </div>

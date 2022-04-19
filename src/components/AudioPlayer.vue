@@ -1,25 +1,17 @@
 <script>
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  watch,
-  onMounted,
-} from "vue";
 export default defineComponent({
-  name: "AudioPlayer",
+  name: 'AudioPlayer'
 });
 </script>
 
 <script setup>
-import utils from "utils/utils";
-import Consts from "globals/consts.js";
-import bus from "vue3-eventbus";
-import draggable from "vuedraggable";
-import SharePopUp from "popup/Share.vue";
-import DetailsPopUp from "popup/Details.vue";
-import { lock, unlock } from "tua-body-scroll-lock";
+import utils from 'utils/utils';
+import Consts from 'globals/consts.js';
+import bus from 'vue3-eventbus';
+import draggable from 'vuedraggable';
+import SharePopUp from 'popup/Share.vue';
+import DetailsPopUp from 'popup/Details.vue';
+import { lock, unlock } from 'tua-body-scroll-lock';
 
 let audio = {};
 let audioSource = {};
@@ -31,14 +23,14 @@ const playStatus = ref(false);
 const audioLoading = ref(false);
 const autoPlay = ref(false);
 const isChResource = ref(window.Variables.use_ch_resource);
-const playMode = ref("loop");
+const playMode = ref('loop');
 const volume = ref(0.9);
 const playProgress = ref(0);
 const loadProgress = ref(0);
 const duration = ref(0);
 const previousSongIndex = ref(0);
 const currentSongIndex = ref(0);
-const currentSongID = ref("");
+const currentSongID = ref('');
 const playlist = ref(window.AudioLists.playlist);
 const loveList = ref(window.AudioLists.love_list);
 const volumebarref = ref(null);
@@ -48,7 +40,7 @@ const playlistbuttonref = ref(null);
 
 // 滑动检测
 let isMouseDown = false;
-window.addEventListener("mouseup", () => {
+window.addEventListener('mouseup', () => {
   if (isMouseDown === true) isMouseDown = false;
 });
 
@@ -60,42 +52,42 @@ window.addEventListener("mouseup", () => {
 
 const volumeHeight = computed(() => {
   return {
-    height: String((1 - volume.value) * 100) + "%",
+    height: String((1 - volume.value) * 100) + '%'
   };
 });
 
 const progressBarFillWidth = computed(() => {
   return {
-    width: String(playProgress.value * 100) + "%",
+    width: String(playProgress.value * 100) + '%'
   };
 });
 
 const progressBarLoadingWidth = computed(() => {
   return {
-    width: String(loadProgress.value * 100) + "%",
+    width: String(loadProgress.value * 100) + '%'
   };
 });
 
 const progressBarButtonLeft = computed(() => {
   return {
-    left: `calc(${playProgress.value * 100}% - 0.75rem)`,
+    left: `calc(${playProgress.value * 100}% - 0.75rem)`
   };
 });
 
 const playModeText = computed(() => {
-  if (playMode.value === "loop") return "列表循环";
-  if (playMode.value === "loopOnce") return "单曲循环";
-  return "随机";
+  if (playMode.value === 'loop') return '列表循环';
+  if (playMode.value === 'loopOnce') return '单曲循环';
+  return '随机';
 });
 
 const playlistLength = computed(() => {
-  if (playlist.value[0].id === "empty_song") return 0;
+  if (playlist.value[0].id === 'empty_song') return 0;
   else return playlist.value.length;
 });
 
 const isLoved = computed(() => {
   // 空列表就返回否
-  if (playlist.value[0].id === "empty_song") return false;
+  if (playlist.value[0].id === 'empty_song') return false;
   const id = playlist.value[currentSongIndex.value].id;
   if (loveList.value.findIndex((i) => id === i) !== -1) return true;
   return false;
@@ -108,9 +100,9 @@ const currentSongObject = computed(() => {
 const dragOptions = computed(() => {
   return {
     animation: 0,
-    group: "description",
+    group: 'description',
     disabled: false,
-    ghostClass: "ghost",
+    ghostClass: 'ghost'
   };
 });
 
@@ -120,7 +112,7 @@ const isMarquee = computed(() => {
     ...currentSongObject.value.artist,
     ...(currentSongObject.value.name_chs
       ? `(${currentSongObject.value.name_chs})`
-      : ""),
+      : '')
   ].reduce((count, char) => count + Math.min(new Blob([char]).size, 2), 0);
 
   return window.Variables.is_mobile_device ? _length > 34 : _length > 48;
@@ -147,22 +139,22 @@ const secondToText = (second) => {
   second = Math.floor(second);
   let _minute = String(Math.floor(second / 60));
   let _second = String(second % 60);
-  if (_minute.length === 1) _minute = "0" + _minute;
-  if (_second.length === 1) _second = "0" + _second;
+  if (_minute.length === 1) _minute = '0' + _minute;
+  if (_second.length === 1) _second = '0' + _second;
   return `${_minute}:${_second}`;
 };
 
 const switchPlayMode = () => {
-  if (playMode.value === "loop") playMode.value = "loopOnce";
-  else if (playMode.value === "loopOnce") playMode.value = "shuffle";
-  else if (playMode.value === "shuffle") playMode.value = "loop";
+  if (playMode.value === 'loop') playMode.value = 'loopOnce';
+  else if (playMode.value === 'loopOnce') playMode.value = 'shuffle';
+  else if (playMode.value === 'shuffle') playMode.value = 'loop';
   utils.saveSettings({ play_mode: playMode.value });
 };
 
 const volumeBarMouseEvent = (event) => {
   // 判断是否按键
   if (event.buttons !== 0) {
-    const _target = document.getElementById("c-volumeBarRaw");
+    const _target = document.getElementById('c-volumeBarRaw');
     const _percent =
       (event.clientY - _target.getBoundingClientRect().top) /
       _target.clientHeight;
@@ -171,7 +163,7 @@ const volumeBarMouseEvent = (event) => {
 };
 
 const volumeBarTouchEvent = (event) => {
-  const _target = document.getElementById("c-volumeBarRaw");
+  const _target = document.getElementById('c-volumeBarRaw');
   const _percent =
     (event.targetTouches[0].clientY - _target.getBoundingClientRect().top) /
     _target.clientHeight;
@@ -179,7 +171,7 @@ const volumeBarTouchEvent = (event) => {
 };
 
 const progressBarMouseEvent = (event) => {
-  const _target = document.getElementById("c-progressBarRaw");
+  const _target = document.getElementById('c-progressBarRaw');
   const _percent =
     (event.clientX - _target.getBoundingClientRect().left) /
     _target.clientWidth;
@@ -187,7 +179,7 @@ const progressBarMouseEvent = (event) => {
 };
 
 const progressBarTouchEvent = (event) => {
-  const _target = document.getElementById("c-progressBarRaw");
+  const _target = document.getElementById('c-progressBarRaw');
   const _percent =
     (event.targetTouches[0].clientX - _target.getBoundingClientRect().left) /
     _target.clientWidth;
@@ -200,18 +192,18 @@ const progressBarButtonMouseEvent = (event) => {
 };
 
 const toggleShare = () => {
-  if (playlist.value[currentSongIndex.value].id !== "empty_song")
+  if (playlist.value[currentSongIndex.value].id !== 'empty_song')
     showShare.value = !showShare.value;
 };
 
 const toggleDetails = () => {
-  if (playlist.value[currentSongIndex.value].id !== "empty_song")
+  if (playlist.value[currentSongIndex.value].id !== 'empty_song')
     showDetails.value = !showDetails.value;
 };
 
 const applySong = async () => {
   audioLoading.value = false;
-  if (currentSongObject.value.id === "empty_song") return false;
+  if (currentSongObject.value.id === 'empty_song') return false;
   let _src = null;
   //加载歌曲，先查看是否有缓存过，有的话从换从加载
   if (window.AudioLists.cached_list.includes(currentSongObject.value.id)) {
@@ -231,17 +223,17 @@ const applySong = async () => {
       currentSongObject.value.artist
     );
   }
-  audioSource.src = _src.replace("『", "【").replace("』", "】");
+  audioSource.src = _src.replace('『', '【').replace('』', '】');
   audio.load();
   // 播放列表跳转
   if (showPlaylist.value) playlistScroll();
   // 更改media session信息
-  if ("mediaSession" in navigator) {
+  if ('mediaSession' in navigator) {
     navigator.mediaSession.metadata = new window.MediaMetadata({
       title: currentSongObject.value.name,
       artist: currentSongObject.value.artist,
-      album: "",
-      artwork: [{ src: "../assets/logo.png" }],
+      album: '',
+      artwork: [{ src: '../assets/logo.png' }]
     });
   }
   audio.title = currentSongObject.value.name;
@@ -252,7 +244,7 @@ const applySong = async () => {
 
 const audioTogglePlay = () => {
   // 播放列表不为空
-  if (playlist.value[0].id !== "empty_song") {
+  if (playlist.value[0].id !== 'empty_song') {
     playStatus.value = !audio.paused;
     if (playStatus.value) audio.pause();
     else audio.play();
@@ -267,7 +259,7 @@ const audioPause = () => {
 
 const nextSong = (idx) => {
   // 如果列表是空的就return
-  if (playlist.value[0].id === "empty_song") return;
+  if (playlist.value[0].id === 'empty_song') return;
   // 如果当前正在播放，就自动播放下一首
   autoPlay.value = playStatus.value;
   // 只有一首歌就回到开头
@@ -282,11 +274,11 @@ const nextSong = (idx) => {
     return;
   }
   if (idx === -1) currentSongIndex.value = previousSongIndex.value;
-  else if (playMode.value === "loop" || playMode.value === "loopOnce") {
+  else if (playMode.value === 'loop' || playMode.value === 'loopOnce') {
     // 列表循环和单曲循环就下一首
     currentSongIndex.value += idx;
     currentSongIndex.value %= playlist.value.length;
-  } else if (playMode.value === "shuffle") {
+  } else if (playMode.value === 'shuffle') {
     // 随机就随机一首歌
     currentSongIndex.value = randomSong();
   }
@@ -330,7 +322,7 @@ const randomSong = () => {
 };
 
 const toggleLoved = () => {
-  if (playlist.value[0].id === "empty_song") return;
+  if (playlist.value[0].id === 'empty_song') return;
   const id = playlist.value[currentSongIndex.value].id;
   // 切换状态
   if (isLoved.value) {
@@ -354,7 +346,7 @@ const playlistClear = () => {
   playProgress.value = 0;
   loadProgress.value = 0;
   duration.value = 0;
-  audioSource.src = "";
+  audioSource.src = '';
   audio.load();
   // 保存当前歌单
   //utils.savePlaylist(currentSongIndex.value, playlist.value);
@@ -396,7 +388,7 @@ const playlistRemoveSongID = (id) => {
 
 const playlistAddSong = (song, isJump = false, isAutoplay = false) => {
   let _setSrc = false;
-  if (playlist.value[0].id === "empty_song") {
+  if (playlist.value[0].id === 'empty_song') {
     // 如果播放列表是空的就清空列表
     playlist.value.splice(0, playlist.value.length);
     _setSrc = true;
@@ -426,7 +418,7 @@ const playlistAddMany = (songs) => {
   if (songs.length === 0) return false;
   // 如果播放列表是空的
   let _shouldSetSrc = false;
-  if (playlist.value[0].id === "empty_song") {
+  if (playlist.value[0].id === 'empty_song') {
     // 清空列表
     playlist.value.splice(0, playlist.value.length);
     _shouldSetSrc = true;
@@ -474,7 +466,7 @@ const playlistScroll = () => {
   playlistcontentref.value.children[0].children[
     currentSongIndex.value
   ].scrollIntoView({
-    block: "nearest",
+    block: 'nearest'
   });
 };
 
@@ -509,86 +501,86 @@ const unlockBackGroundForPopup = () => {
 };
 
 onMounted(() => {
-  audio = document.getElementById("lite_player");
-  audioSource = document.getElementById("lite_player_source");
+  audio = document.getElementById('lite_player');
+  audioSource = document.getElementById('lite_player_source');
   audio.volume = 0.9;
-  audio.addEventListener("loadedmetadata", () => {
+  audio.addEventListener('loadedmetadata', () => {
     duration.value = audio.duration;
     playProgress.value = 0;
   });
-  audio.addEventListener("loadeddata", () => {
+  audio.addEventListener('loadeddata', () => {
     duration.value = audio.duration;
     playProgress.value = 0;
   });
-  audio.addEventListener("canplay", () => {
+  audio.addEventListener('canplay', () => {
     //console.log('可以播放了')
     if (autoPlay.value) audio.play();
   });
-  audio.addEventListener("progress", () => {
+  audio.addEventListener('progress', () => {
     if (audio.duration > 0 && audio.buffered.length > 0) {
       loadProgress.value =
         audio.buffered.end(audio.buffered.length - 1) / audio.duration;
     }
   });
-  audio.addEventListener("waiting", () => (audioLoading.value = true));
-  audio.addEventListener("playing", () => (audioLoading.value = false));
-  audio.addEventListener("timeupdate", () => {
+  audio.addEventListener('waiting', () => (audioLoading.value = true));
+  audio.addEventListener('playing', () => (audioLoading.value = false));
+  audio.addEventListener('timeupdate', () => {
     if (audio.duration) playProgress.value = audio.currentTime / audio.duration;
     else playProgress.value = 0;
   });
-  audio.addEventListener("play", () => {
+  audio.addEventListener('play', () => {
     playStatus.value = true;
   });
-  audio.addEventListener("pause", () => {
+  audio.addEventListener('pause', () => {
     playStatus.value = false;
   });
-  audio.addEventListener("ended", () => {
+  audio.addEventListener('ended', () => {
     // 结束后自动播放下一首
     autoPlay.value = true;
     // 如果只有一首或者是单曲循环就回到开头
-    if (playlist.value.length === 1 || playMode.value === "loopOnce") {
+    if (playlist.value.length === 1 || playMode.value === 'loopOnce') {
       audio.currentTime = 0;
       audio.play();
       return;
     }
-    if (playMode.value === "loop") {
+    if (playMode.value === 'loop') {
       // 列表循环
       currentSongIndex.value += 1;
       currentSongIndex.value %= playlist.value.length;
-    } else if (playMode.value === "shuffle") {
+    } else if (playMode.value === 'shuffle') {
       currentSongIndex.value = randomSong();
     }
     // 加载歌曲
     applySong();
   });
   // media session支持
-  if ("mediaSession" in navigator) {
-    navigator.mediaSession.setActionHandler("play", () => {
-      utils.debug("通过media session播放");
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('play', () => {
+      utils.debug('通过media session播放');
       audioTogglePlay();
     });
-    navigator.mediaSession.setActionHandler("pause", () => {
-      utils.debug("通过media session暂停");
+    navigator.mediaSession.setActionHandler('pause', () => {
+      utils.debug('通过media session暂停');
       audioTogglePlay();
     });
-    navigator.mediaSession.setActionHandler("previoustrack", () => {
-      utils.debug("通过media session上一曲");
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
+      utils.debug('通过media session上一曲');
       nextSong(-1);
     });
-    navigator.mediaSession.setActionHandler("nexttrack", () => {
-      utils.debug("通过media session下一曲");
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      utils.debug('通过media session下一曲');
       nextSong(1);
     });
   }
   // 空格键播放/暂停
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "Space" && !e.isComposing) {
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && !e.isComposing) {
       audioTogglePlay();
       e.preventDefault();
     }
   });
   //点击空白关闭弹出的组件
-  document.addEventListener("click", (e) => {
+  document.addEventListener('click', (e) => {
     if (!volumebarref.value.contains(e.target)) {
       showVolumeBar.value = false;
     }
@@ -604,27 +596,27 @@ onMounted(() => {
   applySong();
   window.audio = audio;
 
-  bus.on("playlist-add-song-event", (para) => {
+  bus.on('playlist-add-song-event', (para) => {
     playlistAddSong(...para);
   });
 
-  bus.on("playlist-remove-song-id-event", (para) => {
+  bus.on('playlist-remove-song-id-event', (para) => {
     playlistRemoveSongID(para);
   });
 
-  bus.on("playlist-add-many-event", (para) => {
+  bus.on('playlist-add-many-event', (para) => {
     playlistAddMany(para);
   });
 
-  bus.on("playlist-replace-event", (para) => {
+  bus.on('playlist-replace-event', (para) => {
     if (para.length > 0) {
       playlistReplace(para);
     }
   });
 
-  bus.on("player-audio-pause", audioPause);
+  bus.on('player-audio-pause', audioPause);
 
-  bus.on("change-resource-location", (para) => {
+  bus.on('change-resource-location', (para) => {
     if (isChResource.value !== para) {
       isChResource.value = para;
     }
@@ -637,31 +629,31 @@ defineExpose({
   volume,
   playlistReplace,
   playlistAddSong,
-  playlistAddMany,
+  playlistAddMany
 });
 </script>
 
 <template>
   <div id="player">
-    <div class="c-player" v-on:mousemove="playerMouseEvent">
+    <div class="c-player" @mousemove="playerMouseEvent">
       <div class="c-info">
         <div class="c-songInfo">
           <div class="c-songName">
             <div
-              v-bind:class="[
-                {
-                  'songname-marquee': isMarquee,
-                },
-                'songName',
-              ]"
               v-if="playlist[currentSongIndex]"
+              :class="[
+                {
+                  'songname-marquee': isMarquee
+                },
+                'songName'
+              ]"
             >
               <div>
                 {{ playlist[currentSongIndex].name
                 }}{{
                   playlist[currentSongIndex].name_chs
                     ? `(${playlist[currentSongIndex].name_chs})`
-                    : ""
+                    : ''
                 }}
               </div>
               <div v-if="isMarquee">
@@ -669,7 +661,7 @@ defineExpose({
                 }}{{
                   playlist[currentSongIndex].name_chs
                     ? `(${playlist[currentSongIndex].name_chs})`
-                    : ""
+                    : ''
                 }}
               </div>
             </div>
@@ -687,10 +679,10 @@ defineExpose({
           </div>
         </div>
         <div class="c-info-op">
-          <div class="shareButton otherButtons" v-on:click="toggleShare">
+          <div class="shareButton otherButtons" @click="toggleShare">
             <i-ic-outline-share class="toggleShareIcon" />
           </div>
-          <div class="detailsButton otherButtons" v-on:click="toggleDetails">
+          <div class="detailsButton otherButtons" @click="toggleDetails">
             <i-ic-round-read-more class="toggleShareIcon" />
           </div>
         </div>
@@ -700,47 +692,44 @@ defineExpose({
           <div class="c-otherButtons">
             <div
               class="playModeButton otherButtons"
-              v-on:click="switchPlayMode"
-              v-bind:title="playModeText"
+              :title="playModeText"
+              @click="switchPlayMode"
             >
-              <i-ic-round-repeat class="loopIcon" v-show="playMode == 'loop'" />
+              <i-ic-round-repeat v-show="playMode == 'loop'" class="loopIcon" />
               <i-ic-round-repeat-one
-                class="loopOnceIcon"
                 v-show="playMode == 'loopOnce'"
+                class="loopOnceIcon"
               />
               <i-ic-round-shuffle
-                class="shuffleIcon"
                 v-show="playMode == 'shuffle'"
+                class="shuffleIcon"
               />
             </div>
             <div ref="volumebarref">
               <div
                 class="volumeButton otherButtons"
-                v-on:click="showVolumeBar = !showVolumeBar"
                 title="音量"
+                @click="showVolumeBar = !showVolumeBar"
               >
                 <i-ic-round-volume-up
-                  class="volumeIcon"
                   v-show="volume > 0.4"
+                  class="volumeIcon"
                 />
                 <i-ic-round-volume-down
-                  class="volumeIcon"
                   v-show="volume <= 0.4"
+                  class="volumeIcon"
                 />
               </div>
               <transition name="fade">
-                <div class="c-volumeBar" v-show="showVolumeBar">
+                <div v-show="showVolumeBar" class="c-volumeBar">
                   <div
-                    class="c-volumeBarRaw"
                     id="c-volumeBarRaw"
-                    v-on:mousedown="volumeBarMouseEvent"
-                    v-on:mousemove="volumeBarMouseEvent"
-                    v-on:touchmove.prevent="volumeBarTouchEvent"
+                    class="c-volumeBarRaw"
+                    @mousedown="volumeBarMouseEvent"
+                    @mousemove="volumeBarMouseEvent"
+                    @touchmove.prevent="volumeBarTouchEvent"
                   >
-                    <div
-                      class="volumeBar-invert"
-                      v-bind:style="volumeHeight"
-                    ></div>
+                    <div class="volumeBar-invert" :style="volumeHeight"></div>
                   </div>
                 </div>
               </transition>
@@ -749,33 +738,33 @@ defineExpose({
           <div class="c-playButtons">
             <div
               class="prevButton playButtons"
-              v-on:click="nextSong(-1)"
               title="上一曲"
+              @click="nextSong(-1)"
             >
               <i-ic-round-skip-previous class="prevButton-icon" />
             </div>
             <div
               class="playButton playButtons"
-              v-on:click="audioTogglePlay"
               title="按下空格播放/暂停"
+              @click="audioTogglePlay"
             >
               <i-ic-round-play-circle
-                class="playButton-icon"
                 v-show="!playStatus"
+                class="playButton-icon"
               />
               <i-ic-round-pause-circle
-                class="playButton-icon"
                 v-show="playStatus"
+                class="playButton-icon"
               />
               <i-ion-reload-circle
-                class="playButton-icon-loading"
                 v-show="audioLoading"
+                class="playButton-icon-loading"
               />
             </div>
             <div
               class="nextButton playButtons"
-              v-on:click="nextSong(1)"
               title="下一曲"
+              @click="nextSong(1)"
             >
               <i-ic-round-skip-next class="nextButton-icon" />
             </div>
@@ -783,8 +772,8 @@ defineExpose({
           <div class="c-otherButtons">
             <div
               class="loveButton otherButtons"
-              v-on:click="toggleLoved"
-              title="设为星标歌曲"
+              title="我喜欢"
+              @click="toggleLoved"
             >
               <i-ic-round-favorite-border
                 v-show="!isLoved"
@@ -793,10 +782,10 @@ defineExpose({
               <i-ic-round-favorite v-show="isLoved" class="isLovedOn" />
             </div>
             <div
-              class="playlistButton otherButtons"
-              v-on:click="showPlaylist = !showPlaylist"
-              title="播放列表"
               ref="playlistbuttonref"
+              class="playlistButton otherButtons"
+              title="播放列表"
+              @click="showPlaylist = !showPlaylist"
             >
               <i-ic-round-queue-music class="playlistButton-img" />
               <div class="playlistButton-corner">{{ playlistLength }}</div>
@@ -810,23 +799,20 @@ defineExpose({
           <div class="c-progressBar">
             <div
               class="progressBar-button"
-              v-bind:style="progressBarButtonLeft"
-              v-on:mousedown="progressBarButtonMouseEvent"
-              v-on:touchmove.prevent="progressBarTouchEvent"
+              :style="progressBarButtonLeft"
+              @mousedown="progressBarButtonMouseEvent"
+              @touchmove.prevent="progressBarTouchEvent"
             ></div>
             <div
-              class="c-progressBarRaw"
               id="c-progressBarRaw"
-              v-on:mousedown="progressBarMouseEvent"
-              v-on:touchmove.prevent="progressBarTouchEvent"
+              class="c-progressBarRaw"
+              @mousedown="progressBarMouseEvent"
+              @touchmove.prevent="progressBarTouchEvent"
             >
-              <div
-                class="progressBar-fill"
-                v-bind:style="progressBarFillWidth"
-              ></div>
+              <div class="progressBar-fill" :style="progressBarFillWidth"></div>
               <div
                 class="progressBar-loading"
-                v-bind:style="progressBarLoadingWidth"
+                :style="progressBarLoadingWidth"
               ></div>
             </div>
           </div>
@@ -834,22 +820,20 @@ defineExpose({
         </div>
       </div>
     </div>
-    <transition name="fade" v-on:enter="playlistScroll">
-      <div class="c-playlist" v-show="showPlaylist" ref="playlistref">
+    <transition name="fade" @enter="playlistScroll">
+      <div v-show="showPlaylist" ref="playlistref" class="c-playlist">
         <div class="c-playlist-title">
           <div class="playlist-clearAll">
-            <span v-on:click="playlistClear">清空</span>
+            <span @click="playlistClear">清空</span>
           </div>
           <div class="playlist-title">播放列表</div>
           <div class="playlist-close">
-            <span v-on:click="showPlaylist = false">收起</span>
+            <span @click="showPlaylist = false">收起</span>
           </div>
         </div>
-        <div class="c-playlist-songList" ref="playlistcontentref">
+        <div ref="playlistcontentref" class="c-playlist-songList">
           <draggable
             v-bind="dragOptions"
-            @start="drag = true"
-            @end="drag = false"
             v-model="playlist"
             item-key="id"
             tag="transition-group"
@@ -857,21 +841,23 @@ defineExpose({
             :component-data="{
               tag: 'div',
               name: 'flip-list',
-              type: 'transition',
+              type: 'transition'
             }"
+            @start="drag = true"
+            @end="drag = false"
             @change="updateCurrentSongIndex"
           >
             <template #item="{ element, index }">
               <div
-                v-bind:class="[
+                v-show="playlist[0]?.id !== 'empty_song'"
+                :class="[
                   'c-playlist-song',
                   {
                     'c-playlist-playing':
-                      element.id === playlist[currentSongIndex]?.id,
-                  },
+                      element.id === playlist[currentSongIndex]?.id
+                  }
                 ]"
-                v-show="playlist[0]?.id !== 'empty_song'"
-                v-on:click="changeSong(index)"
+                @click="changeSong(index)"
               >
                 <div class="playlist-name handle">
                   <span class="playlist-index">{{ index + 1 }}. </span
@@ -883,7 +869,7 @@ defineExpose({
                 <div class="playlist-duration">{{ element.duration }}</div>
                 <div
                   class="playlist-clear"
-                  v-on:click.stop="playlistRemoveSong(index)"
+                  @click.stop="playlistRemoveSong(index)"
                 >
                   <i-ic-round-close class="playlist-clear-img" />
                 </div>
@@ -917,7 +903,7 @@ defineExpose({
               <div class="playlist-clear-img"></div>
             </div>
           </div> -->
-          <div class="playlist-empty" v-show="playlist[0]?.id === 'empty_song'">
+          <div v-show="playlist[0]?.id === 'empty_song'" class="playlist-empty">
             播放列表为空
           </div>
         </div>
@@ -925,13 +911,13 @@ defineExpose({
     </transition>
     <SharePopUp
       v-if="showShare"
-      v-on:closepopup="showShare = false"
       :song="playlist[currentSongIndex]"
+      @closepopup="showShare = false"
     />
     <DetailsPopUp
       v-if="showDetails"
-      v-on:closepopup="showDetails = false"
       :song="playlist[currentSongIndex]"
+      @closepopup="showDetails = false"
     />
     <audio id="lite_player">
       <source id="lite_player_source" src="" type="audio/mpeg" />
@@ -940,5 +926,5 @@ defineExpose({
 </template>
 
 <style scoped>
-@import "@/styles/audioplayer.scss";
+@import '@/styles/audioplayer.scss';
 </style>

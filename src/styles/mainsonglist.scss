@@ -235,7 +235,9 @@
   color: gray;
   font-style: italic;
 }
-
+.svg-icons {
+  font-size: auto;
+}
 @media all and (max-width: 799px) {
   .controler-item-all {
     max-width: 100%;
@@ -315,5 +317,8 @@
     padding-right: 1rem;
     justify-content: flex-start;
     text-align: justify;
+  }
+  .svg-icons {
+    font-size: 1rem;
   }
 }

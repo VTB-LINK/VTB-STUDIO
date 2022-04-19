@@ -200,6 +200,7 @@
 }
 .isLovedOn {
   font-size: 1.3em;
+  color: red;
 }
 .isLovedOff {
   font-size: 1.3em;
@@ -263,7 +264,7 @@
   position: relative;
 }
 .progressBar-button {
-  background-image: url("ui/progress_knot.svg");
+  background-image: url('ui/progress_knot.svg');
   background-size: contain;
   width: 1.5rem;
   height: 1.5rem;
