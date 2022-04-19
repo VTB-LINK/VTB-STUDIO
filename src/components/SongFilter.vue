@@ -215,8 +215,7 @@ const switchStylePicker = () => {
 onMounted(() => {
   bus.on('apply-search-event', applySearch);
   bus.on('apply-search-event', () => {
-    if (!window.Variables.is_mobile_device)
-      showCollapseIndexes.value = ['1', '2'];
+    if (!window.Variables.is_mobile_device) showCollapseIndexes.value = ['1'];
   });
 });
 </script>
