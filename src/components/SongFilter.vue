@@ -11,6 +11,7 @@ import ExplainTreatedPopUp from 'popup/ExplainTreated.vue';
 import intersection from 'lodash.intersection';
 import shuffle from 'lodash.shuffle';
 import { Search } from '@element-plus/icons-vue';
+import { reactive } from '@vue/reactivity';
 
 const props = defineProps({
   songListFiltered: Array,
@@ -22,8 +23,7 @@ const emit = defineEmits(['update:songListFiltered']);
 
 const songListOrg = ref(window.AudioLists.song_list);
 const songCollection = ref(window.AudioLists.song_collection);
-const showSongCollection = ref(false);
-const showFilter = ref(false);
+const showCollapseIndexes = ref([]);
 const useTreated = ref(window.Variables.use_treated.value);
 const showExplain = ref(false);
 const artistExactMacth = ref(false);
@@ -214,104 +214,114 @@ const switchStylePicker = () => {
 
 onMounted(() => {
   bus.on('apply-search-event', applySearch);
-  showSongCollection.value = !window.Variables.is_mobile_device;
+  bus.on('apply-search-event', () => {
+    if (!window.Variables.is_mobile_device)
+      showCollapseIndexes.value = ['1', '2'];
+  });
 });
 </script>
 
 <template>
   <div class="c-outer card">
-    <div class="title title-filter">
-      <div class="title">歌单</div>
-      <div
-        class="title-filter-expand"
-        @click="showSongCollection = !showSongCollection"
-      >
-        {{ showSongCollection ? '...收起' : '展开...' }}
-      </div>
-    </div>
-    <div v-show="showSongCollection" class="c-song-collection">
-      <div
-        v-for="collection in songCollection"
-        :key="collection.name"
-        class="collection-item"
-        @click="replaceCollection(collection.list)"
-      >
-        <i-ic-outline-local-offer class="collection-icon" />
-        <div>{{ collection.name }}</div>
-      </div>
-      <div class="collection-item" @click="replaceCollection(cachedList)">
-        <i-ic-outline-sim-card-download class="collection-icon" />
-        <div>本地缓存</div>
-      </div>
-      <div class="collection-item" @click="replaceCollection(loveList)">
-        <i-ic-round-favorite class="collection-icon" style="color: red" />
-        <div>已收藏</div>
-      </div>
-    </div>
-    <hr />
-    <div class="title title-filter">
-      <div class="title">筛选</div>
-      <div class="title-filter-expand" @click="showFilter = !showFilter">
-        {{ showFilter ? '...收起' : '展开...' }}
-      </div>
-    </div>
-    <div v-show="showFilter" class="c-filter">
-      <div
-        v-for="filter_item in filters"
-        :key="filter_item.name"
-        class="filter-item"
-      >
-        <div class="filter-item-label">
-          <div>{{ filter_item.text }}:</div>
-          <el-switch
-            v-if="filter_item.name == 'artist'"
-            v-model="artistExactMacth"
-            inline-prompt
-            active-text="精确"
-            inactive-text="模糊"
-            :width="50"
-            :active-color="switchStylePicker()"
-            inactive-color="#FC966E"
-          />
+    <el-collapse
+      v-model="showCollapseIndexes"
+      style="border-top: 0px; border-bottom: 0px"
+    >
+      <el-collapse-item name="1">
+        <template #title>
+          <div class="title title-filter">
+            <div class="title">歌单</div>
+          </div>
+        </template>
+        <div class="c-song-collection">
+          <div
+            v-for="collection in songCollection"
+            :key="collection.name"
+            class="collection-item"
+            @click="replaceCollection(collection.list)"
+          >
+            <i-ic-outline-local-offer class="collection-icon" />
+            <div>{{ collection.name }}</div>
+          </div>
+          <div class="collection-item" @click="replaceCollection(cachedList)">
+            <i-ic-outline-sim-card-download class="collection-icon" />
+            <div>本地缓存</div>
+          </div>
+          <div class="collection-item" @click="replaceCollection(loveList)">
+            <i-ic-round-favorite class="collection-icon" style="color: red" />
+            <div>已收藏</div>
+          </div>
         </div>
-        <el-select
-          v-model="filter_item.value"
-          :multiple="filter_item.name == 'artist'"
-          clearable
-          placeholder="--"
-          :style="
-            calculateSelectWidth(
-              filter_item.options,
-              filter_item.name == 'artist'
-            )
-          "
-        >
-          <el-option
-            v-for="option in filter_item.options"
-            :key="option"
-            :label="option"
-            :value="option"
-          />
-        </el-select>
-      </div>
-      <div class="filter-item">
-        <input
-          id="filter-checkbox-treated"
-          v-model="useTreated"
-          class="general-checkbox"
-          type="checkbox"
-          @change="changeUseTreated"
+      </el-collapse-item>
+      <el-collapse-item name="2">
+        <template #title>
+          <div class="title title-filter">
+            <div class="title">筛选</div>
+          </div>
+        </template>
+        <div class="c-filter">
+          <div
+            v-for="filter_item in filters"
+            :key="filter_item.name"
+            class="filter-item"
+          >
+            <div class="filter-item-label">
+              <div>{{ filter_item.text }}:</div>
+              <el-switch
+                v-if="filter_item.name == 'artist'"
+                v-model="artistExactMacth"
+                inline-prompt
+                active-text="精确"
+                inactive-text="模糊"
+                :width="50"
+                :active-color="switchStylePicker()"
+                inactive-color="#FC966E"
+              />
+            </div>
+            <el-select
+              v-model="filter_item.value"
+              :multiple="filter_item.name == 'artist'"
+              clearable
+              placeholder="--"
+              :style="
+                calculateSelectWidth(
+                  filter_item.options,
+                  filter_item.name == 'artist'
+                )
+              "
+            >
+              <el-option
+                v-for="option in filter_item.options"
+                :key="option"
+                :label="option"
+                :value="option"
+              />
+            </el-select>
+          </div>
+          <div class="filter-item">
+            <input
+              id="filter-checkbox-treated"
+              v-model="useTreated"
+              class="general-checkbox"
+              type="checkbox"
+              @change="changeUseTreated"
+            />
+            <label
+              for="filter-checkbox-treated"
+              class="filter-item-label filter-item-treated"
+              >听经过处理的歌</label
+            >
+            <div class="filter-item-question" @click="showExplain = true">
+              <i-ic-outline-quiz />
+            </div>
+          </div>
+        </div>
+        <ExplainTreatedPopUp
+          v-if="showExplain"
+          @closepopup="showExplain = false"
         />
-        <label
-          for="filter-checkbox-treated"
-          class="filter-item-label filter-item-treated"
-          >听经过处理的歌</label
-        >
-        <div class="filter-item-question" @click="showExplain = true">
-          <i-ic-outline-quiz />
-        </div>
-      </div>
-    </div>
+      </el-collapse-item>
+    </el-collapse>
     <div class="filter-song-search">
       <el-input
         v-model="search.text"
@@ -371,7 +381,6 @@ onMounted(() => {
         清空
       </button> -->
     </div>
-    <ExplainTreatedPopUp v-if="showExplain" @closepopup="showExplain = false" />
   </div>
 </template>
 
