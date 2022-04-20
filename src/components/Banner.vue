@@ -1,5 +1,4 @@
 <script>
-import { defineComponent } from "vue";
 export default defineComponent({
   name: "Banner",
 });
@@ -9,7 +8,10 @@ export default defineComponent({
   <div class="c-title card">
     <div class="banner-video">
       <video playsinline="" autoplay="" loop="" muted="">
-        <source src="https://asbbs-static-01.kzmidc.workers.dev/?file=/uploads/files/1/banner_1646556711136.mp4" type="video/mp4" />
+        <source
+          src="https://asbbs-static-01.kzmidc.workers.dev/?file=/uploads/files/1/banner_1646556711136.mp4"
+          type="video/mp4"
+        />
       </video>
     </div>
     <div class="banner-logo">

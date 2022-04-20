@@ -170,39 +170,24 @@
   background-size: contain;
 }
 .item-op-download div {
-  height: 1.1rem;
-  width: 1.1rem;
-}
-.item-op-download-ready {
-  background-image: url("/node_modules/bootstrap-icons/icons/cloud-arrow-down.svg");
-}
-.item-op-download-doing {
-  background-image: url("@/assets/ui/cloud-loading.svg");
+  height: 1.2rem;
+  width: 1.2rem;
 }
 .item-op-downloaded div {
-  height: 1.1rem;
-  width: 1.1rem;
-  background-image: url("/node_modules/bootstrap-icons/icons/cloud-check-fill.svg");
+  height: 1.2rem;
+  width: 1.2rem;
 }
 .item-op-add div {
-  height: 1.1rem;
-  width: 1.1rem;
-  background-image: url("/node_modules/bootstrap-icons/icons/plus-circle.svg");
+  height: 1.2rem;
+  width: 1.2rem;
 }
 .item-op-added div {
-  height: 1.1rem;
-  width: 1.1rem;
-  background-image: url("/node_modules/bootstrap-icons/icons/check-circle-fill.svg");
+  height: 1.2rem;
+  width: 1.2rem;
 }
 .item-op-star div {
-  height: 1.1rem;
-  width: 1.1rem;
-}
-.item-op-star-false {
-  background-image: url("/node_modules/bootstrap-icons/icons/star.svg");
-}
-.item-op-star-true {
-  background-image: url("/node_modules/bootstrap-icons/icons/star-fill.svg");
+  height: 1.2rem;
+  width: 1.2rem;
 }
 .item-op-none {
   font-size: 0.7rem;
@@ -250,7 +235,9 @@
   color: gray;
   font-style: italic;
 }
-
+.svg-icons {
+  font-size: auto;
+}
 @media all and (max-width: 799px) {
   .controler-item-all {
     max-width: 100%;
@@ -330,5 +317,8 @@
     padding-right: 1rem;
     justify-content: flex-start;
     text-align: justify;
+  }
+  .svg-icons {
+    font-size: 1rem;
   }
 }

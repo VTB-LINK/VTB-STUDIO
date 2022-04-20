@@ -45,16 +45,13 @@
     background-color: rgba(0, 0, 0, 0.1);
   }
 }
-.pagination-go-button div {
-  height: 1rem;
-  width: 1rem;
-  background-size: contain;
+.pagination-go-button {
+  height: 1.7rem;
+  width: 1.7rem;
+  margin-right: 1rem;
 }
-.pagination-go-first div {
-  background-image: url("/node_modules/bootstrap-icons/icons/chevron-double-left.svg?url");
-}
-.pagination-go-left div {
-  background-image: url("/node_modules/bootstrap-icons/icons/chevron-left.svg?url");
+.pagination-go-icon {
+  font-size: 1.5rem;
 }
 .pagination-current-page {
   min-width: 1rem;
@@ -62,12 +59,7 @@
   padding: 0.2rem 0rem 0.2rem 0rem;
   border: 0px;
   text-align: center;
-}
-.pagination-go-right div {
-  background-image: url("/node_modules/bootstrap-icons/icons/chevron-right.svg?url");
-}
-.pagination-go-last div {
-  background-image: url("/node_modules/bootstrap-icons/icons/chevron-double-right.svg?url");
+  margin-right: 1rem;
 }
 
 @media all and (max-width: 799px) {

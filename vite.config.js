@@ -1,27 +1,44 @@
+import path from "path";
 import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
 import { visualizer } from "rollup-plugin-visualizer";
 import { chunkSplitPlugin } from "vite-plugin-chunk-split";
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
 import viteCompression from "vite-plugin-compression";
 import ViteRadar from "vite-plugin-radar";
-import vue from "@vitejs/plugin-vue";
-import path from "path";
+import Icons from "unplugin-icons/vite";
+import IconsResolver from "unplugin-icons/resolver";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import { FileSystemIconLoader } from "unplugin-icons/loaders";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
+      imports: ["vue"],
       resolvers: [ElementPlusResolver()],
+      eslintrc: {
+        enabled: true, // Default `false`
+        filepath: "./.eslintrc-auto-import.json", // Default `./.eslintrc-auto-import.json`
+        globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+      },
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [IconsResolver(), ElementPlusResolver()],
     }),
     visualizer(),
     viteCompression(),
     chunkSplitPlugin(),
+    Icons({
+      compiler: "vue3",
+      customCollections: {
+        "local-icons": FileSystemIconLoader("./src/assets/ui", (svg) =>
+          svg.replace(/^<svg /, '<svg fill="currentColor" ')
+        ),
+      },
+    }),
     ViteRadar({
       // Google Analytics tag injection
       analytics: [

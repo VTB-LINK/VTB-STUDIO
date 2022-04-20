@@ -1,5 +1,4 @@
 <script>
-import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainPopUp",
 });
@@ -19,7 +18,7 @@ const emit = defineEmits(["closepopup"]);
       <div class="popup-title">
         <div>{{ props.title }}</div>
         <div class="popup-close" v-on:click.stop="$emit('closepopup')">
-          <div class="popup-close-img"></div>
+          <i-ic-round-close class="popup-close-img" />
         </div>
       </div>
       <hr />
