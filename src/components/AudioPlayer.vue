@@ -749,11 +749,11 @@ defineExpose({
               @click="audioTogglePlay"
             >
               <i-ic-round-play-circle
-                v-show="!playStatus"
+                v-show="!playStatus && !audioLoading"
                 class="playButton-icon"
               />
               <i-ic-round-pause-circle
-                v-show="playStatus"
+                v-show="playStatus && !audioLoading"
                 class="playButton-icon"
               />
               <i-ion-reload-circle
@@ -920,7 +920,7 @@ defineExpose({
       @closepopup="showDetails = false"
     />
     <audio id="lite_player">
-      <source id="lite_player_source" src="" type="audio/mpeg" />
+      <source id="lite_player_source" src="" />
     </audio>
   </div>
 </template>
