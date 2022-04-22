@@ -11,7 +11,8 @@ import ExplainTreatedPopUp from 'popup/ExplainTreated.vue';
 import intersection from 'lodash.intersection';
 import shuffle from 'lodash.shuffle';
 import { Search } from '@element-plus/icons-vue';
-import { reactive } from '@vue/reactivity';
+import IconEditModeOn from '~icons/ic/outline-edit';
+import IconEditModeOff from '~icons/ic/outline-edit-off';
 
 const props = defineProps({
   songListFiltered: Array,
@@ -25,8 +26,13 @@ const songListOrg = ref(window.AudioLists.song_list);
 const songCollection = ref(window.AudioLists.song_collection);
 const showCollapseIndexes = ref([]);
 const useTreated = ref(window.Variables.use_treated.value);
+const songMyCollection = ref();
+const tagCollectionName = ref('');
+const tagInputRef = ref(null);
 const showExplain = ref(false);
 const artistExactMacth = ref(false);
+const tagInputVisible = ref(false);
+const tagEditable = ref(false);
 const filters = reactive([
   {
     name: 'artist',
@@ -59,10 +65,10 @@ const filters = reactive([
     options: window.FilterOptions.collection
   },
   {
-    name: 'star',
-    text: '星标',
+    name: 'loved',
+    text: '收藏',
     value: '',
-    options: window.FilterOptions.star
+    options: window.FilterOptions.loved
   },
   {
     name: 'has_audio',
@@ -122,12 +128,12 @@ const selfSongListFiltered = computed(() => {
       (song) => song.date.substring(0, 7) === filter.month
     );
   // 筛选星标
-  if (filter.star === '星标')
+  if (filter.loved === '已收藏')
     _templist = _templist.filter(
       (song) =>
         window.AudioLists.love_list.findIndex((love) => song.id === love) !== -1
     );
-  else if (filter.star === '非星标')
+  else if (filter.loved === '未收藏')
     _templist = _templist.filter(
       (song) =>
         window.AudioLists.love_list.findIndex((love) => song.id === love) === -1
@@ -166,6 +172,18 @@ const selfSongListFiltered = computed(() => {
   return _templist;
 });
 
+const isTagModeSwticherShown = computed(() => {
+  return showCollapseIndexes.value.includes('2');
+});
+
+watch(
+  () => [...showCollapseIndexes.value],
+  (newValues, oldValues) => {
+    if (newValues.indexOf('2') !== newValues.lastIndexOf('2'))
+      console.log(oldValues, newValues);
+  }
+);
+
 const applySearch = (clear) => {
   if (clear) search.value.text = '';
   search.value.textForSearch = search.value.text.trim();
@@ -181,7 +199,6 @@ const replaceCollection = (songList) => {
     'playlist-replace-event',
     songList.filter((s) => s.has_audio)
   );
-  //this.$parent.$parent.$refs.player.playlist_replace();
 };
 
 const searchPressEnter = (event) => {
@@ -212,10 +229,70 @@ const switchStylePicker = () => {
   return shuffle(['#9AC8E2', '#DB7D74', '#B8A6D9', '#E799B0', '#576690'])[0];
 };
 
+const showInput = () => {
+  tagInputVisible.value = true;
+  nextTick(() => {
+    tagInputRef.value?.input?.focus();
+  });
+};
+
+const clickCollection = (idx) => {
+  if (tagEditable) tagCollectionName.value = songMyCollection.value[idx].name;
+  else replaceCollection(songMyCollection.value[idx].list);
+};
+
+const addMyCollection = () => {
+  //隐藏input
+  tagInputVisible.value = false;
+  // 没写名字就不管
+  if (tagCollectionName.value === '') return;
+  // 歌单是空的就不管
+  if (window.AudioLists.playlist[0].id === 'empty_song') return;
+  // 查找同名歌单
+  let idx = songMyCollection.value
+    .map((c) => c.name)
+    .findIndex((n) => n === tagCollectionName.value);
+  if (idx !== -1) {
+    // 已有同名就更新
+    songMyCollection.value[idx].list = [...window.AudioLists.playlist];
+  } else {
+    // 否则新建
+    songMyCollection.value.push({
+      name: tagCollectionName.value,
+      list: [...window.AudioLists.playlist]
+    });
+  }
+  // 写入localstorage
+  utils.saveMyCollection(songMyCollection.value);
+  // 清空input值
+  tagCollectionName.value = '';
+
+  ElMessage({
+    message: '保存到本地完毕！',
+    type: 'success'
+  });
+};
+
+const dropMyCollection = (idx) => {
+  songMyCollection.value.splice(idx, 1);
+  tagEditable.value = false;
+};
+
+const chgTagMode = () => {
+  //防止反复点击时候无限添加标签导致关闭时需要额外点击的问题
+  if (
+    showCollapseIndexes.value.indexOf('2') ===
+    showCollapseIndexes.value.lastIndexOf('2')
+  )
+    showCollapseIndexes.value.push('2');
+  tagInputVisible.value = tagEditable.value ? true : false;
+};
+
 onMounted(() => {
   bus.on('apply-search-event', applySearch);
   bus.on('apply-search-event', () => {
     if (!window.Variables.is_mobile_device) showCollapseIndexes.value = ['1'];
+    songMyCollection.value = utils.readMyCollection();
   });
 });
 </script>
@@ -229,7 +306,7 @@ onMounted(() => {
       <el-collapse-item name="1">
         <template #title>
           <div class="title title-filter">
-            <div class="title">歌单</div>
+            <div class="title">推荐</div>
           </div>
         </template>
         <div class="c-song-collection">
@@ -252,7 +329,59 @@ onMounted(() => {
           </div>
         </div>
       </el-collapse-item>
-      <el-collapse-item name="2">
+      <el-collapse-item name="2" :disabled="tagEditable">
+        <template #title>
+          <div class="title title-filter">
+            <div class="title">
+              歌单
+              <el-switch
+                v-show="isTagModeSwticherShown"
+                v-model="tagEditable"
+                inline-prompt
+                :active-icon="IconEditModeOn"
+                :inactive-icon="IconEditModeOff"
+                @click="chgTagMode"
+              />
+            </div>
+          </div>
+        </template>
+        <div class="c-song-collection">
+          <el-tag
+            v-for="(collection, index) in songMyCollection"
+            :key="collection.name"
+            class="collect-tag"
+            :closable="tagEditable"
+            :disable-transitions="false"
+            round
+            size="large"
+            checked
+            @close="dropMyCollection(index)"
+            @click="clickCollection(index)"
+          >
+            <div>
+              <i-ic-outline-collections-bookmark />{{ collection.name }}
+            </div>
+          </el-tag>
+          <el-input
+            v-if="tagInputVisible"
+            ref="tagInputRef"
+            v-model="tagCollectionName"
+            class="collect-tag-input"
+            size="default"
+            @keyup.enter="addMyCollection"
+            @blur="addMyCollection"
+          />
+          <el-button
+            v-else
+            class="collect-tag-add"
+            size="default"
+            @click="showInput"
+          >
+            <i-ic-outline-save-as /> {{ tagEditable ? '编辑歌单' : '保存歌单' }}
+          </el-button>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item name="3">
         <template #title>
           <div class="title title-filter">
             <div class="title">筛选</div>
@@ -348,37 +477,6 @@ onMounted(() => {
           <el-button :icon="Search" @click="applySearch(false)" />
         </template>
       </el-input>
-
-      <!--  <select
-        class="general-input filter-song-search-select"
-        v-model="search.type"
-      >
-        <option
-          v-for="option in search.options"
-          v-bind:value="option"
-          v-bind:key="option"
-        >
-          {{ option }}
-        </option>
-      </select>
-      <input
-        v-model="search.text"
-        class="general-input filter-song-search-input"
-        v-on:keydown.enter="searchPressEnter"
-        v-on:keydown.space.stop=""
-      />
-      <button
-        class="general-button filter-song-search-go filter-song-search-button"
-        v-on:click="applySearch(false)"
-      >
-        搜索!
-      </button>
-      <button
-        class="general-button filter-song-search-clear filter-song-search-button"
-        v-on:click="applySearch(true)"
-      >
-        清空
-      </button> -->
     </div>
   </div>
 </template>

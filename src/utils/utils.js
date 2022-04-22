@@ -1,22 +1,22 @@
-import Consts from "globals/consts.js";
-import dayjs from "dayjs";
-import { getAudio } from "apis/audioloader.js";
-import cacheDB from "apis/db.js";
+import Consts from 'globals/consts.js';
+import dayjs from 'dayjs';
+import { getAudio } from 'apis/audioloader.js';
+import cacheDB from 'apis/db.js';
 
 function saveLoveList(l) {
-  localStorage.setItem("love_list", JSON.stringify(l));
+  localStorage.setItem('love_list', JSON.stringify(l));
 }
 
 function readLoveList() {
   // 初始化
   let loveList = [];
-  if (!localStorage.getItem("love_list"))
-    localStorage.setItem("love_list", "[]");
+  if (!localStorage.getItem('love_list'))
+    localStorage.setItem('love_list', '[]');
   else {
-    loveList = JSON.parse(localStorage.getItem("love_list"));
-    if (loveList.length > 0 && loveList[0].substring(0, 1) !== "A") {
+    loveList = JSON.parse(localStorage.getItem('love_list'));
+    if (loveList.length > 0 && loveList[0].substring(0, 1) !== 'A') {
       loveList = [];
-      localStorage.setItem("love_list", "[]");
+      localStorage.setItem('love_list', '[]');
     }
   }
   return loveList;
@@ -25,46 +25,79 @@ function readLoveList() {
 function savePlaylist(currentSongIndex, songList) {
   // 转换歌曲列表 仅保存id
   localStorage.setItem(
-    "current_playlist",
+    'current_playlist',
     JSON.stringify({
       current_song: currentSongIndex,
-      song_id_list: songList.map((s) => s.id).filter((i) => i !== "empty_song"),
+      song_id_list: songList.map((s) => s.id).filter((i) => i !== 'empty_song')
     })
   );
 }
 
 function readPlaylist() {
   // 初始化
-  if (!localStorage.getItem("current_playlist")) {
+  if (!localStorage.getItem('current_playlist')) {
     localStorage.setItem(
-      "current_playlist",
+      'current_playlist',
       JSON.stringify({
         current_song: 0,
-        song_id_list: [],
+        song_id_list: []
       })
     );
   }
-  const _currentPlaylist = JSON.parse(localStorage.getItem("current_playlist"));
+  const _currentPlaylist = JSON.parse(localStorage.getItem('current_playlist'));
   const _songList = _currentPlaylist.song_id_list.map((i) =>
     window.AudioLists.song_list.find((s) => s.id === i)
   );
   if (_songList.length === 0) _songList.push(Consts.empty_song);
   return {
     current_song: _currentPlaylist.current_song,
-    song_list: _songList,
+    song_list: _songList
   };
+}
+
+function saveMyCollection(l) {
+  localStorage.setItem(
+    'my_collection',
+    JSON.stringify(
+      l.map((collection) => ({
+        name: collection.name,
+        song_id_list: collection.list.map((song) => song.id)
+      }))
+    )
+  );
+}
+
+function readMyCollection() {
+  // 初始化
+  if (!localStorage.getItem('my_collection'))
+    localStorage.setItem('my_collection', '[]');
+  // 验证一遍歌曲
+  let my_collection = JSON.parse(localStorage.getItem('my_collection'));
+  let my_collection_verify = [];
+  for (let collection of my_collection) {
+    let song_list = collection.song_id_list.map((i) =>
+      window.AudioLists.song_list.find((s) => s.id === i)
+    );
+    song_list = song_list.filter((s) => s !== undefined);
+    if (song_list.length === 0) continue;
+    my_collection_verify.push({
+      name: collection.name,
+      list: song_list
+    });
+  }
+  return my_collection_verify;
 }
 
 const defaultSettings = {
   use_treated: false,
-  play_mode: "loop",
+  play_mode: 'loop',
   play_volume: 0.9,
-  night_mode: "light",
-  use_ch_resource: true,
+  night_mode: 'light',
+  use_ch_resource: true
 };
 function saveSettings(newSet) {
   localStorage.setItem(
-    "settings",
+    'settings',
     JSON.stringify(Object.assign(readSettings(), newSet))
   );
 }
@@ -72,9 +105,9 @@ function saveSettings(newSet) {
 //从localStorage读取设置
 function readSettings() {
   // 初始化设置
-  if (!localStorage.getItem("settings"))
-    localStorage.setItem("settings", JSON.stringify(defaultSettings));
-  let currentSettings = JSON.parse(localStorage.getItem("settings"));
+  if (!localStorage.getItem('settings'))
+    localStorage.setItem('settings', JSON.stringify(defaultSettings));
+  let currentSettings = JSON.parse(localStorage.getItem('settings'));
   Object.assign(defaultSettings, currentSettings);
   return defaultSettings;
 }
@@ -87,15 +120,15 @@ function encodeShare() {
       .map((s) => {
         let n = parseInt(s.id.substring(1));
         const l = Consts.cipher.length;
-        let c = "";
+        let c = '';
         while (n !== 0 || c.length < 3) {
           c += Consts.cipher.substring(n % l, (n % l) + 1);
           n = Math.floor(n / l);
         }
         return c;
       })
-      .filter((i) => i !== "empty_song")
-      .join("")
+      .filter((i) => i !== 'empty_song')
+      .join('')
   );
 }
 
@@ -107,7 +140,7 @@ function decodeShare(code) {
   if (_pureCode.length % 3 !== 0 || _pureCode.length === 0) return false;
   const _songIdList = [];
   while (_pureCode.length > 0) {
-    let _songCode = _pureCode.substring(0, 3).split("").reverse();
+    let _songCode = _pureCode.substring(0, 3).split('').reverse();
     _pureCode = _pureCode.substring(3);
     let _songId = 0;
     while (_songCode.length > 0) {
@@ -117,8 +150,8 @@ function decodeShare(code) {
       _songCode = _songCode.slice(1);
     }
     let _songIdText = _songId.toString();
-    while (_songIdText.length < 6) _songIdText = "0" + _songIdText;
-    _songIdList.push("A" + _songIdText);
+    while (_songIdText.length < 6) _songIdText = '0' + _songIdText;
+    _songIdList.push('A' + _songIdText);
   }
   const _songList = [];
   _songIdList.forEach((i) => {
@@ -134,19 +167,19 @@ function decodeShare(code) {
 
 function checkFirstBrowse() {
   // 初始化
-  const _currentDate = dayjs().format("YYYY-MM-DD");
-  const _lastVisitDate = localStorage.getItem("browse_flag");
-  const _existedVersion = localStorage.getItem("app_version");
+  const _currentDate = dayjs().format('YYYY-MM-DD');
+  const _lastVisitDate = localStorage.getItem('browse_flag');
+  const _existedVersion = localStorage.getItem('app_version');
   if (!_lastVisitDate) {
-    localStorage.setItem("browse_flag", _currentDate);
-    localStorage.setItem("app_version", APP_VERSION);
+    localStorage.setItem('browse_flag', _currentDate);
+    localStorage.setItem('app_version', APP_VERSION);
     return true;
   } else if (
-    _currentDate === dayjs(_lastVisitDate).add(7, "day").format("YYYY-MM-DD") ||
+    _currentDate === dayjs(_lastVisitDate).add(7, 'day').format('YYYY-MM-DD') ||
     _existedVersion !== APP_VERSION
   ) {
-    localStorage.setItem("browse_flag", _currentDate);
-    localStorage.setItem("app_version", APP_VERSION);
+    localStorage.setItem('browse_flag', _currentDate);
+    localStorage.setItem('app_version', APP_VERSION);
     return true;
   }
   return false;
@@ -205,8 +238,8 @@ function getResourceURL(
   extname,
   artists
 ) {
-  let __resourceBaseURL = "";
-  let __resourceExtPath = "";
+  let __resourceBaseURL = '';
+  let __resourceExtPath = '';
 
   switch (parseInt(`${+isOrign}${+isChResource}${+isCDN}`, 2)) {
     //isOrign = true =>4
@@ -247,32 +280,34 @@ function getResourceURL(
   }
 
   const _artist = artists
-    .split(",")
+    .split(',')
     .map((x) => (x = Consts.artist_mapping[x.trim()]))
     .sort()
-    .join("");
+    .join('');
 
   const _artistTag =
-    _artist.length === artists.split(",").length
+    _artist.length === artists.split(',').length
       ? _artist.length > 3
-        ? "F"
+        ? 'F'
         : _artist
-      : "L";
+      : 'L';
 
   const _fileName = `${
     SONG_NAME_SOURCE_MODE
-      ? resourcedate + " " + _artistTag + " " + resourcefilename
+      ? resourcedate + ' ' + _artistTag + ' ' + resourcefilename
       : resourcefilename
   }.${extname}`;
 
   return (
     __resourceBaseURL +
-    _fileName.replace("『", "【").replace("』", "】") +
+    _fileName.replace('『', '【').replace('』', '】') +
     __resourceExtPath
   );
 }
 
 export default {
+  saveMyCollection,
+  readMyCollection,
   saveLoveList,
   readLoveList,
   savePlaylist,
@@ -289,5 +324,5 @@ export default {
   readCachedList,
   getResourceURL,
   clearCache,
-  debug,
+  debug
 };
