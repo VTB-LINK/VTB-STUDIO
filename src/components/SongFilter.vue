@@ -237,7 +237,8 @@ const showInput = () => {
 };
 
 const clickCollection = (idx) => {
-  if (tagEditable) tagCollectionName.value = songMyCollection.value[idx].name;
+  if (tagEditable.value)
+    tagCollectionName.value = songMyCollection.value[idx].name;
   else replaceCollection(songMyCollection.value[idx].list);
 };
 
