@@ -10,7 +10,7 @@ import bus from 'vue3-eventbus';
 import ExplainTreatedPopUp from 'popup/ExplainTreated.vue';
 import intersection from 'lodash.intersection';
 import shuffle from 'lodash.shuffle';
-import { Search } from '@element-plus/icons-vue';
+import { Search, Refresh } from '@element-plus/icons-vue';
 import IconEditModeOn from '~icons/ic/outline-edit';
 import IconEditModeOff from '~icons/ic/outline-edit-off';
 
@@ -33,6 +33,7 @@ const showExplain = ref(false);
 const artistExactMacth = ref(false);
 const tagInputVisible = ref(false);
 const tagEditable = ref(false);
+const filterCollection = ref([]);
 const filters = reactive([
   {
     name: 'artist',
@@ -59,12 +60,6 @@ const filters = reactive([
     options: window.FilterOptions.month
   },
   {
-    name: 'collection',
-    text: '歌单',
-    value: '',
-    options: window.FilterOptions.collection
-  },
-  {
     name: 'loved',
     text: '收藏',
     value: '',
@@ -72,7 +67,7 @@ const filters = reactive([
   },
   {
     name: 'has_audio',
-    text: '是否有音频',
+    text: '音频有无',
     value: '',
     options: window.FilterOptions.has_audio
   },
@@ -86,7 +81,7 @@ const filters = reactive([
 const search = ref({
   text: '',
   textForSearch: '',
-  type: '搜索歌名',
+  type: '歌名',
   options: window.FilterOptions.search_type
 });
 
@@ -95,10 +90,7 @@ const selfSongListFiltered = computed(() => {
   let filter = {};
   for (const item of filters) filter[item.name] = item.value;
   // 筛选歌单
-  if (filter.collection !== '')
-    _templist = songCollection.value
-      .find((c) => c.name === filter.collection)
-      .list.slice();
+  if (filterCollection.value.length > 0) _templist = filterCollection.value;
   // 筛选演唱状态
   if (filter.status !== '')
     _templist = _templist.filter((song) => song.status === filter.status);
@@ -145,7 +137,7 @@ const selfSongListFiltered = computed(() => {
     _templist = _templist.filter((song) => !song.has_audio);
   // 筛选搜索
   if (search.value.textForSearch !== '') {
-    if (search.value.type === '搜索歌名')
+    if (search.value.type === '歌名')
       _templist = _templist.filter(
         (song) =>
           song.name
@@ -199,6 +191,20 @@ const replaceCollection = (songList) => {
     'playlist-replace-event',
     songList.filter((s) => s.has_audio)
   );
+};
+
+const filterByCollection = (songList) => {
+  filterCollection.value = songList;
+  applySearch(false);
+};
+
+const clearFilters = () => {
+  for (const item of filters) {
+    if (item.name === 'order') item.value = '时间倒序';
+    else item.value = '';
+  }
+  filterCollection.value = [];
+  applySearch(true);
 };
 
 const searchPressEnter = (event) => {
@@ -315,16 +321,16 @@ onMounted(() => {
             v-for="collection in songCollection"
             :key="collection.name"
             class="collection-item"
-            @click="replaceCollection(collection.list)"
+            @click="filterByCollection(collection.list)"
           >
             <i-ic-outline-local-offer class="collection-icon" />
             <div>{{ collection.name }}</div>
           </div>
-          <div class="collection-item" @click="replaceCollection(cachedList)">
+          <div class="collection-item" @click="filterByCollection(cachedList)">
             <i-ic-outline-sim-card-download class="collection-icon" />
             <div>本地缓存</div>
           </div>
-          <div class="collection-item" @click="replaceCollection(loveList)">
+          <div class="collection-item" @click="filterByCollection(loveList)">
             <i-ic-round-favorite class="collection-icon" style="color: red" />
             <div>已收藏</div>
           </div>
@@ -464,7 +470,8 @@ onMounted(() => {
           <el-select
             v-model="search.type"
             placeholder="Select"
-            style="width: 8rem"
+            style="width: 5rem"
+            fit-input-width
           >
             <el-option
               v-for="option in search.options"
@@ -475,7 +482,17 @@ onMounted(() => {
           </el-select>
         </template>
         <template #append>
-          <el-button :icon="Search" @click="applySearch(false)" />
+          <el-button
+            :icon="Search"
+            style="padding-right: 2em"
+            @click="applySearch(false)"
+          />
+          <el-divider direction="vertical" />
+          <el-button
+            :icon="Refresh"
+            style="padding-left: 2em"
+            @click="clearFilters"
+          />
         </template>
       </el-input>
     </div>
