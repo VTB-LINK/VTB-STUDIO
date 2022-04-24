@@ -149,8 +149,6 @@ const selfSongListFiltered = computed(() => {
         const _text = search.value.textForSearch.toLowerCase();
         let _flag = false;
         _flag = _flag || song.name.toLowerCase().search(_text) !== -1;
-        if (song.name_chs !== '')
-          _flag = _flag || song.name_chs.toLowerCase().search(_text) !== -1;
         if (song.note !== '')
           _flag = _flag || song.note.toLowerCase().search(_text) !== -1;
         if (song.ref)
