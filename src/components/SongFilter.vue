@@ -379,6 +379,7 @@ onMounted(() => {
             size="default"
             @keyup.enter="addMyCollection"
             @blur="addMyCollection"
+            @keydown.space.stop=""
           />
           <el-button
             v-else
@@ -466,7 +467,8 @@ onMounted(() => {
         class="input-with-select"
         clearable
         @clear="applySearch(true)"
-        @change="searchPressEnter"
+        @keydown.enter="searchPressEnter"
+        @keydown.space.stop=""
       >
         <template #prepend>
           <el-select
