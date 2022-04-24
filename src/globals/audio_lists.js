@@ -5,7 +5,7 @@ const AudioLists = {
   playlist: [],
   love_list: [],
   cached_list: [],
-  cutter_list: [],
+  cutter_list: []
 };
 
 export default AudioLists;

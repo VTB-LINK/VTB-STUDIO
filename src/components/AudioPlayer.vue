@@ -125,7 +125,7 @@ watch(volume, (newV) => {
 });
 
 watch([currentSongIndex, () => [...playlist.value]], (newValues, oldValues) => {
-  previousSongIndex.value = oldValues[0];
+  if (newValues[0] !== oldValues[0]) previousSongIndex.value = oldValues[0];
   utils.savePlaylist(newValues[0], newValues[1]);
   window.AudioLists.playlist = newValues[1];
 });

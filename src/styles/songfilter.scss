@@ -32,6 +32,24 @@
   width: 1.3em;
   height: 1.3em;
 }
+.collect-tag {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+  margin-top: 0.5rem;
+  margin-right: 1rem;
+}
+.collect-tag div {
+  display: flex;
+}
+.collect-tag-add {
+  margin-top: 0.5rem;
+}
+.collect-tag-input {
+  margin-top: 0.5rem;
+  width: 6.5rem;
+}
 
 @media (any-hover: hover) {
   .collection-item:hover {
