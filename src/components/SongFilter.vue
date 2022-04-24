@@ -33,7 +33,7 @@ const showExplain = ref(false);
 const artistExactMacth = ref(false);
 const tagInputVisible = ref(false);
 const tagEditable = ref(false);
-const filterCollection = ref([]);
+const filterCollection = ref(null);
 const filters = reactive([
   {
     name: 'artist',
@@ -90,7 +90,7 @@ const selfSongListFiltered = computed(() => {
   let filter = {};
   for (const item of filters) filter[item.name] = item.value;
   // 筛选歌单
-  if (filterCollection.value.length > 0) _templist = filterCollection.value;
+  if (filterCollection.value !== null) _templist = filterCollection.value;
   // 筛选演唱状态
   if (filter.status !== '')
     _templist = _templist.filter((song) => song.status === filter.status);
@@ -203,7 +203,7 @@ const clearFilters = () => {
     if (item.name === 'order') item.value = '时间倒序';
     else item.value = '';
   }
-  filterCollection.value = [];
+  filterCollection.value = null;
   applySearch(true);
 };
 
