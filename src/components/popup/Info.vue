@@ -27,7 +27,9 @@ const emit = defineEmits(['closepopup']);
         问卷满分100分，前半部分评分题50分，后半部分50分，答题完毕可以看到分数和排行榜。
         <br />
         欢迎有兴趣加入录音棚团队，或想挑战自己的au前来参与。 <br />
-        问卷：https://ks.wjx.top/vj/P04QpQq.aspx
+        <a href="https://ks.wjx.top/vj/P04QpQq.aspx" target="_blank"
+          >问卷跃迁门</a
+        >
       </p>
       <br />
       <p>
