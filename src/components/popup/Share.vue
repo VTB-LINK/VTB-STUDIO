@@ -1,31 +1,36 @@
 <script>
 export default defineComponent({
-  name: "SharePopUp",
+  name: 'SharePopUp'
 });
 </script>
 
 <script setup>
-import MainPopUp from "popup/Main.vue";
-import utils from "utils/utils.js";
+import { computed } from '@vue/runtime-core';
+import MainPopUp from 'popup/Main.vue';
+import utils from 'utils/utils.js';
 
 const baseURL = window.location.origin;
 
 const songTooltips = {
-  content: "已成功复制到剪切板",
+  content: '已成功复制到剪切板'
 };
 
 const songlistTooltips = {
-  content: "已成功复制到剪切板",
+  content: '已成功复制到剪切板'
 };
 
 const props = defineProps({
-  song: Object,
+  song: Object
 });
 
-const emit = defineEmits(["closepopup"]);
+const emit = defineEmits(['closepopup']);
+
+const playlistShareCode = computed(() => {
+  return utils.encodeShare();
+});
 
 const playlistID = computed(() => {
-  return utils.encodeShare();
+  return utils.getAudioIDForShare();
 });
 
 const downloadURL = computed(() => {
@@ -48,27 +53,27 @@ const copy = (text, popper) => {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text).then(
       () => {
-        popper.content = "已成功复制到剪切板";
+        popper.content = '已成功复制到剪切板';
       },
       function () {
-        popper.content = "无剪切板权限，请手动复制";
+        popper.content = '无剪切板权限，请手动复制';
       }
     );
-  } else popper.content = "你的浏览器尚不支持，请手动复制";
+  } else popper.content = '你的浏览器尚不支持，请手动复制';
 };
 </script>
 
 <template>
-  <MainPopUp v-on:closepopup="$emit('closepopup')" title="分享歌曲">
+  <MainPopUp title="分享歌曲" @closepopup="$emit('closepopup')">
     <div>
       <div class="c-share-body">
         <div class="c-share-title">
           <div class="share-title">复制链接分享当前歌曲</div>
-          <VTooltip :showTriggers="['click']" :hideTriggers="['hover']">
+          <VTooltip :show-triggers="['click']" :hide-triggers="['hover']">
             <button
               slot="reference"
               class="copy-button"
-              v-on:click="copy(baseURL + '/?s=' + props.song?.id, songTooltips)"
+              @click="copy(baseURL + '/?s=' + props.song?.id, songTooltips)"
             >
               复制到剪切板
             </button>
@@ -76,7 +81,7 @@ const copy = (text, popper) => {
           </VTooltip>
         </div>
         <div>
-          <a v-bind:href="baseURL + '/?s=' + props.song?.id"
+          <a :href="baseURL + '/?s=' + props.song?.id"
             >{{ baseURL }}/?s={{ props.song?.id }}</a
           >
         </div>
@@ -86,11 +91,28 @@ const copy = (text, popper) => {
         <div class="c-share-title">
           <div class="share-title">复制代码分享歌单</div>
 
-          <VTooltip :showTriggers="['click']" :hideTriggers="['hover']">
+          <VTooltip :show-triggers="['click']" :hide-triggers="['hover']">
             <button
               id="share-songlist-button"
               class="copy-button"
-              v-on:click="copy(playlistID, songlistTooltips)"
+              @click="copy(playlistShareCode, songlistTooltips)"
+            >
+              复制到剪切板
+            </button>
+            <template #popper> {{ songlistTooltips.content }} </template>
+          </VTooltip>
+        </div>
+        <div class="share-list-text">{{ playlistShareCode }}</div>
+      </div>
+      <hr />
+      <div v-if="isBackdoor" class="c-share-body">
+        <div class="c-share-title">
+          <div class="share-title">复制歌单曲目id(内部用)</div>
+          <VTooltip :show-triggers="['click']" :hide-triggers="['hover']">
+            <button
+              id="share-songlist-button"
+              class="copy-button"
+              @click="copy(playlistID, songlistTooltips)"
             >
               复制到剪切板
             </button>
@@ -99,21 +121,16 @@ const copy = (text, popper) => {
         </div>
         <div class="share-list-text">{{ playlistID }}</div>
       </div>
-      <hr />
-      <div class="c-share-body" v-if="isBackdoor">
+      <div v-if="isBackdoor" class="c-share-body">
         <div class="c-share-title">
           <div class="share-title">下载当前歌曲</div>
-          <a v-bind:href="downloadURL" download>点击下载</a>
+          <a :href="downloadURL" download>点击下载</a>
         </div>
-        <!--         <div class="c-share-title">
-          <div class="share-title">下载全部歌曲数据库</div>
-          <a href="/static/song database.csv" download>点击下载</a>
-        </div> -->
       </div>
     </div>
   </MainPopUp>
 </template>
 
 <style scoped>
-@import "@/styles/share.scss";
+@import '@/styles/share.scss';
 </style>
