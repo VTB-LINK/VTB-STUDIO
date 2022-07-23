@@ -621,6 +621,12 @@ onMounted(() => {
       isChResource.value = para;
     }
   });
+  const { standalone = false, userAgent = '' } = window.navigator
+  if (standalone && userAgent.match(/iPhone/)) {
+    //用户为iphone并且以spa运行
+    //此时需要抬高整个player 防止误触下面切换app的bar
+    document.getElementById('player').style.paddingBottom='35px'
+  }
 });
 
 //公开属性给到父组件
