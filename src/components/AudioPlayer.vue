@@ -836,12 +836,10 @@ defineExpose({
             v-bind="dragOptions"
             v-model="playlist"
             item-key="id"
-            tag="transition-group"
             handle=".handle"
             :component-data="{
-              tag: 'div',
               name: 'flip-list',
-              type: 'transition'
+              type: 'transition-group'
             }"
             @start="drag = true"
             @end="drag = false"
