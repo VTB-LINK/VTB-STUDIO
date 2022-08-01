@@ -18,11 +18,13 @@ const emit = defineEmits(['closepopup']);
 <template>
   <MainPopUp title="欢迎来到AS录音棚！" @closepopup="$emit('closepopup')">
     <div class="content">
-      <p>今天有好好吃饭吗٩(๑^o^๑)۶</p>
-      <br />
       <p>
-        <b>一则来自录音棚的消息：</b> <br />
-        问卷调查已经结束，感谢大家的参与！
+        今天有好好吃饭吗٩(๑^o^๑)۶
+        <br />
+        <br />
+        <b>一则来自录音棚的温馨提醒：</b> <br />
+        欢迎使用手机版Chrome或者safari来进行收听！<br />
+        由于IOS安全限制，后台播放时无法自动切歌，只能单曲循环，尽情谅解。
       </p>
       <br />
       <p>
