@@ -97,6 +97,14 @@ onMounted(() => {
   });
   changeNightMode(utils.readSettings().night_mode);
 });
+
+//苹果safari专用的事件 如双击放大等 直接禁止即可
+//https://developer.mozilla.org/en-US/docs/Web/API/Element/gesturestart_event
+
+document.addEventListener('gesturestart', function (e) {
+  e.preventDefault();
+});
+
 </script>
 
 <template>

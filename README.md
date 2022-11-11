@@ -27,6 +27,13 @@ npm run build -- --mode staging
 npm run preview
 ```
 
+> **Note**
+> 如果`public/favicon.svg`被替换，请执行
+> 
+> `npm i convert-svg-to-png&&npm run genimg`
+> 
+> 以生成PWA所依赖的不同尺寸LOGO
+
 ### Lints and fixes files
 
 ```

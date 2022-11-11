@@ -1,11 +1,11 @@
 <script>
 export default defineComponent({
-  name: "Footer",
+  name: 'Footer'
 });
 </script>
 
 <script setup>
-import CreditPopUp from "popup/Credit.vue";
+import CreditPopUp from 'popup/Credit.vue';
 
 const cutter = ref([]);
 const showCredit = ref(false);
@@ -67,7 +67,7 @@ onMounted(() => {
       >
       ，这边有面向海外AU小伙伴的转播服务和AS社区建设交流频道。
     </p>
-    <p>
+    <!--     <p>
       试着关注一下这个b站的二创小伙伴？
       <a
         v-bind:href="'https://space.bilibili.com/' + cutter[0]"
@@ -75,12 +75,20 @@ onMounted(() => {
         rel="noreferrer noopener"
         >@{{ cutter[1] }}</a
       >
-    </p>
+    </p> -->
     <hr />
+    <p>
+      关于歌曲的切片资源整理请参阅：<a
+        href="https://www.bilibili.com/read/cv16054470"
+        target="_blank"
+        rel="noreferrer noopener"
+        >A-SOUL录音棚指南</a
+      >
+    </p>
     <p>
       录播资源，翻唱切片等请访问：
       <a
-        href="https://asoul1.asoul-rec.com/"
+        href="https://rec.ddindexs.com/?hash=Ppvljz5l"
         target="_blank"
         rel="noreferrer noopener"
         >A-SOUL录播站</a
@@ -88,7 +96,7 @@ onMounted(() => {
     </p>
     <p>
       AS社区的很多小伙伴们为本站提供了莫大的帮忙，戳这里看看->
-      <a v-on:click="showCredit = true" class="credit">关于本站</a>
+      <a class="credit" @click="showCredit = true">关于本站</a>
     </p>
     <p>
       录音棚版本更新情报，资源文件报错反馈，问题咨询和新功能建议等请关注并私信联系：
@@ -108,37 +116,31 @@ onMounted(() => {
         rel="noreferrer noopener"
         >A-soul Moments油管频道</a
       >
-      <a href="https://asoul.jp/" target="_blank" rel="noreferrer noopener"
-        >ASファンサイト</a
-      >
-      <a href="https://asoulfan.com/" target="_blank" rel="noreferrer noopener"
-        >Project ASF</a
+      <a href="https://asoulwiki.com/" target="_blank" rel="noreferrer noopener"
+        >A-SOUL WIKI</a
       >
     </p>
     <p class="links">
       <a
-        href="https://bbs.a-soul.fans"
+        href="https://asoulfanart.com/"
         target="_blank"
         rel="noreferrer noopener"
-        >AS BBS</a
-      >
-      <a href="https://pt.a-soul.fans" target="_blank" rel="noreferrer noopener"
-        >ASPT</a
+        >一个魂的二创</a
       >
       <a
-        href="https://asoulworld.com/"
+        href="https://asoulcnki.asia/"
         target="_blank"
         rel="noreferrer noopener"
-        >A-SOUL WORLD导航站</a
+        >枝网查重</a
       >
       <a href="https://asdb.live" target="_blank" rel="noreferrer noopener"
         >A-SOUL Database</a
       >
     </p>
-    <CreditPopUp v-if="showCredit" v-on:closepopup="showCredit = false" />
+    <CreditPopUp v-if="showCredit" @closepopup="showCredit = false" />
   </div>
 </template>
 
 <style scoped>
-@import "@/styles/footer.scss";
+@import '@/styles/footer.scss';
 </style>

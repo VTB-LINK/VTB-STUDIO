@@ -132,6 +132,16 @@ function encodeShare() {
   );
 }
 
+function getAudioIDForShare() {
+  // 将当前播放列表ID返回供维护推荐列表的内部使用
+  return window.AudioLists.playlist
+    .map((s) => {
+      return s.id;
+    })
+    .filter((i) => i !== 'empty_song')
+    .join(',');
+}
+
 function decodeShare(code) {
   // 将分享代码转化为歌曲列表
   if (code.substring(0, Consts.code_prefix.length) !== Consts.code_prefix)
@@ -316,6 +326,7 @@ export default {
   readSettings,
   encodeShare,
   decodeShare,
+  getAudioIDForShare,
   checkFirstBrowse,
   strToCode,
   saveAudioInDB,
