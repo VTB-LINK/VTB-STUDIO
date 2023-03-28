@@ -9,7 +9,7 @@ export default defineComponent({
     <div class="banner-video">
       <video playsinline="" autoplay="" loop="" muted="">
         <source
-          src="https://asoul.csv.dev.vtb.studio/assets/banner.mp4"
+          src="@/assets/banner-lunette.mp4"
           type="video/mp4"
         />
       </video>
@@ -18,42 +18,19 @@ export default defineComponent({
       <!-- <img src="/favicon.svg" alt="logo" /> -->
     </div>
     <div class="title-info">
-      <h1>录音棚</h1>
+      <h1>Dionysus录音棚</h1>
       <div class="title-detail">
-        <div>A-SOUL时代，沸腾期待！</div>
-        <div>录音棚收录了几乎全部solo和合唱的歌</div>
+        <div>『靠近一点，好好看着我』</div>
+        <div>「来自Dionysus酒吧的驻唱——黎酩 Lunette」</div>
         <div>
-          还没关注?
+          还没关注？快给
           <a
-            href="https://space.bilibili.com/672346917/"
+            href="https://space.bilibili.com/1518468126"
             target="_blank"
             rel="noreferrer noopener"
-            >@向晚
+            >@黎酩_Lunette
           </a>
-          <a
-            href="https://space.bilibili.com/672353429/"
-            target="_blank"
-            rel="noreferrer noopener"
-            >@贝拉</a
-          >
-          <a
-            href="https://space.bilibili.com/351609538/"
-            target="_blank"
-            rel="noreferrer noopener"
-            >@珈乐</a
-          >
-          <a
-            href="https://space.bilibili.com/672328094/"
-            target="_blank"
-            rel="noreferrer noopener"
-            >@嘉然</a
-          >
-          <a
-            href="https://space.bilibili.com/672342685/"
-            target="_blank"
-            rel="noreferrer noopener"
-            >@乃琳</a
-          >
+          点点关注！
         </div>
       </div>
     </div>

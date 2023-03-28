@@ -21,18 +21,18 @@ body {
   text-align: center;
   margin-top: 0px;
   padding-bottom: 20rem;
-  background-image: url("@/assets/ui/background.webp");
+  background-image: url("@/assets/ui/Dionysus.png");
   --transparent: url(data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==);
   /* Safari最近版本已经不需要私有前缀了 */
   background-image: cross-fade(
     var(--transparent),
-    url("@/assets/ui/background.webp"),
+    url("@/assets/ui/Dionysus.png"),
     15%
   );
   /* 如使用自定义属性，-webkit-语句需要放在没有私有前缀语句的下面 */
   background-image: -webkit-cross-fade(
     var(--transparent),
-    url("@/assets/ui/background.webp"),
+    url("@/assets/ui/Dionysus.png"),
     15%
   );
   background-size: 40%;
