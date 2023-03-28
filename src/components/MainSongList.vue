@@ -366,7 +366,7 @@ onMounted(() => {
             </a>
           </div>
           <div class="song-full-details-record">
-            <span>录播：</span>
+            <span>录播/切片/视频：</span>
             <a
               :href="
                 'https://www.bilibili.com/video/' +
