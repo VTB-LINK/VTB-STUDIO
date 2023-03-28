@@ -22,12 +22,13 @@ const cipher = "ASOULForevERIhc0nWsJzCVau4BpYGMtH2XZPld1b6573xNi98wKDyQmkTgjqf";
 const code_prefix = "asoulink://";
 
 const artist_mapping = [];
-artist_mapping["向晚"] = "A";
-artist_mapping["贝拉"] = "B";
-artist_mapping["珈乐"] = "C";
-artist_mapping["嘉然"] = "D";
-artist_mapping["乃琳"] = "E";
-artist_mapping["A-SOUL"] = "F";
+// artist_mapping["向晚"] = "A";
+// artist_mapping["贝拉"] = "B";
+// artist_mapping["珈乐"] = "C";
+// artist_mapping["嘉然"] = "D";
+// artist_mapping["乃琳"] = "E";
+// artist_mapping["A-SOUL"] = "F";
+artist_mapping["黎酩Lunette"] = "L";
 
 export default {
   cutter_list,
