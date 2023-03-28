@@ -22,7 +22,7 @@ const emit = defineEmits(['closepopup']);
         今天有好好吃饭吗٩(๑^o^๑)۶
         <br />
         <br />
-        <b>一则来自录音棚的温馨提醒：</b> <br />
+        <b>一则来自Dionysus酒吧录音棚的温馨提醒：</b> <br />
         欢迎使用手机版Chrome或者safari来进行收听！<br />
         由于IOS安全限制，后台播放时无法自动切歌，只能单曲循环，尽情谅解。
       </p>
@@ -37,7 +37,7 @@ const emit = defineEmits(['closepopup']);
           >@{{ c[1] }}</a
         >
       </p> -->
-      <p>和所有的烦恼说白白，和全部的快乐索嗨嗨！今天也来一起愉快地听歌鸭~！</p>
+      <p>『在没有演出的夜晚，我习惯挑一个人少的角落捧着热牛奶小口啜饮，观察着每一个来到这里的客人。欢迎来到Dionysus的录音棚，希望望你收听愉快。』</p>
     </div>
   </MainPopUp>
 </template>

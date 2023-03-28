@@ -66,9 +66,9 @@ export default defineConfig({
     VitePWA({
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'A-SOUL 录音棚',
-        short_name: 'A-SOUL 录音棚',
-        description: 'A-SOUL 歌曲全收集！',
+        name: 'Dionysus 录音棚',
+        short_name: 'Dionysus 录音棚',
+        description: '黎酩姐姐的歌曲全收集！',
         theme_color: '#ffffff',
         icons: [
           {

@@ -21,51 +21,28 @@ onMounted(() => {
     <p>
       或许你还不十分了解
       <a
-        href="https://zh.moegirl.org.cn/A-SOUL"
+        href="https://space.bilibili.com/1518468126"
         target="_blank"
         rel="noreferrer noopener"
-        >A-SOUL</a
-      >？ 赶快去看看她们的直播间：
+        >黎酩_Lunette</a
+      >？ 赶快去看看她的直播间：
       <a
-        href="https://live.bilibili.com/22625025"
+        href="https://live.bilibili.com/26167845"
         target="_blank"
         rel="noreferrer noopener"
-        >@向晚AvA
+        >@黎酩_Lunette 的直播间
       </a>
-      <a
-        href="https://live.bilibili.com/22632424"
-        target="_blank"
-        rel="noreferrer noopener"
-        >@贝拉Bella</a
-      >
-      <a
-        href="https://live.bilibili.com/22634198"
-        target="_blank"
-        rel="noreferrer noopener"
-        >@珈乐Carol</a
-      >
-      <a
-        href="https://live.bilibili.com/22637261"
-        target="_blank"
-        rel="noreferrer noopener"
-        >@嘉然Diana</a
-      >
-      <a
-        href="https://live.bilibili.com/22625027"
-        target="_blank"
-        rel="noreferrer noopener"
-        >@乃琳Eileen</a
-      >
+
     </p>
     <p>
       欢迎加入
       <a
-        href="https://discord.gg/a-soul"
+        href="https://space.bilibili.com/3493269174487419"
         target="_blank"
         rel="noreferrer noopener"
-        >A-Soul的非官方社区DC频道</a
+        >这是一个黎谱的二创组</a
       >
-      ，这边有面向海外AU小伙伴的转播服务和AS社区建设交流频道。
+      ，二创组持续招新中。
     </p>
     <!--     <p>
       试着关注一下这个b站的二创小伙伴？
@@ -77,65 +54,67 @@ onMounted(() => {
       >
     </p> -->
     <hr />
-    <p>
+    <!-- <p>
       关于歌曲的切片资源整理请参阅：<a
         href="https://www.bilibili.com/read/cv16054470"
         target="_blank"
         rel="noreferrer noopener"
         >A-SOUL录音棚指南</a
       >
-    </p>
+    </p> -->
     <p>
       录播资源，翻唱切片等请访问：
       <a
-        href="https://rec.ddindexs.com/?hash=Ppvljz5l"
-        target="_blank"
-        rel="noreferrer noopener"
-        >A-SOUL录播站</a
-      >
+          href="https://space.bilibili.com/3493269174487419"
+          target="_blank"
+          rel="noreferrer noopener"
+          >@这是一个黎谱的二创组</a
+        >
+        和
+        <a
+          href="https://space.bilibili.com/3461579657972242"
+          target="_blank"
+          rel="noreferrer noopener"
+          >@星云社保安室</a
+        >
     </p>
     <p>
-      AS社区的很多小伙伴们为本站提供了莫大的帮忙，戳这里看看->
+      二创组的很多小伙伴们为本站提供了莫大的帮助，戳这里看看->
       <a class="credit" @click="showCredit = true">关于本站</a>
     </p>
     <p>
       录音棚版本更新情报，资源文件报错反馈，问题咨询和新功能建议等请关注并私信联系：
+      <br>
       <a
-        href="https://space.bilibili.com/674044855"
+          href="https://space.bilibili.com/3493269174487419"
+          target="_blank"
+          rel="noreferrer noopener"
+          >@这是一个黎谱的二创组</a
+        >
+      或
+      <a
+        href="https://space.bilibili.com/393157178"
         target="_blank"
         rel="noreferrer noopener"
-        >@A-SOUL_Studio录音棚</a
+        >@George-Kazami</a
       >
     </p>
     <hr />
     <p class="links">
       友情链接：
       <a
-        href="https://www.youtube.com/channel/UCrC6Xdxx5Jmo3m0cPi-u_cw"
-        target="_blank"
-        rel="noreferrer noopener"
-        >A-soul Moments油管频道</a
-      >
-      <a href="https://asoulwiki.com/" target="_blank" rel="noreferrer noopener"
-        >A-SOUL WIKI</a
-      >
-    </p>
-    <p class="links">
-      <a
-        href="https://asoulfanart.com/"
-        target="_blank"
-        rel="noreferrer noopener"
-        >一个魂的二创</a
-      >
-      <a
-        href="https://asoulcnki.asia/"
-        target="_blank"
-        rel="noreferrer noopener"
-        >枝网查重</a
-      >
-      <a href="https://asdb.live" target="_blank" rel="noreferrer noopener"
-        >A-SOUL Database</a
-      >
+          href="https://space.bilibili.com/3493269174487419"
+          target="_blank"
+          rel="noreferrer noopener"
+          >@这是一个黎谱的二创组</a
+        >
+        
+        <a
+          href="https://space.bilibili.com/3461579657972242"
+          target="_blank"
+          rel="noreferrer noopener"
+          >@星云社保安室</a
+        >
     </p>
     <CreditPopUp v-if="showCredit" @closepopup="showCredit = false" />
   </div>
