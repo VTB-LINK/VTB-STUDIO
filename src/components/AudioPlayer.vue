@@ -12,6 +12,7 @@ import draggable from 'vuedraggable';
 import SharePopUp from 'popup/Share.vue';
 import DetailsPopUp from 'popup/Details.vue';
 import { lock, unlock } from 'tua-body-scroll-lock';
+import { ref } from 'vue';
 
 let audio = {};
 let audioSource = {};
@@ -37,6 +38,7 @@ const volumebarref = ref(null);
 const playlistref = ref(null);
 const playlistcontentref = ref(null);
 const playlistbuttonref = ref(null);
+
 
 // 滑动检测
 let isMouseDown = false;
@@ -621,11 +623,11 @@ onMounted(() => {
       isChResource.value = para;
     }
   });
-  const { standalone = false, userAgent = '' } = window.navigator
+  const { standalone = false, userAgent = '' } = window.navigator;
   if (standalone && userAgent.match(/iPhone/)) {
     //用户为iphone并且以spa运行
     //此时需要抬高整个player 防止误触下面切换app的bar
-    document.getElementById('player').style.paddingBottom='35px'
+    document.getElementById('player').style.paddingBottom = '35px';
   }
 });
 
@@ -863,12 +865,17 @@ defineExpose({
                 ]"
                 @click="changeSong(index)"
               >
-                <div class="playlist-name handle">
-                  <span class="playlist-index">{{ index + 1 }}. </span
-                  >{{ element.name }}
+                <!-- <div style="width: 100%; max-width: 70%;"> -->
+                <div style="width: 100%;">
+                  <div class="playlist-name">
+                    <span class="playlist-index">{{ index + 1 }}. </span>
+                    {{ element.name }}
+                  </div>
+                  <div class="playlist-dash-artist">
+                    <div class="playlist-dash">-</div>
+                    <div class="playlist-artist">{{ element.artist }}</div>
+                  </div>
                 </div>
-                <div class="playlist-dash">-</div>
-                <div class="playlist-artist">{{ element.artist }}</div>
                 <div class="playlist-status">{{ element.status }}</div>
                 <div class="playlist-duration">{{ element.duration }}</div>
                 <div
@@ -932,3 +939,12 @@ defineExpose({
 <style scoped>
 @import '@/styles/audioplayer.scss';
 </style>
+
+<!-- <style scoped>
+.playlist-name-1 {
+  flex-grow: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+</style> -->

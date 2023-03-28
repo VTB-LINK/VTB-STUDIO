@@ -382,6 +382,14 @@
   color: rgb(105, 105, 105);
   font-size: 0.8rem;
 }
+
+.playlist-dash-artist {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  float: right;
+}
+
 .playlist-dash {
   flex-shrink: 0;
   color: #333;
