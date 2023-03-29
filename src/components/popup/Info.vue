@@ -16,7 +16,7 @@ const emit = defineEmits(['closepopup']);
 </script>
 
 <template>
-  <MainPopUp title="欢迎来到AS录音棚！" @closepopup="$emit('closepopup')">
+  <MainPopUp title="欢迎来到Dionysus录音棚！" @closepopup="$emit('closepopup')">
     <div class="content">
       <p>
         今天有好好吃饭吗٩(๑^o^๑)۶
