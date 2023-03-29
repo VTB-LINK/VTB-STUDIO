@@ -19,7 +19,7 @@ const empty_song = {
 };
 
 const cipher = "ASOULForevERIhc0nWsJzCVau4BpYGMtH2XZPld1b6573xNi98wKDyQmkTgjqf";
-const code_prefix = "asoulink://";
+const code_prefix = "DionysusLink://";
 
 const artist_mapping = [];
 // artist_mapping["向晚"] = "A";
