@@ -45,7 +45,7 @@ export default defineConfig({
       analytics: [
         {
           // asoul.vtb.studio
-          id: 'G-N6VPT825GB',
+          id: 'G-RCRFWQNWE9',
           config: {
             cookie_domain: 'auto',
             cookie_expires: 63072000,
