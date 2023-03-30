@@ -371,7 +371,7 @@ onMounted(() => {
               :href="
                 'https://www.bilibili.com/video/' +
                 song.record.bv +
-                (song.record.p ? '?p=' + song.record.p : '') + '' +
+                (song.record.p ? '?p=' + song.record.p : '') +
                 (song.record_start_ms > 0
                   ? '&start_progress=' + song.record_start_ms
                   : '')
@@ -381,7 +381,7 @@ onMounted(() => {
             >
               {{ song.date }}
               {{
-                song.record.p ? 'p' + song.record.p + song.record.timecode : ''
+                song.record.p ? 'p' + song.record.p + ' ' + song.record.timecode : ''
               }}
             </a>
           </div>
