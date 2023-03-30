@@ -381,7 +381,7 @@ onMounted(() => {
             >
               {{ song.date }}
               {{
-                song.record.p ? 'p' + song.record.p + song.record.timecode : ''
+                song.record.p ? 'p' + song.record.p + ' ' + song.record.timecode : ''
               }}
             </a>
           </div>
