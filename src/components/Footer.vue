@@ -70,13 +70,13 @@ onMounted(() => {
           rel="noreferrer noopener"
           >@这是一个黎谱的二创组</a
         >
-        和
+        <!-- 和
         <a
           href="https://space.bilibili.com/3461579657972242"
           target="_blank"
           rel="noreferrer noopener"
           >@星云社保安室</a
-        >
+        > -->
     </p>
     <p>
       二创组的很多小伙伴们为本站提供了莫大的帮助，戳这里看看->
@@ -109,12 +109,12 @@ onMounted(() => {
           >@这是一个黎谱的二创组</a
         >
         
-        <a
+        <!-- <a
           href="https://space.bilibili.com/3461579657972242"
           target="_blank"
           rel="noreferrer noopener"
           >@星云社保安室</a
-        >
+        > -->
     </p>
 
     <p>
