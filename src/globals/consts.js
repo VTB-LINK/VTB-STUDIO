@@ -29,6 +29,7 @@ const artist_mapping = [];
 // artist_mapping["乃琳"] = "E";
 // artist_mapping["A-SOUL"] = "F";
 artist_mapping["黎酩Lunette"] = "L";
+artist_mapping["塞拉菲娜Serafina"] = "S";
 
 export default {
   cutter_list,
