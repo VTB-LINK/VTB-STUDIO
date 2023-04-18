@@ -109,12 +109,12 @@ onMounted(() => {
           >@这是一个黎谱的二创组</a
         >
         
-        <!-- <a
-          href="https://space.bilibili.com/3461579657972242"
+        <a
+          href="https://space.bilibili.com/3493274492865188"
           target="_blank"
           rel="noreferrer noopener"
-          >@星云社保安室</a
-        > -->
+          >@无垠的黎谱周报</a
+        >
     </p>
 
     <p>
