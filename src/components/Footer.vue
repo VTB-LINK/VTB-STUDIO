@@ -125,13 +125,13 @@ onMounted(() => {
           rel="noreferrer noopener"
           >黎酩_Lunette</a
         >
-        &
+        <!-- &
         <a
           href="mailto:kazami@kazami.tech"
           target="_blank"
           rel="noreferrer noopener"
           >George Kazami@VTB-STUDIO</a
-        >
+        > -->
         . All right reserverd.
     </p>
     <CreditPopUp v-if="showCredit" @closepopup="showCredit = false" />
