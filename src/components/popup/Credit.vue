@@ -50,13 +50,13 @@ const emit = defineEmits(["closepopup"]);
           rel="noreferrer noopener"
           >@这是一个黎谱的二创组</a
         >
-        和
+        <!-- 和
         <a
           href="https://space.bilibili.com/3461579657972242"
           target="_blank"
           rel="noreferrer noopener"
           >@星云社保安室</a
-        >
+        > -->
         长期以来对于录播资源整理归纳，没有他们就没法顺利整理出完整的音频列表和切片信息。
       </p>
       <!-- <p>
